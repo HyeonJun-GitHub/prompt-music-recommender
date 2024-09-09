@@ -60,8 +60,9 @@ def search():
     display_sample_results(data_info)
 
 def info(res_json):
+    info = res_json["songs"]
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
-    song_ids = ",".join([str(item["song_id"]) for item in res_json])
+    song_ids = ",".join([str(item["song_id"]) for item in info])
     param = {"song_id":song_ids}
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
