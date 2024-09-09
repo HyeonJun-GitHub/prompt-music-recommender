@@ -38,10 +38,36 @@ sample_songs = [
 
 # 검색 함수들
 def search_by_artist_id():
-    display_sample_results()
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "artist_id":artist_ids_prompt,
+        "album_release_country":"KOREA",
+        "limit":200,
+        "voice_yn":"Y",
+        "sort":"POPULAR",
+        "cnt":50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
 
 def search_by_song_id():
-    display_sample_results()
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "song_id":song_ids_prompt,
+        "album_release_country":"KOREA",
+        "limit":200,
+        "voice_yn":"Y",
+        "sort":"POPULAR",
+        "cnt":50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
 
 def search():
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
@@ -71,7 +97,8 @@ def info(res_json):
 def display_sample_results(data_info): 
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
-        st.markdown(f"**{song['song_id']} : {song['artist_name']} - {song['song_name']} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
+        st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
+        # st.markdown(f"**{song['song_id']} : {song['artist_name']} - {song['song_name']} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
