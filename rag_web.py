@@ -11,8 +11,19 @@ page_bg_img = '''
 </style>
 '''
 
+input_box_style = '''
+<style>
+textarea, input {
+  background-color: white !important;
+  color: black !important;
+}
+</style>
+'''
+
+
 # CSS 추가
 st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(input_box_style, unsafe_allow_html=True)
 
 # 임시 데이터 (나중에 API를 통해 대체 가능)
 sample_songs = [
