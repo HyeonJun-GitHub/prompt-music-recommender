@@ -1,4 +1,5 @@
 import streamlit as st
+import requests
 
 # 배경 이미지 설정을 위한 CSS
 page_bg_img = '''
@@ -42,16 +43,18 @@ def search_by_song_id():
     display_sample_results()
 
 def search():
-    display_sample_results()
+    data = {"prompt":f"{prompt}","album_release_country":"KOREA","limit":200,"voice_yn":"Y","sort":"POPULAR","cnt":50}
+    header = {"Content-Type":"application/json"}
+    res = requests.post(data,headers=header)
+    display_sample_results(res)
 
-def display_sample_results():
-    for song in sample_songs[:5]:  # 리스트 5개만 출력
-        st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
-        st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
+def display_sample_results(res):
+    for song in res[:5]:  # 리스트 5개만 출력
+        # st.markdown(f"**{song['song_id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
+        st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
 # 레이아웃 시작
 st.title("AI 큐레이션 TF!")
-
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
