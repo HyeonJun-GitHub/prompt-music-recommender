@@ -11,15 +11,12 @@ sample_songs = [
 
 # 검색 함수들
 def search_by_artist_id():
-    st.write("Artist ID 검색 결과:")
     display_sample_results()
 
 def search_by_song_id():
-    st.write("Song ID 검색 결과:")
     display_sample_results()
 
 def search():
-    st.write("Prompt 검색 결과:")
     display_sample_results()
 
 def display_sample_results():
