@@ -44,7 +44,7 @@ def search_by_artist_id():
         "album_release_country":"KOREA",
         "limit":200,
         "voice_yn":"Y",
-        "sort":"POPULAR",
+        "sort":"SCORE",
         "cnt":50
     }
     param_json = json.dumps(param)
@@ -60,7 +60,7 @@ def search_by_song_id():
         "album_release_country":"KOREA",
         "limit":200,
         "voice_yn":"Y",
-        "sort":"POPULAR",
+        "sort":"SCORE",
         "cnt":50
     }
     param_json = json.dumps(param)
