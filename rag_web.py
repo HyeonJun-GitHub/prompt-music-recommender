@@ -54,17 +54,23 @@ def search():
         "cnt":50
     }
     param_json = json.dumps(param)
-    # fullurl = 'https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs?prompt="가을하늘 듣기 좋은 노래"&limit=200&cnt=5&sort="SCORE"&lyrics=""'
     res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
-    display_sample_results(res)
-
-def display_sample_results(res):
     json_data = res.json()
-    st.subheader(json_data)
-    datas = json_data['songs']
+    data_info = info(json_data)
+    display_sample_results(data_info)
+
+def info(res_json):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
+    song_ids = ",".join([str(item["song_id"]) for item in res_json])
+    param = {"song_id":song_ids}
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
+    return res.json()
+
+def display_sample_results(data_info): 
+    datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
-        # st.markdown(f"**{song['song_id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
-        st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
+        st.markdown(f"**{song['song_id']} : {song['artist_name']} - {song['song_name']} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
