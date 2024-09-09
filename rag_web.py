@@ -2,11 +2,11 @@ import streamlit as st
 
 # 임시 데이터 (나중에 API를 통해 대체 가능)
 sample_songs = [
-    {"id": 1, "artist": "Artist A", "title": "Song A", "score": 90, "vocal": 0.8},
-    {"id": 2, "artist": "Artist B", "title": "Song B", "score": 85, "vocal": 0.7},
-    {"id": 3, "artist": "Artist C", "title": "Song C", "score": 80, "vocal": 0.6},
-    {"id": 4, "artist": "Artist D", "title": "Song D", "score": 75, "vocal": 0.9},
-    {"id": 5, "artist": "Artist E", "title": "Song E", "score": 88, "vocal": 0.65},
+    {"id": 1, "artist": "Artist A", "title": "Song A", "score": 90},
+    {"id": 2, "artist": "Artist B", "title": "Song B", "score": 85},
+    {"id": 3, "artist": "Artist C", "title": "Song C", "score": 80},
+    {"id": 4, "artist": "Artist D", "title": "Song D", "score": 75},
+    {"id": 5, "artist": "Artist E", "title": "Song E", "score": 88},
 ]
 
 # 검색 함수들
@@ -21,10 +21,6 @@ def search_by_song_id():
 def search():
     st.write("Prompt 검색 결과:")
     display_sample_results()
-
-def search_vocal(song_id):
-    st.write(f"Vocal 체크 결과 for Song ID {song_id}:")
-    st.write("vocal: True, 80.0%")  # 임시 데이터 출력
 
 def display_sample_results():
     for song in sample_songs[:5]:  # 리스트 5개만 출력
@@ -72,16 +68,3 @@ with col6:
 # Artist ID 검색 결과 표시
 st.write("### Artist ID Search Results")
 display_sample_results()
-
-# Vocal 체크 입력과 버튼
-st.subheader("Song ID로 Vocal 유무 체크")
-col7, col8 = st.columns([3, 1])
-with col7:
-    vocal_check_prompt = st.text_input("Enter Song ID for vocal check")
-with col8:
-    if st.button("Check Vocal by Song ID"):
-        search_vocal(vocal_check_prompt)
-
-# Vocal 체크 결과 표시
-st.write("### Vocal Check Results")
-search_vocal(vocal_check_prompt)
