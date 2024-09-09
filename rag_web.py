@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 # 임시 데이터 (나중에 API를 통해 대체 가능)
 sample_songs = [
@@ -39,7 +38,7 @@ def search():
 
 def display_sample_results():
     for song in sample_songs[:5]:  # 리스트 5개만 출력
-        st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']}, Vocal: {round(song['vocal'] * 100, 2)}%)")
+        st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']})")
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
 
 # 레이아웃 시작
@@ -49,7 +48,7 @@ st.title("Prompt Search Application")
 st.subheader("Prompt")
 col1, col2 = st.columns([4, 1])
 with col1:
-    prompt = st.text_input("Enter your prompt")
+    prompt = st.text_area("Enter your prompt")
 with col2:
     if st.button("Search by Prompt"):
         search()
