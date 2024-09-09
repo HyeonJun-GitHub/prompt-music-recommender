@@ -28,10 +28,10 @@ def display_sample_results():
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
 
 # 레이아웃 시작
-st.title("Prompt Search Application")
+st.title("AI 큐레이션 TF")
 
 # Prompt 입력과 버튼
-st.subheader("Prompt")
+st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
     prompt = st.text_area("Enter your prompt")
@@ -44,10 +44,10 @@ if search_button_clicked:
     search()
 
 # Song ID 입력과 버튼
-st.subheader("Song ID (콤마(,)로 분리)")
+st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
 with col3:
-    song_ids_prompt = st.text_input("Enter Song IDs (comma-separated)")
+    song_ids_prompt = st.text_input("song_id,song_id,song_id")
 with col4:
     song_search_button_clicked = st.button("Search by Song ID")
 
@@ -57,10 +57,10 @@ if song_search_button_clicked:
     search_by_song_id()
 
 # Artist ID 입력과 버튼
-st.subheader("Artist ID (콤마(,)로 분리)")
+st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([3, 1])
 with col5:
-    artist_ids_prompt = st.text_input("Enter Artist IDs (comma-separated)")
+    artist_ids_prompt = st.text_input("artist_id,artist_id,artist_id")
 with col6:
     artist_search_button_clicked = st.button("Search by Artist ID")
 
