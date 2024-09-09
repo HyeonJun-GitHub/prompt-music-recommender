@@ -3,10 +3,10 @@ import streamlit as st
 # 임시 데이터 (나중에 API를 통해 대체 가능)
 sample_songs = [
     {"id": 1, "artist": "Artist A", "title": "Song A", "score": 90, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-    {"id": 2, "artist": "Artist B", "title": "Song B", "score": 85, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-    {"id": 3, "artist": "Artist C", "title": "Song C", "score": 80, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-    {"id": 4, "artist": "Artist D", "title": "Song D", "score": 75, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-    {"id": 5, "artist": "Artist E", "title": "Song E", "score": 88, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+    {"id": 2, "artist": "Artist B", "title": "Song B", "score": 85, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+    {"id": 3, "artist": "Artist C", "title": "Song C", "score": 80, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+    {"id": 4, "artist": "Artist D", "title": "Song D", "score": 75, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
+    {"id": 5, "artist": "Artist E", "title": "Song E", "score": 88, "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"},
 ]
 
 # 검색 함수들
@@ -21,7 +21,7 @@ def search():
 
 # 결과 표시 함수
 def display_sample_results():
-    for song in sample_songs[:5]:  # 리스트 5개만 출력
+    for song in sample_songs:  # 리스트 5개만 출력
         st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
         st.audio(song['url'], format='audio/mp3')  # 재생 버튼 추가
