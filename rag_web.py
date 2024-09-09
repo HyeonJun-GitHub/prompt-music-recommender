@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import json
 
 # 배경 이미지 설정을 위한 CSS
 page_bg_img = '''
@@ -43,13 +44,16 @@ def search_by_song_id():
     display_sample_results()
 
 def search():
-    data = {"prompt":f"{prompt}","album_release_country":"KOREA","limit":200,"voice_yn":"Y","sort":"POPULAR","cnt":50}
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
+    fullurl = f'{url}?prompt={prompt}&album_release_country="KOREA"&limit=200&voice_yn="Y"&sort="POPULAR"&cnt=50'
     header = {"Content-Type":"application/json"}
-    res = requests.post(data,headers=header)
+    res = requests.post(fullurl,headers=header)
     display_sample_results(res)
 
 def display_sample_results(res):
-    for song in res[:5]:  # 리스트 5개만 출력
+    json_data = res.json()
+    datas = json_data['songs']
+    for song in datas[:5]:  # 리스트 5개만 출력
         # st.markdown(f"**{song['song_id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
