@@ -24,22 +24,22 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # 검색 함수들
-def search_by_artist_id():
-    st.write("Artist ID 검색 결과:")
-    display_sample_results()
+def search_by_artist_id(results_placeholder):
+    results_placeholder.write("Artist ID 검색 결과:")
+    display_sample_results(results_placeholder)
 
-def search_by_song_id():
-    st.write("Song ID 검색 결과:")
-    display_sample_results()
+def search_by_song_id(results_placeholder):
+    results_placeholder.write("Song ID 검색 결과:")
+    display_sample_results(results_placeholder)
 
-def search():
-    st.write("Prompt 검색 결과:")
-    display_sample_results()
+def search(results_placeholder):
+    results_placeholder.write("Prompt 검색 결과:")
+    display_sample_results(results_placeholder)
 
-def display_sample_results():
+def display_sample_results(placeholder):
     for song in sample_songs[:5]:  # 리스트 5개만 출력
-        st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']})")
-        st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
+        placeholder.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']})")
+        placeholder.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
 
 # 레이아웃 시작
 st.title("Prompt Search Application")
@@ -51,11 +51,11 @@ with col1:
     prompt = st.text_area("Enter your prompt")
 with col2:
     if st.button("Search by Prompt"):
-        search()
+        prompt_results_placeholder = st.empty()
+        search(prompt_results_placeholder)
 
 # Prompt 결과 표시
-st.write("### Prompt Search Results")
-display_sample_results()
+prompt_results_placeholder = st.empty()  # 결과 표시 공간
 
 # Song ID 입력과 버튼
 st.subheader("Song ID (콤마(,)로 분리)")
@@ -64,11 +64,11 @@ with col3:
     song_ids_prompt = st.text_input("Enter Song IDs (comma-separated)")
 with col4:
     if st.button("Search by Song ID"):
-        search_by_song_id()
+        song_id_results_placeholder = st.empty()
+        search_by_song_id(song_id_results_placeholder)
 
 # Song ID 검색 결과 표시
-st.write("### Song ID Search Results")
-display_sample_results()
+song_id_results_placeholder = st.empty()  # 결과 표시 공간
 
 # Artist ID 입력과 버튼
 st.subheader("Artist ID (콤마(,)로 분리)")
@@ -77,8 +77,8 @@ with col5:
     artist_ids_prompt = st.text_input("Enter Artist IDs (comma-separated)")
 with col6:
     if st.button("Search by Artist ID"):
-        search_by_artist_id()
+        artist_id_results_placeholder = st.empty()
+        search_by_artist_id(artist_id_results_placeholder)
 
 # Artist ID 검색 결과 표시
-st.write("### Artist ID Search Results")
-display_sample_results()
+artist_id_results_placeholder = st.empty()  # 결과 표시 공간
