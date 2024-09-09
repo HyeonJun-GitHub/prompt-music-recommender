@@ -50,7 +50,7 @@ def display_sample_results():
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
 
 # 레이아웃 시작
-st.title("AI 큐레이션 TF")
+st.title("AI 큐레이션 TF!")
 
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
@@ -59,12 +59,6 @@ with col1:
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
 with col2:
     spacer = st.empty()  # 빈 공간 추가
-    spacer.write("")
-    spacer.write("")
-    spacer.write("")
-    spacer.write("")
-    spacer.write("")
-    spacer.write("")
     spacer.write("")
     search_button_clicked = st.button("프롬프트 검색")
 
