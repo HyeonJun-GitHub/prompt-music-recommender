@@ -120,7 +120,7 @@ if search_button_clicked:
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
 with col3:
-    song_ids_prompt = st.text_input("song_id,song_id,song_id")
+    song_ids_prompt = st.text_input("예 : 92749701 (라일락)")
 with col4:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
@@ -135,7 +135,7 @@ if song_search_button_clicked:
 st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([3, 1])
 with col5:
-    artist_ids_prompt = st.text_input("artist_id,artist_id,artist_id")
+    artist_ids_prompt = st.text_input("예 : 67872918 (아이유)")
 with col6:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
