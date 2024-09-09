@@ -54,7 +54,7 @@ def display_sample_results(res):
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
 # 레이아웃 시작
-st.title("AI 큐레이션 TF!")
+st.title("AI 큐레이션 TF")
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
