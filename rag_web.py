@@ -36,12 +36,12 @@ col1, col2 = st.columns([3, 1])
 with col1:
     prompt = st.text_area("Enter your prompt")
 with col2:
-    if st.button("Search by Prompt"):
-        search()
+    search_button_clicked = st.button("Search by Prompt")
 
-# Prompt 결과 표시
-st.write("### Prompt Search Results")
-display_sample_results()
+# Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if search_button_clicked:
+    st.write("### Prompt Search Results")
+    search()
 
 # Song ID 입력과 버튼
 st.subheader("Song ID (콤마(,)로 분리)")
@@ -49,12 +49,12 @@ col3, col4 = st.columns([3, 1])
 with col3:
     song_ids_prompt = st.text_input("Enter Song IDs (comma-separated)")
 with col4:
-    if st.button("Search by Song ID"):
-        search_by_song_id()
+    song_search_button_clicked = st.button("Search by Song ID")
 
-# Song ID 검색 결과 표시
-st.write("### Song ID Search Results")
-display_sample_results()
+# Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if song_search_button_clicked:
+    st.write("### Song ID Search Results")
+    search_by_song_id()
 
 # Artist ID 입력과 버튼
 st.subheader("Artist ID (콤마(,)로 분리)")
@@ -62,9 +62,9 @@ col5, col6 = st.columns([3, 1])
 with col5:
     artist_ids_prompt = st.text_input("Enter Artist IDs (comma-separated)")
 with col6:
-    if st.button("Search by Artist ID"):
-        search_by_artist_id()
+    artist_search_button_clicked = st.button("Search by Artist ID")
 
-# Artist ID 검색 결과 표시
-st.write("### Artist ID Search Results")
-display_sample_results()
+# Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if artist_search_button_clicked:
+    st.write("### Artist ID Search Results")
+    search_by_artist_id()
