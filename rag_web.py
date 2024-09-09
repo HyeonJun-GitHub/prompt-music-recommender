@@ -61,6 +61,11 @@ with col2:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
     spacer.write("")
+    spacer.write("")
+    spacer.write("")
+    spacer.write("")
+    spacer.write("")
+    spacer.write("")
     search_button_clicked = st.button("프롬프트 검색")
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
