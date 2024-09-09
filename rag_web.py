@@ -24,7 +24,7 @@ def search():
 
 def display_sample_results():
     for song in sample_songs[:5]:  # 리스트 5개만 출력
-        st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']}, Vocal: {round(song['vocal'] * 100, 2)}%)")
+        st.markdown(f"**{song['id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
         st.markdown(f"[Link to song](https://genie.co.kr/detail/songInfo?xgnm={song['id']})")
 
 # 레이아웃 시작
