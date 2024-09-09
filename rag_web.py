@@ -1,5 +1,19 @@
 import streamlit as st
 
+# 배경 이미지 설정을 위한 CSS
+page_bg_img = '''
+<style>
+.stApp {
+  background-image: url("https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/085/165/232/85165232_1716798792825_1_600x600.JPG/dims/resize/Q_80,0");
+  background-size: cover;
+  background-position: center;
+}
+</style>
+'''
+
+# CSS 추가
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 # 임시 데이터 (나중에 API를 통해 대체 가능)
 sample_songs = [
     {"id": 1, "artist": "Artist A", "title": "Song A", "score": 90},
