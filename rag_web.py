@@ -44,11 +44,10 @@ def search_by_song_id():
     display_sample_results()
 
 def search():
-    # url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
-    # fullurl = f'{url}?prompt={prompt}&album_release_country="KOREA"&limit=200&voice_yn="Y"&sort="POPULAR"&cnt=50'
-    fullurl = 'https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs?prompt="가을하늘 듣기 좋은 노래"&limit=200&cnt=5&sort="SCORE"&lyrics=""'
-    header = {"Content-Type":"application/json"}
-    res = requests.post(fullurl,headers=header)
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
+    param = {"prompt":{prompt},"album_release_country":"KOREA","limit":200,"voice_yn":"Y","sort":"POPULAR","cnt":50}
+    # fullurl = 'https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs?prompt="가을하늘 듣기 좋은 노래"&limit=200&cnt=5&sort="SCORE"&lyrics=""'
+    res = requests.post(url, data=json.dumps(param),headers={'Content-Type': 'application/json'})
     display_sample_results(res)
 
 def display_sample_results(res):
