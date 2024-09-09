@@ -52,6 +52,7 @@ def search():
 
 def display_sample_results(res):
     json_data = res.json()
+    st.subheader(json_data)
     datas = json_data['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
         # st.markdown(f"**{song['song_id']} : {song['artist']} - {song['title']}** (Score: {song['score']}%)")
