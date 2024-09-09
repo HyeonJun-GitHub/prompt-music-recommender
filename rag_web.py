@@ -61,7 +61,7 @@ with col2:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
     spacer.write("")
-    search_button_clicked = st.button("검색")
+    search_button_clicked = st.button("프롬프트 검색")
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
@@ -76,7 +76,7 @@ with col4:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
     spacer.write("")
-    song_search_button_clicked = st.button("검색")
+    song_search_button_clicked = st.button("곡 검색")
 
 # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if song_search_button_clicked:
@@ -91,7 +91,7 @@ with col6:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
     spacer.write("")
-    artist_search_button_clicked = st.button("검색")
+    artist_search_button_clicked = st.button("아티스트 검색")
 
 # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if artist_search_button_clicked:
