@@ -33,7 +33,9 @@ col1, col2 = st.columns([3, 1])
 with col1:
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
 with col2:
-    st.write("")
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
     search_button_clicked = st.button("Search by Prompt")
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
@@ -46,7 +48,9 @@ col3, col4 = st.columns([3, 1])
 with col3:
     song_ids_prompt = st.text_input("song_id,song_id,song_id")
 with col4:
-    st.write("")
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
     song_search_button_clicked = st.button("Search by Song ID")
 
 # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
@@ -59,7 +63,9 @@ col5, col6 = st.columns([3, 1])
 with col5:
     artist_ids_prompt = st.text_input("artist_id,artist_id,artist_id")
 with col6:
-    st.write("")
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
     artist_search_button_clicked = st.button("Search by Artist ID")
 
 # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
