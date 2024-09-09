@@ -34,13 +34,12 @@ st.title("AI 큐레이션 TF")
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
-    prompt = st.text_area("Enter your prompt")
+    prompt = st.text_area("무슨 노래가 듣고 싶어요?")
 with col2:
     search_button_clicked = st.button("Search by Prompt")
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
-    st.write("### Prompt Search Results")
     search()
 
 # Song ID 입력과 버튼
