@@ -189,7 +189,7 @@ expander_background_css = f"""
         background-color: rgba(255, 255, 255, 0.8);
     }}
     .custom-expander > div > div {{
-        background-image: url("data:image/png;base64,{background_img_base64}");
+        background-image: url("data:image/png;base64,{box_img_base64}");
         background-size: cover;
         background-position: center;
         padding: 20px;
