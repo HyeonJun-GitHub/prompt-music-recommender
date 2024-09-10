@@ -93,6 +93,24 @@ def search_by_artist_id(artist_ids_prompt):
     data_info = info(json_data)
     display_sample_results(data_info)
 
+def search_by_song_id(song_ids_prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "song_id": song_ids_prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "SCORE",
+        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
+        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
+
 def search(prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
     param = {
@@ -148,3 +166,33 @@ with col2:
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
     search(prompt)
+
+# Song ID 입력과 버튼
+st.subheader("유사 곡 검색")
+col3, col4 = st.columns([3, 1])
+with col3:
+    song_ids_prompt = st.text_input("예 : 92749701 (라일락)")
+with col4:
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
+    song_search_button_clicked = st.button("곡 검색")
+
+# Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if song_search_button_clicked:
+    search_by_song_id(song_ids_prompt)
+
+# Artist ID 입력과 버튼
+st.subheader("유사 아티스트 검색")
+col5, col6 = st.columns([3, 1])
+with col5:
+    artist_ids_prompt = st.text_input("예 : 67872918 (아이유)")
+with col6:
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
+    artist_search_button_clicked = st.button("아티스트 검색")
+
+# Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if artist_search_button_clicked:
+    search_by_artist_id(artist_ids_prompt)
