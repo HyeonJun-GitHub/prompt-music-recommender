@@ -89,7 +89,6 @@ floating_player_style = '''
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
-st.markdown(input_box_style, unsafe_allow_html=True)
 st.markdown(floating_player_style, unsafe_allow_html=True)
 
 # -------------------------------------------------------------
