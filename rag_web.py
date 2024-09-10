@@ -96,6 +96,8 @@ overlay_style = f'''
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;  /* 위젯이 세로로 쌓이도록 설정 */
+
 }}
 
 .overlay-content {{
