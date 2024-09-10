@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import requests
 from datetime import datetime, timedelta
+import uuid  # UUID를 생성하기 위한 모듈
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
@@ -10,6 +11,8 @@ if 'playing_song_name' not in st.session_state:
     st.session_state.playing_song_name = None
 if 'playing_artist_name' not in st.session_state:
     st.session_state.playing_artist_name = None
+if 'playing_song_url' not in st.session_state:
+    st.session_state.playing_song_url = None
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -160,35 +163,34 @@ def info(res_json):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     return res.json()
 
-def display_sample_results(data_info): 
+# 곡 리스트에서 샘플을 보여주는 함수
+def display_sample_results(data_info):
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
-        
+
+        # UUID를 이용해 고유한 버튼 키 생성
+        button_key = str(uuid.uuid4())
+
         # 상세정보와 Play 버튼을 같은 줄에 배치
         col1, col2 = st.columns([5, 1])
         with col1:
             st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         with col2:
-            if st.button(f"재생", key=f"play_{song_id}"):
+            if st.button(f"재생", key=f"play_{button_key}"):
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
-        
+                st.session_state.playing_song_url = get_downloadurl(song_id)
 
-def open_song_detail(song_id):
-    # 상세정보 페이지로 이동하는 함수를 정의
-    detail_url = f"https://genie.co.kr/detail/songInfo?xgnm={song_id}"
-    st.write(f"[상세정보 보기]({detail_url})", unsafe_allow_html=True)
-
+# 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
     headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
     downloadUrl = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
     res = requests.post(downloadUrl, headers=headers)
-    st.success(f"다운로드 완료: {len(res.content)}개 곡")
-    return res.content
+    return downloadUrl if res.status_code == 200 else None
 
 # -------------------------------------------------------------
 
@@ -210,7 +212,7 @@ if search_button_clicked:
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
 with col3:
-    song_ids_prompt = st.text_input("예) 87443133 (아이유 - 가을 아침)")
+    song_ids_prompt = st.text_input("예) 87443133 [아이유 - 가을 아침]")
 with col4:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
@@ -225,7 +227,7 @@ if song_search_button_clicked:
 st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([3, 1])
 with col5:
-    artist_ids_prompt = st.text_input("예) 67872918 (아이유)")
+    artist_ids_prompt = st.text_input("예) 67872918 [아이유]")
 with col6:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
@@ -237,13 +239,13 @@ if artist_search_button_clicked:
     search_by_artist_id(artist_ids_prompt)
 
 # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
-if st.session_state.playing_song_id:
+if st.session_state.playing_song_id and st.session_state.playing_song_url:
     st.markdown(f'''
     <div class="floating-player">
         🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
         <br>
         <audio controls autoplay>
-            <source src="{get_downloadurl(st.session_state.playing_song_id)}" type="audio/mpeg">
+            <source src="{st.session_state.playing_song_url}" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
     </div>
