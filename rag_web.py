@@ -2,6 +2,15 @@ import streamlit as st
 import json
 import requests
 
+# 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
+hide_streamlit_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+    """
+
 # 배경 이미지 설정을 위한 CSS
 page_bg_img = '''
 <style>
@@ -22,8 +31,7 @@ textarea, input {
 </style>
 '''
 
-
-# CSS 추가
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(input_box_style, unsafe_allow_html=True)
 
