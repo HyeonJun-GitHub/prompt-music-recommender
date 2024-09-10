@@ -101,13 +101,15 @@ overlay_style = f'''
 }}
 
 .overlay-content {{
-  position: absolute;
   background: rgba(255, 255, 255, 0.8);  /* 반투명 배경을 위젯 뒤에 적용 */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* 그림자 추가 */
+  width: 80%;  /* 위젯 너비를 조정하여 화면에 적절히 맞춤 */
+  max-width: 800px;  /* 최대 너비 제한 */
   z-index: 1;
 }}
+
 </style>
 '''
 
