@@ -236,7 +236,7 @@ st.markdown("---")  # 가로선 추가
 
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
-col3, col4 = st.columns([3, 1])
+col3, col4 = st.columns([5, 1])
 with col3:
     song_ids_prompt = st.text_input("예) 87443133 [아이유 - 가을 아침]")
 with col4:
