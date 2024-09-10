@@ -200,26 +200,29 @@ with st.expander("프롬프트 입력", expanded=True):
     with col2:
         st.write("")  # 빈 줄 추가
         st.write("")  # 빈 줄 추가
-        st.write("")  # 빈 줄 추가
         search_button_clicked = st.button("프롬프트 검색")
     
     if search_button_clicked:
         search(prompt)
-    # prompt = st.text_area("무슨 노래가 듣고 싶어요?")
-    # search_button_clicked = st.button("프롬프트 검색")
-    # if search_button_clicked:
-    #     search(prompt)
 
 # 곡 ID 검색 (st.expander 사용)
 with st.expander("유사 곡 검색"):
-    song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
-    song_search_button_clicked = st.button("곡 검색")
+    col1, col2 = st.columns([4, 1])  # 비율을 4:1로 설정하여 왼쪽에 입력, 오른쪽에 버튼 배치
+    with col1:
+        song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
+    with col2:
+        song_search_button_clicked = st.button("곡 검색")
+    
     if song_search_button_clicked:
         search_by_song_id(song_ids_prompt)
 
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
-    artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
-    artist_search_button_clicked = st.button("아티스트 검색")
+    col1, col2 = st.columns([4, 1])
+    with col1:
+        artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
+    with col2:
+        artist_search_button_clicked = st.button("아티스트 검색")
+    
     if artist_search_button_clicked:
         search_by_artist_id(artist_ids_prompt)
