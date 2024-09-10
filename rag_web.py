@@ -100,7 +100,7 @@ if st.button('Reset to Default'):
 selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
-st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
+st.write(f"선택된 날짜: {selected_date.strftime('%Y%m%d')}")
 
 # -------------------------------------------------------------
 
