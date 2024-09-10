@@ -62,6 +62,8 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(input_box_style, unsafe_allow_html=True)
 st.markdown(floating_player_style, unsafe_allow_html=True)
 
+# -------------------------------------------------------------
+
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
 
@@ -93,10 +95,6 @@ selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
 st.write(f"{selected_date.strftime('%Y%m%d')} ~ {current_date.strftime('%Y%m%d')}")
-
-# 곡 데이터를 토스트로 출력하는 함수
-def show_song_data(song_info):
-    st.json(song_info)
 
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
@@ -132,12 +130,7 @@ def search_by_song_id(song_ids_prompt):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
-    data_info = json_data["songs"]
-    
-    # JSON 데이터 토스트 형식으로 출력
-    st.success(f"곡 데이터 수신 완료: {len(data_info)}개 곡")
-    show_song_data(json_data)  # 곡 데이터를 JSON 형식으로 보여줌
-
+    data_info = info(json_data)
     display_sample_results(data_info)
 
 def search(prompt):
@@ -155,12 +148,7 @@ def search(prompt):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
-    data_info = json_data["songs"]
-    
-    # JSON 데이터 토스트 형식으로 출력
-    st.success(f"검색 완료: {len(data_info)}개 곡")
-    show_song_data(json_data)  # 곡 데이터를 JSON 형식으로 보여줌
-
+    data_info = info(json_data)
     display_sample_results(data_info)
 
 def info(res_json):
@@ -173,7 +161,7 @@ def info(res_json):
     return res.json()
 
 def display_sample_results(data_info): 
-    datas = data_info
+    datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
         song_id = song['song_id']
         song_name = song['song_name']
@@ -188,16 +176,21 @@ def display_sample_results(data_info):
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
-                
-                # 곡 재생 시 데이터 JSON 알림
-                st.toast(f"현재 재생 중: {song_name} - {artist_name}")
-                show_song_data(song)  # 선택된 곡 정보를 팝업처럼 출력
+        
+
+def open_song_detail(song_id):
+    # 상세정보 페이지로 이동하는 함수를 정의
+    detail_url = f"https://genie.co.kr/detail/songInfo?xgnm={song_id}"
+    st.write(f"[상세정보 보기]({detail_url})", unsafe_allow_html=True)
 
 def get_downloadurl(song_id):
     headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
     downloadUrl = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
     res = requests.post(downloadUrl, headers=headers)
+    st.success(f"다운로드 완료: {len(res.content)}개 곡")
     return res.content
+
+# -------------------------------------------------------------
 
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
@@ -217,7 +210,7 @@ if search_button_clicked:
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
 with col3:
-    song_ids_prompt = st.text_input("예 : 87443133 (아이유 - 가을 아침)")
+    song_ids_prompt = st.text_input("예) 87443133 (아이유 - 가을 아침)")
 with col4:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
@@ -232,7 +225,7 @@ if song_search_button_clicked:
 st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([3, 1])
 with col5:
-    artist_ids_prompt = st.text_input("예 : 67872918 (아이유)")
+    artist_ids_prompt = st.text_input("예) 67872918 (아이유)")
 with col6:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
