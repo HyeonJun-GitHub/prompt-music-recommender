@@ -193,7 +193,7 @@ def open_song_detail(song_id):
 
 def get_downloadurl(song_id):
     headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
-    downloadUrl = f'https://stage-apis.genie.co.kr'
+    downloadUrl = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
     res = requests.post(downloadUrl, headers=headers)
     return res.content
 
