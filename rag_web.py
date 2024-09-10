@@ -56,28 +56,14 @@ past_date = current_date - timedelta(days=30)
 def format_date(date):
     return date.strftime("%Y%m%d")
 
-# 슬라이더 기능을 함수로 분리
-def date_slider(min_date, max_date):
-    # 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
-    if 'selected_date' not in st.session_state:
-        st.session_state['selected_date'] = max_date  # 기본값을 현재 날짜로 설정
-
-    # 슬라이더 값 설정 (기본값을 session_state에 있는 값으로 설정)
-    selected_date = st.slider(
-        "날짜 선택",
-        min_value=min_date,
-        max_value=max_date,
-        value=st.session_state['selected_date'],  # 현재 session_state에서 불러온 값
-        format="YYYY-MM-DD"
-    )
-
-    # 슬라이더로 선택된 값이 변경되면 session_state를 업데이트
-    st.session_state['selected_date'] = selected_date
-
-    return selected_date
-
-# 함수 호출
-selected_date = date_slider(past_date, current_date)
+# 슬라이더 값 추적 및 출력
+selected_date = st.slider(
+    "날짜 선택",
+    min_value=past_date,
+    max_value=current_date,
+    value=current_date,  # 기본값은 현재 날짜
+    format="YYYY-MM-DD"
+)
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {format_date(selected_date)}")
