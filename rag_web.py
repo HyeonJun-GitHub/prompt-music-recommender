@@ -97,7 +97,7 @@ my_slider = st.slider(
 selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
-st.write(f"검색 기간 : {selected_date.strftime('%Y년 %m월 %d일')} ~ {current_date.strftime('%Y년 %m월 %d일')}")
+st.write(f"검색 기간 : {selected_date.strftime('%Y년 %m월 %d일')} ~ 현재 날짜")
 
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
