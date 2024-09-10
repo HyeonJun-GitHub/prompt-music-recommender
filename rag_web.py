@@ -2,7 +2,6 @@ import streamlit as st
 import json
 import requests
 from datetime import datetime, timedelta
-import uuid  # 고유한 식별자를 생성하기 위한 모듈
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
@@ -11,12 +10,6 @@ if 'playing_song_name' not in st.session_state:
     st.session_state.playing_song_name = None
 if 'playing_artist_name' not in st.session_state:
     st.session_state.playing_artist_name = None
-if 'search_results' not in st.session_state:
-    st.session_state.search_results = None
-if 'artist_search_results' not in st.session_state:
-    st.session_state.artist_search_results = None
-if 'song_search_results' not in st.session_state:
-    st.session_state.song_search_results = None
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -88,7 +81,7 @@ key = 1
 slider_place_holder = st.empty()
 
 # 슬라이더 생성
-initial_slider_value = -30  # 기본값을 현재 날짜로 설정
+initial_slider_value = 0  # 기본값을 현재 날짜로 설정
 my_slider = slider_place_holder.slider(
     "",
     min_value=-day_number,
@@ -103,35 +96,7 @@ selected_date = int_to_date(my_slider)
 # 선택된 날짜 출력
 st.write(f"{selected_date.strftime('%Y%m%d')} ~ {current_date.strftime('%Y%m%d')}")
 
-# 검색 결과를 표시하는 함수
-def display_sample_results(data_info, section_type): 
-    datas = data_info['songs']
-    for idx, song in enumerate(datas[:5]):  # 리스트 5개만 출력
-        song_id = song['song_id']
-        song_name = song['song_name']
-        artist_name = song['artist_name']
-        
-        # 상세정보와 Play 버튼을 같은 줄에 배치
-        col1, col2, col3 = st.columns([4, 1, 1])
-        with col1:
-            st.write(f"{song_name} - {artist_name}")
-        
-        # UUID를 사용하여 고유한 키 생성
-        unique_id_play = uuid.uuid4()
-        unique_id_info = uuid.uuid4()
-        
-        # 섹션별로 키에 UUID 추가하여 중복 방지
-        with col2:
-            if st.button(f"재생", key=f"{section_type}_play_{song_id}_{song_name}_{unique_id_play}"):
-                st.session_state.playing_song_id = song_id
-                st.session_state.playing_song_name = song_name
-                st.session_state.playing_artist_name = artist_name
-        
-        with col3:
-            if st.button(f"상세정보", key=f"{section_type}_info_{song_id}_{song_name}_{unique_id_info}"):
-                open_song_detail(song_id)
-
-# 검색 함수에서 섹션 타입에 따라 적절한 키 접두사 전달
+# 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
@@ -148,8 +113,7 @@ def search_by_artist_id(artist_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    st.session_state.artist_search_results = data_info  # 검색 결과를 상태에 저장
-    display_sample_results(data_info, "similar_artist")  # 'similar_artist' 접두사 사용
+    display_sample_results(data_info)
 
 def search_by_song_id(song_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
@@ -167,8 +131,7 @@ def search_by_song_id(song_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    st.session_state.song_search_results = data_info  # 검색 결과를 상태에 저장
-    display_sample_results(data_info, "similar_song")  # 'similar_song' 접두사 사용
+    display_sample_results(data_info)
 
 def search(prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
@@ -185,10 +148,9 @@ def search(prompt):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
-    st.session_state.search_results = json_data  # 검색 결과를 상태에 저장
-    display_sample_results(json_data, "prompt")  # 'prompt' 접두사 사용
+    data_info = info(json_data)
+    display_sample_results(data_info)
 
-# 정보 추출 함수
 def info(res_json):
     info = res_json["songs"]
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
@@ -198,12 +160,29 @@ def info(res_json):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     return res.json()
 
-# 곡 상세 정보 페이지 열기 함수
+def display_sample_results(data_info): 
+    datas = data_info['songs']
+    for song in datas[:5]:  # 리스트 5개만 출력
+        song_id = song['song_id']
+        song_name = song['song_name']
+        artist_name = song['artist_name']
+        
+        # 상세정보와 Play 버튼을 같은 줄에 배치
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        with col2:
+            if st.button(f"재생", key=f"play_{song_id}"):
+                st.session_state.playing_song_id = song_id
+                st.session_state.playing_song_name = song_name
+                st.session_state.playing_artist_name = artist_name
+        
+
 def open_song_detail(song_id):
+    # 상세정보 페이지로 이동하는 함수를 정의
     detail_url = f"https://genie.co.kr/detail/songInfo?xgnm={song_id}"
     st.write(f"[상세정보 보기]({detail_url})", unsafe_allow_html=True)
 
-# 곡 다운로드 URL 생성 함수
 def get_downloadurl(song_id):
     headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
     downloadUrl = f'https://stage-apis.genie.co.kr'
@@ -226,10 +205,6 @@ with col2:
 if search_button_clicked:
     search(prompt)
 
-# 이전 검색 결과 유지, 단 중복 출력 방지
-if st.session_state.search_results and not search_button_clicked:
-    display_sample_results(st.session_state.search_results, "prompt")
-
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
@@ -245,10 +220,6 @@ with col4:
 if song_search_button_clicked:
     search_by_song_id(song_ids_prompt)
 
-# 이전 곡 검색 결과 유지, 단 중복 출력 방지
-if st.session_state.song_search_results and not song_search_button_clicked:
-    display_sample_results(st.session_state.song_search_results, "similar_song")
-
 # Artist ID 입력과 버튼
 st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([3, 1])
@@ -263,10 +234,6 @@ with col6:
 # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if artist_search_button_clicked:
     search_by_artist_id(artist_ids_prompt)
-
-# 이전 아티스트 검색 결과 유지, 단 중복 출력 방지
-if st.session_state.artist_search_results and not artist_search_button_clicked:
-    display_sample_results(st.session_state.artist_search_results, "similar_artist")
 
 # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
 if st.session_state.playing_song_id:
