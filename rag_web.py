@@ -68,11 +68,11 @@ with st.form(key="slider_form"):
     )
 
     # 제출 버튼
-    submit_button = st.form_submit_button(label="날짜 선택 완료")
+    # submit_button = st.form_submit_button(label="날짜 선택 완료")
 
 # 제출 버튼이 눌렸을 때만 선택된 날짜 출력
-if submit_button:
-    st.write(f"선택된 날짜: {format_date(selected_date)}")
+# if submit_button:
+st.write(f"선택된 날짜: {format_date(selected_date)}")
 
 
 # -------------------------------------------------------------
