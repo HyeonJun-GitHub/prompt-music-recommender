@@ -7,6 +7,7 @@ import os
 import base64
 
 # 로컬 이미지 경로 설정
+box_img_path = os.path.join(os.getcwd(), "box_01.png")
 play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
 
 # Base64로 로컬 이미지 인코딩
@@ -46,6 +47,21 @@ page_bg_img = f'''
   background-image: url("data:image/jpg;base64,{background_img_base64}");
   background-size: cover;
   background-position: center;
+}}
+</style>
+'''
+
+# 이미지가 적용된 텍스트 입력 박스 CSS
+input_box_style = f'''
+<style>
+textarea {{
+  background-image: url("data:image/png;base64,{box_img_base64}");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 10px;
+  color: black !important;
+  font-size: 16px !important;
 }}
 </style>
 '''
@@ -236,6 +252,7 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
+st.markdown(input_box_style, unsafe_allow_html=True)
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
