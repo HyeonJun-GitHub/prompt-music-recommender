@@ -142,8 +142,9 @@ def date_slider(min_date, max_date):
         format="YYYY-MM-DD"
     )
 
-    # 슬라이더 값이 바뀔 때 session_state에 저장
-    st.session_state['selected_date'] = selected_date
+    # 선택된 값이 다르면 session_state를 업데이트
+    if selected_date != st.session_state['selected_date']:
+        st.session_state['selected_date'] = selected_date
 
     return selected_date
 
@@ -152,6 +153,8 @@ selected_date = date_slider(past_date, current_date)
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {format_date(selected_date)}")
+
+# -------------------------------------------------------------
 
 # # 현재 날짜
 # current_date = datetime.now()
