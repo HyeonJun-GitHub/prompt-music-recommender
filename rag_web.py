@@ -163,7 +163,7 @@ def info(res_json):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     return res.json()
 
-# 곡 리스트에서 샘플을 보여주는 함수
+# 곡 리스트에서 샘플을 보여주는 함수 (아이콘 추가)
 def display_sample_results(data_info):
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
@@ -179,6 +179,16 @@ def display_sample_results(data_info):
         with col1:
             st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         with col2:
+            # 이미지 아이콘을 추가한 재생 버튼 생성
+            play_button_html = f"""
+            <div style='text-align: center;'>
+                <button style="border:none;background-color:transparent;cursor:pointer;" onClick="window.location.reload()">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Simpleicons_Interface_play-button-music.svg" width="20" height="20" />
+                </button>
+            </div>
+            """
+            st.markdown(play_button_html, unsafe_allow_html=True)
+
             if st.button(f"재생", key=f"play_{button_key}"):
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
