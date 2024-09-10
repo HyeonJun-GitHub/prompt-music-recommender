@@ -88,28 +88,25 @@ overlay_style = f'''
 .overlay-container {{
   position: relative;
   width: 100%;
-  height: 400px;  /* 전체 영역 높이 */
+  height: auto;
   background-image: url("data:image/png;base64,{box_img_base64}");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;  /* 위젯이 세로로 쌓이도록 설정 */
-
+  padding: 50px;
+  border-radius: 10px;
+  display: block;
 }}
 
 .overlay-content {{
-  background: rgba(255, 255, 255, 0.8);  /* 반투명 배경을 위젯 뒤에 적용 */
+  background: rgba(255, 255, 255, 0.8);  /* 반투명 배경 */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* 그림자 추가 */
-  width: 80%;  /* 위젯 너비를 조정하여 화면에 적절히 맞춤 */
-  max-width: 800px;  /* 최대 너비 제한 */
-  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* 그림자 */
+  width: 100%;
+  max-width: 800px;  /* 최대 너비 */
+  margin: 0 auto;  /* 가운데 정렬 */
 }}
-
 </style>
 '''
 
