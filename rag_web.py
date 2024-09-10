@@ -123,7 +123,7 @@ def display_sample_results(data_info, section_type):
                 st.session_state.playing_artist_name = artist_name
         
         with col3:
-            if st.button(f"상세정보_{section_type}_info_{song_id}_{song_name}_{idx}")", key=f"{section_type}_info_{song_id}_{song_name}_{idx}"):  # 고유한 키 생성
+            if st.button(f"상세정보_{section_type}_info_{song_id}_{song_name}_{idx}", key=f"{section_type}_info_{song_id}_{song_name}_{idx}"):  # 고유한 키 생성
                 open_song_detail(song_id)
 
 # 검색 함수에서 섹션 타입에 따라 적절한 키 접두사 전달
