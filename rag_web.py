@@ -250,8 +250,6 @@ if search_button_clicked:
     search(prompt)
 
 st.markdown('<div class="boxed">', unsafe_allow_html=True)
-
-# Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([5, 1])
 with col3:
@@ -261,7 +259,6 @@ with col4:
     spacer.write("")
     spacer.write("")
     song_search_button_clicked = st.button("곡")
-
 st.markdown('</div>', unsafe_allow_html=True)  # 사각형 영역 종료
 
 # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
