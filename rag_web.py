@@ -48,7 +48,7 @@ page_bg_img = f'''
 .stApp {{
   background-image: url("data:image/png;base64,{box_img_base64}"), url("data:image/jpg;base64,{background_img_base64}");
   background-size: cover, contain;  /* 첫 번째 이미지는 cover, 두 번째 이미지는 contain */
-  background-position: center, top 1200px right 50px bottom left 50px;  /* 첫 번째 이미지는 중앙, 두 번째 이미지는 우측 상단 */
+  background-position: center, right 40px top 50px;  /* 첫 번째 이미지는 중앙, 두 번째 이미지는 우측 상단 */
   background-repeat: no-repeat, no-repeat;  /* 둘 다 반복 없음 */
 }}
 </style>
