@@ -22,7 +22,7 @@ with open(play_btn_img_path, "rb") as img_file:
 # Base64로 로컬 이미지 인코딩 (배경 이미지)
 with open(background_img_path, "rb") as img_file:
     background_img_base64 = base64.b64encode(img_file.read()).decode()
-    
+
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
     st.session_state.playing_song_id = None
@@ -85,14 +85,6 @@ floating_player_style = '''
 </style>
 '''
 
-input_box_style = '''
-<style>
-textarea, input {
-  background-color: white !important;
-  color: black !important;
-}
-</style>
-'''
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
