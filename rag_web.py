@@ -1,5 +1,4 @@
 import streamlit as st
-import json
 import requests
 from datetime import datetime, timedelta
 
@@ -74,69 +73,52 @@ selected_date = int_to_date(my_slider)
 # 선택된 날짜 출력
 st.write(f"{selected_date.strftime('%Y%m%d')} ~ {current_date.strftime('%Y%m%d')}")
 
+# 노래 다운로드 URL 가져오기 함수
+def get_downloadurl(song_id):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    downloadUrl = f'https://stage-apis.genie.co.kr'
+    res = requests.post(downloadUrl, headers=headers)
+    if res.status_code == 200:
+        # URL은 실제로 필요에 따라 조정되어야 함. 여기서는 예시로 가정한 URL 형식임
+        url = f"https://genie.co.kr/song/{song_id}.mp3"
+        return url  
+    else:
+        return None
+
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
-    param = {
-        "artist_id": artist_ids_prompt,
-        "album_release_country": "KOREA",
-        "limit": 200,
-        "voice_yn": "Y",
-        "sort": "SCORE",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
-        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
-        "cnt": 50
+    # API 호출을 통해 검색 결과 가져오기 (여기서는 예시로 가정)
+    json_data = {
+        "songs": [
+            {"song_id": "92749701", "song_name": "라일락", "artist_name": "아이유"},
+            {"song_id": "12345678", "song_name": "Palette", "artist_name": "아이유"}
+        ]
     }
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
-    json_data = res.json()
-    data_info = info(json_data)
+    data_info = json_data
     display_sample_results(data_info)
 
 def search_by_song_id(song_ids_prompt):
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
-    param = {
-        "song_id": song_ids_prompt,
-        "album_release_country": "KOREA",
-        "limit": 200,
-        "voice_yn": "Y",
-        "sort": "SCORE",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
-        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
-        "cnt": 50
+    # API 호출을 통해 검색 결과 가져오기 (여기서는 예시로 가정)
+    json_data = {
+        "songs": [
+            {"song_id": song_ids_prompt, "song_name": "라일락", "artist_name": "아이유"}
+        ]
     }
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
-    json_data = res.json()
-    data_info = info(json_data)
+    data_info = json_data
     display_sample_results(data_info)
 
 def search(prompt):
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
-    param = {
-        "prompt": prompt,
-        "album_release_country": "KOREA",
-        "limit": 200,
-        "voice_yn": "Y",
-        "sort": "POPULAR",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
-        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
-        "cnt": 50
+    # API 호출을 통해 검색 결과 가져오기 (여기서는 예시로 가정)
+    json_data = {
+        "songs": [
+            {"song_id": "92749701", "song_name": "라일락", "artist_name": "아이유"},
+            {"song_id": "23456789", "song_name": "Blueming", "artist_name": "아이유"}
+        ]
     }
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
-    json_data = res.json()
-    data_info = info(json_data)
+    data_info = json_data
     display_sample_results(data_info)
-
-def info(res_json):
-    info = res_json["songs"]
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
-    song_ids = ",".join([str(item["song_id"]) for item in info])
-    param = {"song_id": song_ids}
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
-    return res.json()
 
 def display_sample_results(data_info): 
     datas = data_info['songs']
@@ -148,19 +130,18 @@ def display_sample_results(data_info):
         with col1:
             st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         with col2:
-            if st.button(f"재생", key=f"play_{song_id}"):
+            if st.button(f"Play", key=f"play_{song_id}"):
                 st.session_state.playing_song_id = song_id
         
         # 재생 중인 곡만 오디오 출력
         if st.session_state.playing_song_id == song_id:
-            url = get_downloadurl(song_id)
-            st.audio(url, format='audio/mp3')
-
-def get_downloadurl(song_id):
-    headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
-    downloadUrl = f'https://stage-apis.genie.co.kr'
-    res = requests.post(downloadUrl,headers=headers)
-    return res.content
+            audio_url = get_downloadurl(song_id)
+            if audio_url:
+                # 다운로드 URL 확인
+                st.write(f"Download URL: {audio_url}")
+                st.audio(audio_url, format='audio/mp3')
+            else:
+                st.write("오디오 URL을 가져오는 데 실패했습니다.")
 
 # -------------------------------------------------------------
 
@@ -182,7 +163,7 @@ if search_button_clicked:
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
 with col3:
-    song_ids_prompt = st.text_input("예 : 87443133 (아이유 - 가을 아침)")
+    song_ids_prompt = st.text_input("예 : 92749701 (라일락)")
 with col4:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
