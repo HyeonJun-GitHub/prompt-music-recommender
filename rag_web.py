@@ -51,9 +51,24 @@ page_bg_img = f'''
 </style>
 '''
 
+# 텍스트 입력창을 하얀색으로 설정하는 CSS
+text_area_style = """
+<style>
+textarea, input {
+    background-color: white !important;
+    color: black !important;
+    border: 2px solid #d3d3d3;
+    padding: 10px;
+    border-radius: 5px;
+    outline-color: #FE6B8B;
+}
+</style>
+"""
+
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
 
 # -------------------------------------------------------------
 
