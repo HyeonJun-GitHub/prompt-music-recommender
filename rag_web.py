@@ -148,12 +148,15 @@ def display_sample_results(data_info):
         with col1:
             st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         with col2:
-            if st.button(f"Play", key=f"play_{song_id}"):
+            if st.button(f"재생", key=f"play_{song_id}"):
                 st.session_state.playing_song_id = song_id
         
         # 재생 중인 곡만 오디오 출력
         if st.session_state.playing_song_id == song_id:
-            st.audio(f"https://genie.co.kr/song/{song_id}.mp3", format='audio/mp3')
+            headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
+            downloadUrl = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
+            res = requests.post(downloadUrl,headers=headers)
+            st.audio(res.content, format='audio/mp3')
 
 # -------------------------------------------------------------
 
@@ -175,7 +178,7 @@ if search_button_clicked:
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
 with col3:
-    song_ids_prompt = st.text_input("예 : 92749701 (라일락)")
+    song_ids_prompt = st.text_input("예 : 87443133 (아이유 - 가을 아침)")
 with col4:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
