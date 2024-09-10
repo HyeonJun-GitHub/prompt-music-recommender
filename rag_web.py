@@ -42,34 +42,8 @@ hide_streamlit_style = """
     </style>
     """
 
-# # 배경 이미지 적용 CSS
-# page_bg_img = f'''
-# <style>
-# .stApp {{
-#   background-image: url("data:image/jpg;base64,{background_img_base64}");
-#   background-size: cover;
-#   background-position: center;
-# }}
-# </style>
-# '''
-
-# 이미지가 적용된 전체 프롬프트 영역 CSS
-# prompt_box_style = f'''
-# <style>
-# .prompt-container {{
-#   background-image: url("data:image/png;base64,{box_img_base64}");
-#   background-size: cover;
-#   background-position: center;
-#   background-repeat: no-repeat;
-#   padding: 20px;
-#   border-radius: 10px;
-#   height: 300px;  /* 세로 높이를 300px로 고정 */
-#   max-height: 500px;  /* 최대 높이 설정 (선택 사항) */
-#   overflow: hidden;  /* 내용이 넘칠 경우 숨김 처리 */
-# }}
-# </style>
-# '''
-prompt_box_style = f'''
+# 배경 이미지 적용 CSS
+page_bg_img = f'''
 <style>
 .stApp {{
   background-image: url("data:image/png;base64,{box_img_base64}"), url("data:image/jpg;base64,{background_img_base64}");
@@ -79,7 +53,6 @@ prompt_box_style = f'''
 }}
 </style>
 '''
-
 
 # 플로팅 재생바를 위한 CSS
 floating_player_style = '''
@@ -107,10 +80,9 @@ textarea, input {
 </style>
 '''
 # 배경 이미지 적용
-st.markdown(prompt_box_style, unsafe_allow_html=True)
+st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-# st.markdown(page_bg_img, unsafe_allow_html=True)
-st.markdown(input_box_style, unsafe_allow_html=True)
+st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(floating_player_style, unsafe_allow_html=True)
 
 # -------------------------------------------------------------
@@ -267,9 +239,7 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
-st.markdown(prompt_box_style, unsafe_allow_html=True)
-st.markdown('<div class="prompt-container">', unsafe_allow_html=True)
-
+st.markdown(input_box_style, unsafe_allow_html=True)
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
