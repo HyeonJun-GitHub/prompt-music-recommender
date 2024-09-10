@@ -287,6 +287,9 @@ with col2:
 if search_button_clicked:
     search(prompt)
 
+# "View" 역할을 하는 div 닫기
+st.markdown('</div>', unsafe_allow_html=True)
+
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
