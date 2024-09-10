@@ -84,7 +84,7 @@ def reset_all_sliders(reset_iteration):
 selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
-st.write(f"{current_date.strftime('%Y%m%d')} ~ {selected_date.strftime('%Y%m%d')}")
+st.write(f"{selected_date.strftime('%Y%m%d')} ~ {current_date.strftime('%Y%m%d')}")
 
 # -------------------------------------------------------------
 
