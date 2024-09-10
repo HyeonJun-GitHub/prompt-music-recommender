@@ -158,17 +158,18 @@ def info(res_json):
 
 # 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-    }
-    download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
-    res = requests.post(download_url, headers=headers)
-    if res.status_code == 200:
-        test = res['asdfqwkcjasdn']
-        return download_url
-    else:
-        test2 = res['asdfqwkcjasdn2222']
-        return None
+    return "http://giicdn.genie.co.kr/O/SONG/MP3/087/443/87443133_192k.mp3?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkdXJhdGlvbiI6LTEsInBhdGgiOiIvTy9TT05HL01QMy8wODcvNDQzLzg3NDQzMTMzXzE5MmsubXAzIiwiaXNzIjoiZ3AiLCJleHAiOjE3MjU5NzIxMzksInBsYXlzdGFydCI6MH0.otLxK7Deu6S35_Pcxi7YwXi5jy1GmA4lMBVITMhjt5Q"
+    # headers = {
+    #     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    # }
+    # download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
+    # res = requests.post(download_url, headers=headers)
+    # if res.status_code == 200:
+    #     test = res['asdfqwkcjasdn']
+    #     return download_url
+    # else:
+    #     test2 = res['asdfqwkcjasdn2222']
+    #     return None
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
