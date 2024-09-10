@@ -252,3 +252,10 @@ if st.session_state.playing_song_id and st.session_state.playing_song_url:
     ''', unsafe_allow_html=True)
 else:
     st.write("재생 가능한 곡이 없습니다.")
+
+def get_downloadurl(song_id):
+    # 하드코딩된 URL을 반환
+    return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
+
+# 곡 재생 함수가 제대로 작동하는지 확인
+st.session_state.playing_song_url = get_downloadurl("test_song")
