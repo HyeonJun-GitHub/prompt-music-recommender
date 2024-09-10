@@ -94,12 +94,6 @@ def reset_all_sliders(reset_iteration):
 # 리셋 횟수 추적
 reset_iteration = 1
 
-# 슬라이더 값 변경 및 리셋 처리
-if st.button('Reset to Default'):
-    reset_iteration += 1
-    st.write(f"슬라이더가 {reset_iteration}번째 리셋되었습니다.")
-    my_slider = reset_all_sliders(reset_iteration)  # 슬라이더 리셋
-
 # 선택된 숫자를 날짜로 변환
 selected_date = int_to_date(my_slider)
 
