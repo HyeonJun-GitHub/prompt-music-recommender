@@ -2,7 +2,7 @@ import streamlit as st
 import json
 import requests
 from datetime import datetime, timedelta
-import uuid
+import uuid  # 고유한 식별자를 생성하기 위한 모듈
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
