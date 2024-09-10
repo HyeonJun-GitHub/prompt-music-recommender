@@ -255,3 +255,8 @@ if st.session_state.playing_song_id and st.session_state.playing_song_url:
         </audio>
     </div>
     ''', unsafe_allow_html=True)
+
+
+search(prompt)
+search_by_song_id(song_ids_prompt)
+search_by_artist_id(artist_ids_prompt)
