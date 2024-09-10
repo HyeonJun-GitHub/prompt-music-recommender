@@ -219,10 +219,10 @@ def display_sample_results(data_info):
 
             if st.button(f"재생", key=f"play_{button_key}"):
                 st.write(f"재생 버튼이 클릭되었습니다! Song ID: {song_id}")  # 디버깅용 로그
-                st.session_state.playing_song_id = song_id
-                st.session_state.playing_song_name = song_name
-                st.session_state.playing_artist_name = artist_name
-                st.session_state.playing_song_url = get_downloadurl(song_id)
+                # st.session_state.playing_song_id = song_id
+                # st.session_state.playing_song_name = song_name
+                # st.session_state.playing_artist_name = artist_name
+                # st.session_state.playing_song_url = get_downloadurl(song_id)
 
 
 # -------------------------------------------------------------
