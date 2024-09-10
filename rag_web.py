@@ -111,15 +111,30 @@ def display_sample_results(data_info):
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
 
-# 잘못된 부분 수정
-sidebar_expander = st.sidebar.expander("Slim sliders underneath!")
-with sidebar_expander:
-   _, slider_col, _ = st.columns([0.02, 0.96, 0.02])  # st.beta_columns -> st.columns로 변경
-   with slider_col:
-        st.slider("Slimmer slider", 0, 100, value=0)
-        st.slider("Slimmer slider2", 0, 100, value=(0,100))
+import streamlit as st
+from datetime import datetime, timedelta
 
-st.sidebar.slider("Standard layout slider")
+# 현재 날짜
+current_date = datetime.now()
+
+# 과거 날짜 (예: 30일 전)
+past_date = current_date - timedelta(days=30)
+
+# 슬라이더에 사용할 형식 (yyyymmdd)
+def format_date(date):
+    return date.strftime("%Y%m%d")
+
+# 슬라이더 값 설정
+selected_date = st.slider(
+    "날짜 선택",
+    min_value=past_date,
+    max_value=current_date,
+    value=current_date,  # 기본값은 현재 날짜
+    format="YYYY-MM-DD"
+)
+
+# 선택된 날짜 출력
+st.write(f"선택된 날짜: {format_date(selected_date)}")
 
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
