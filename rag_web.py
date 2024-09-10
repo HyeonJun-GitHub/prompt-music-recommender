@@ -182,39 +182,39 @@ def display_sample_results(data_info):
 
 # -------------------------------------------------------------
 
-# 배경 이미지를 expander의 UI 뒤로 넣기 위한 CSS
+# 배경 이미지를 expander 내부에 넣기 위한 CSS
 expander_background_css = f"""
 <style>
-    .stExpander > div > div {{
+    .custom-expander .streamlit-expanderHeader {{
+        background-color: rgba(255, 255, 255, 0.8);
+    }}
+    .custom-expander > div > div {{
         background-image: url("data:image/png;base64,{background_img_base64}");
         background-size: cover;
         background-position: center;
+        padding: 20px;
     }}
 </style>
 """
 
 # CSS 적용
 st.markdown(expander_background_css, unsafe_allow_html=True)
-
 # Prompt 입력과 버튼 (st.expander 사용)
-with st.expander("프롬프트 입력", expanded=True):
-    st.image(background_img, use_column_width=True)
+with st.expander("프롬프트 입력", expanded=True, class_="custom-expander"):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
     search_button_clicked = st.button("프롬프트 검색")
     if search_button_clicked:
         search(prompt)
 
 # 곡 ID 검색 (st.expander 사용)
-with st.expander("유사 곡 검색"):
-    st.image(background_img, use_column_width=True)
+with st.expander("유사 곡 검색", class_="custom-expander"):
     song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     song_search_button_clicked = st.button("곡 검색")
     if song_search_button_clicked:
         search_by_song_id(song_ids_prompt)
 
 # 아티스트 ID 검색 (st.expander 사용)
-with st.expander("유사 아티스트 검색"):
-    st.image(background_img, use_column_width=True)
+with st.expander("유사 아티스트 검색", class_="custom-expander"):
     artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
     artist_search_button_clicked = st.button("아티스트 검색")
     if artist_search_button_clicked:
