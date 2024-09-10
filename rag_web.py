@@ -6,6 +6,13 @@ import uuid  # UUID를 생성하기 위한 모듈
 import os
 import base64
 
+# 로컬 이미지 경로 설정
+play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
+
+# Base64로 로컬 이미지 인코딩
+with open(play_btn_img_path, "rb") as img_file:
+    play_btn_img_base64 = base64.b64encode(img_file.read()).decode()
+
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
     st.session_state.playing_song_id = None
@@ -165,7 +172,19 @@ def info(res_json):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     return res.json()
 
-# 곡 리스트에서 샘플을 보여주는 함수 (아이콘 추가)
+# 곡 다운로드 URL을 가져오는 함수
+def get_downloadurl(song_id):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
+    res = requests.post(download_url, headers=headers)
+    if res.status_code == 200:
+        return download_url
+    else:
+        return None
+
+# 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
@@ -177,18 +196,15 @@ def display_sample_results(data_info):
         button_key = str(uuid.uuid4())
 
         # 상세정보와 Play 버튼을 같은 줄에 배치
-        col1, col2 = st.columns([5, 1])
+        col1 = st.columns([5, 1])
+        # with col1:
+            # st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         with col1:
-            st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
-        with col2:
-            # 이미지 아이콘을 추가한 재생 버튼 생성
-            play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
-
-            # 이미지 아이콘을 추가한 재생 버튼 생성
+            # 이미지 아이콘을 추가한 재생 버튼 생성 (크기를 줄임)
             play_button_html = f"""
             <div style='text-align: center;'>
-                <button style="border:none;background-color:transparent;cursor:pointer;" onClick="window.location.reload()">
-                    <img src="data:image/webp;base64,{base64.b64encode(open(play_btn_img_path, "rb").read()).decode()}" width="20" height="20" />
+                <button style="border:none;background-color:transparent;cursor:pointer;padding:5px;margin:0;">
+                    <img src="data:image/webp;base64,{play_btn_img_base64}" width="30" height="30" />
                 </button>
             </div>
             """
@@ -199,14 +215,6 @@ def display_sample_results(data_info):
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
                 st.session_state.playing_song_url = get_downloadurl(song_id)
-
-# 곡 다운로드 URL을 가져오는 함수
-def get_downloadurl(song_id):
-    headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
-    downloadUrl = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
-    res = requests.post(downloadUrl, headers=headers)
-    return downloadUrl if res.status_code == 200 else None
-
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
