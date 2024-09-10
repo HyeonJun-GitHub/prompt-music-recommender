@@ -42,6 +42,18 @@ hide_streamlit_style = """
     </style>
     """
 
+# 스타일링을 위한 CSS 추가
+box_css = '''
+<style>
+.boxed {
+    border: 2px solid #4CAF50;  /* 사각형 테두리 */
+    border-radius: 10px;        /* 모서리를 둥글게 */
+    padding: 10px;              /* 안쪽 여백 */
+    margin-bottom: 20px;        /* 박스 간 간격 */
+}
+</style>
+'''
+
 # 배경 이미지 적용 CSS
 page_bg_img = f'''
 <style>
@@ -85,6 +97,9 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(floating_player_style, unsafe_allow_html=True)
+
+# CSS를 적용할 HTML 요소 추가
+st.markdown(box_css, unsafe_allow_html=True)
 
 # -------------------------------------------------------------
 
@@ -216,7 +231,7 @@ def display_sample_results(data_info):
 # Prompt 입력과 버튼
 st.markdown(input_box_style, unsafe_allow_html=True)
 
-st.markdown("---")  # 가로선 추가
+st.markdown('<div class="boxed">', unsafe_allow_html=True)
 
 st.subheader("프롬프트")
 
@@ -228,11 +243,13 @@ with col2:
     spacer.write("")
     search_button_clicked = st.button("프롬프트")
 
+st.markdown('</div>', unsafe_allow_html=True)  # 사각형 영역 종료
+
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
     search(prompt)
 
-st.markdown("---")  # 가로선 추가
+st.markdown('<div class="boxed">', unsafe_allow_html=True)
 
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
@@ -244,6 +261,8 @@ with col4:
     spacer.write("")
     spacer.write("")
     song_search_button_clicked = st.button("곡")
+
+st.markdown('</div>', unsafe_allow_html=True)  # 사각형 영역 종료
 
 # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if song_search_button_clicked:
