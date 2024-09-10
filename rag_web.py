@@ -274,3 +274,19 @@ if st.session_state.playing_song_id and st.session_state.playing_song_url:
         </audio>
     </div>
     ''', unsafe_allow_html=True)
+
+# 재생바를 보여주는 함수
+def show_playing_bar():
+    if st.session_state.playing_song_id and st.session_state.playing_song_url:
+        st.markdown(f'''
+        <div class="floating-player">
+            🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
+            <br>
+            <audio controls autoplay>
+                <source src="{st.session_state.playing_song_url}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        ''', unsafe_allow_html=True)
+
+show_playing_bar()
