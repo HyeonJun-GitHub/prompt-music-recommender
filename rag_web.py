@@ -69,10 +69,10 @@ page_bg_img = f'''
 # }}
 # </style>
 # '''
-page_bg_img = f'''
+prompt_box_style = f'''
 <style>
 .stApp {{
- background-image: url("data:image/jpg;base64,{background_img_base64}");
+ background-image: url("data:image/jpg;base64,{box_img_base64}");
  background-size: cover;
  background-position: center;
 }}
@@ -83,7 +83,7 @@ page_bg_img = f'''
 # 플로팅 재생바를 위한 CSS
 floating_player_style = '''
 <style>
-.floating-player {{
+.floating-player {
   position: fixed;
   left: 0;
   bottom: 0;
@@ -93,7 +93,7 @@ floating_player_style = '''
   text-align: center;
   padding: 10px;
   z-index: 9999;
-}}
+}
 </style>
 '''
 
