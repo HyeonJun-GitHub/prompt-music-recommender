@@ -33,7 +33,8 @@ if 'playing_song_url' not in st.session_state:
 # 하드코딩된 URL을 반환하는 함수
 def get_downloadurl(song_id):
     # 하드코딩된 재생 가능한 MP3 URL 반환
-    return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
+    # return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
+    return "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -121,6 +122,7 @@ display_sample_results()
 
 # Streamlit의 st.audio를 사용한 오디오 재생
 if st.session_state.playing_song_url:
-    st.audio(st.session_state.playing_song_url, format="audio/mp3", start_time=0)
+    mp3_url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    st.audio(mp3_url, format="audio/mp3", start_time=0)
 else:
     st.write("재생할 곡을 선택하세요.")
