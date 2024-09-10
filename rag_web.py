@@ -201,7 +201,6 @@ with st.expander("프롬프트 입력", expanded=True):
         st.write("")  # 빈 줄 추가
         st.write("")  # 빈 줄 추가
         st.write("")  # 빈 줄 추가
-        st.write("")  # 빈 줄 추가
         search_button_clicked = st.button("프롬프트 검색")
     
     if search_button_clicked:
