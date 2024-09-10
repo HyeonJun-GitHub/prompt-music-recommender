@@ -58,11 +58,11 @@ def date_to_int(date):
 def int_to_date(num):
     return past_date + timedelta(days=num)
 
-# CSS를 사용해 슬라이더의 숫자들을 숨김
+# CSS를 사용해 슬라이더의 숫자(최소값, 최대값, 현재 선택된 값)를 숨김
 hide_slider_number_style = """
     <style>
-    .stSlider > div:nth-child(2) {
-        display: none;  /* 슬라이더의 숫자(최소, 최대, 현재 값) 숨기기 */
+    .stSlider > div div div div {
+        display: none;  /* 슬라이더 위의 숫자들을 숨기기 */
     }
     </style>
 """
