@@ -112,8 +112,10 @@ def display_sample_results(data_info):
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
 
+# -------------------------------------------------------------
 
-
+import streamlit as st
+from datetime import datetime, timedelta
 
 # 현재 날짜
 current_date = datetime.now()
@@ -125,24 +127,60 @@ past_date = current_date - timedelta(days=30)
 def format_date(date):
     return date.strftime("%Y%m%d")
 
-# 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
-if 'selected_date' not in st.session_state:
-    st.session_state['selected_date'] = current_date
+# 슬라이더 기능을 함수로 분리
+def date_slider(min_date, max_date):
+    # 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
+    if 'selected_date' not in st.session_state:
+        st.session_state['selected_date'] = max_date
 
-# 슬라이더 값 설정
-selected_date = st.slider(
-    "날짜 선택",
-    min_value=past_date,
-    max_value=current_date,
-    value=st.session_state['selected_date'],  # session_state에서 값 불러오기
-    format="YYYY-MM-DD"
-)
+    # 슬라이더 값 설정
+    selected_date = st.slider(
+        "날짜 선택",
+        min_value=min_date,
+        max_value=max_date,
+        value=st.session_state['selected_date'],  # session_state에서 값 불러오기
+        format="YYYY-MM-DD"
+    )
 
-# 슬라이더 값이 바뀔 때 session_state에 저장
-st.session_state['selected_date'] = selected_date
+    # 슬라이더 값이 바뀔 때 session_state에 저장
+    st.session_state['selected_date'] = selected_date
+
+    return selected_date
+
+# 함수 호출
+selected_date = date_slider(past_date, current_date)
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {format_date(selected_date)}")
+
+# # 현재 날짜
+# current_date = datetime.now()
+
+# # 과거 날짜 (예: 30일 전)
+# past_date = current_date - timedelta(days=30)
+
+# # 슬라이더에 사용할 형식 (yyyymmdd)
+# def format_date(date):
+#     return date.strftime("%Y%m%d")
+
+# # 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
+# if 'selected_date' not in st.session_state:
+#     st.session_state['selected_date'] = current_date
+
+# # 슬라이더 값 설정
+# selected_date = st.slider(
+#     "날짜 선택",
+#     min_value=past_date,
+#     max_value=current_date,
+#     value=st.session_state['selected_date'],  # session_state에서 값 불러오기
+#     format="YYYY-MM-DD"
+# )
+# 
+# 슬라이더 값이 바뀔 때 session_state에 저장
+# st.session_state['selected_date'] = selected_date
+
+# 선택된 날짜 출력
+# st.write(f"선택된 날짜: {format_date(selected_date)}")
 
 
 
