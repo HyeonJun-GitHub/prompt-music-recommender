@@ -32,6 +32,7 @@ if 'playing_song_url' not in st.session_state:
 
 # 하드코딩된 URL을 반환하는 함수
 def get_downloadurl(song_id):
+    # 하드코딩된 재생 가능한 MP3 URL 반환
     return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
@@ -55,30 +56,9 @@ page_bg_img = f'''
 </style>
 '''
 
-# 플로팅 재생바를 위한 CSS
-floating_player_style = '''
-<style>
-.floating-player {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  text-align: center;
-  padding: 10px;
-  z-index: 9999;
-}
-audio {
-  width: 100%;
-}
-</style>
-'''
-
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-st.markdown(floating_player_style, unsafe_allow_html=True)
 
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
@@ -138,3 +118,9 @@ def display_sample_results():
 
 # 샘플 결과 표시
 display_sample_results()
+
+# Streamlit의 st.audio를 사용한 오디오 재생
+if st.session_state.playing_song_url:
+    st.audio(st.session_state.playing_song_url, format="audio/mp3", start_time=0)
+else:
+    st.write("재생할 곡을 선택하세요.")
