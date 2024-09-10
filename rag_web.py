@@ -85,8 +85,8 @@ def reset_all_sliders(reset_iteration):
     # 새 슬라이더를 다른 키로 다시 그리기 (이로 인해 슬라이더 값이 초기화됨)
     return slider_place_holder.slider(
         "날짜 선택",
-        min_value=0,
-        max_value=date_to_int(current_date),
+        min_value=date_to_int(current_date),
+        max_value=0,
         value=date_to_int(current_date),  # 기본값을 현재 날짜로 리셋
         key=(key + reset_iteration)
     )
