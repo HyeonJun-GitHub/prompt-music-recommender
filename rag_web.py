@@ -185,9 +185,8 @@ def search(prompt):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
-    data_info = info(json_data)
-    st.session_state.search_results = data_info  # 검색 결과를 상태에 저장
-    display_sample_results(data_info, "prompt")  # 'prompt' 접두사 사용
+    st.session_state.search_results = json_data  # 검색 결과를 상태에 저장
+    display_sample_results(json_data, "prompt")  # 'prompt' 접두사 사용
 
 # 정보 추출 함수
 def info(res_json):
@@ -227,8 +226,8 @@ with col2:
 if search_button_clicked:
     search(prompt)
 
-# 이전 검색 결과 유지
-if st.session_state.search_results:
+# 이전 검색 결과 유지, 단 중복 출력 방지
+if st.session_state.search_results and not search_button_clicked:
     display_sample_results(st.session_state.search_results, "prompt")
 
 # Song ID 입력과 버튼
@@ -246,8 +245,8 @@ with col4:
 if song_search_button_clicked:
     search_by_song_id(song_ids_prompt)
 
-# 이전 곡 검색 결과 유지
-if st.session_state.song_search_results:
+# 이전 곡 검색 결과 유지, 단 중복 출력 방지
+if st.session_state.song_search_results and not song_search_button_clicked:
     display_sample_results(st.session_state.song_search_results, "similar_song")
 
 # Artist ID 입력과 버튼
@@ -265,8 +264,8 @@ with col6:
 if artist_search_button_clicked:
     search_by_artist_id(artist_ids_prompt)
 
-# 이전 아티스트 검색 결과 유지
-if st.session_state.artist_search_results:
+# 이전 아티스트 검색 결과 유지, 단 중복 출력 방지
+if st.session_state.artist_search_results and not artist_search_button_clicked:
     display_sample_results(st.session_state.artist_search_results, "similar_artist")
 
 # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
