@@ -156,7 +156,8 @@ def display_sample_results(data_info):
             headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
             downloadUrl = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
             res = requests.post(downloadUrl,headers=headers)
-            st.audio(res.content, format='audio/mp3')
+            st.subheader(res.content)
+            # st.audio(res.content, format='audio/mp3')
 
 # -------------------------------------------------------------
 
