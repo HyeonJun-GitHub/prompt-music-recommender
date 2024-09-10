@@ -110,6 +110,16 @@ def display_sample_results(data_info):
 
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
+
+sidebar_expander = st.sidebar.beta_expander("Slim sliders underneath!")
+with sidebar_expander:
+   _, slider_col, _ = st.beta_columns([0.02, 0.96, 0.02])
+   with slider_col:
+        st.slider("Slimmer slider", 0, 100, value=0)
+        st.slider("Slimmer slider2", 0, 100, value=(0,100))
+
+st.sidebar.slider("Standard layout slider")
+
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
