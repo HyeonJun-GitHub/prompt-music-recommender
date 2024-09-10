@@ -47,7 +47,7 @@ page_bg_img = f'''
 <style>
 .stApp {{
   background-image: url("https://example.com/path/to/box_image.png");
-  background-size: 90%;  /* 이미지 크기를 90%로 줄여서 패딩처럼 보이게 */
+  background-size: 60%;  /* 이미지 크기를 90%로 줄여서 패딩처럼 보이게 */
   background-position: 5% 5%;  /* 좌우 5%씩 패딩을 준 것처럼 이미지의 위치 조정 */
   background-repeat: no-repeat;
 }}
