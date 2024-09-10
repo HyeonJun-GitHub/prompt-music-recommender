@@ -53,6 +53,22 @@ page_bg_img = f'''
 </style>
 '''
 
+# 이미지가 적용된 전체 프롬프트 영역 CSS (배경을 더 크게 설정)
+view_style = f'''
+<style>
+.view-container {{
+  background-image: url("data:image/png;base64,{box_img_base64}");
+  background-size: 100% 100%;  /* 배경 크기를 전체 영역으로 확장 */
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 50px;  /* 영역을 넓히기 위해 패딩을 증가 */
+  border-radius: 10px;
+  width: 100%;  /* 컨테이너가 화면 너비를 채우도록 설정 */
+  margin-bottom: 20px;  /* 다른 요소와의 간격 추가 */
+}}
+</style>
+'''
+
 # 이미지가 적용된 전체 프롬프트 영역 CSS
 prompt_box_style = f'''
 <style>
@@ -94,6 +110,7 @@ textarea, input {
 </style>
 '''
 # 배경 이미지 적용
+st.markdown(view_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
@@ -254,8 +271,9 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
-st.markdown(prompt_box_style, unsafe_allow_html=True)
-st.markdown('<div class="prompt-container">', unsafe_allow_html=True)
+st.markdown(view_style, unsafe_allow_html=True)
+st.markdown('<div class="view-container">', unsafe_allow_html=True)
+# st.markdown('<div class="prompt-container">', unsafe_allow_html=True)
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
