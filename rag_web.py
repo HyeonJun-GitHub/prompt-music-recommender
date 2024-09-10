@@ -45,15 +45,15 @@ hide_streamlit_style = """
 # 배경 이미지 적용 CSS
 page_bg_img = f'''
 <style>
-<style>
 .stApp {{
   background-image: url("data:image/png;base64,{box_img_base64}"), url("data:image/jpg;base64,{background_img_base64}");
-  background-size: 90%;  /* 이미지 크기를 90%로 줄여서 패딩처럼 보이게 */
-  background-position: 5% 5%;  /* 좌우 5%씩 패딩을 준 것처럼 이미지의 위치 조정 */
-  background-repeat: no-repeat;
+  background-size: cover, contain;  /* 첫 번째 이미지는 cover, 두 번째 이미지는 contain */
+  background-position: center, right 400px top 500px;  /* 첫 번째 이미지는 중앙, 두 번째 이미지는 우측 상단 */
+  background-repeat: no-repeat, no-repeat;  /* 둘 다 반복 없음 */
+  background-origin: padding-box;  /* 배경 이미지를 패딩 영역부터 시작 */
+  padding: 0px, 200px;  /* 패딩을 설정하여 배경 이미지가 이 안에서 표시되도록 */
 }}
 </style>
-
 '''
 
 # 플로팅 재생바를 위한 CSS
