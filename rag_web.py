@@ -233,21 +233,25 @@ st.markdown(input_box_style, unsafe_allow_html=True)
 
 st.markdown('<div class="boxed">', unsafe_allow_html=True)
 
-st.subheader("프롬프트")
 
-col1, col2 = st.columns([5, 1])
-with col1:
+with st.container():
+    st.subheader("프롬프트")
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
-with col2:
-    spacer = st.empty()  # 빈 공간 추가
-    spacer.write("")
     search_button_clicked = st.button("프롬프트")
+    if search_button_clicked:
+        search(prompt)
+# col1, col2 = st.columns([5, 1])
+# with col1:
+    # prompt = st.text_area("무슨 노래가 듣고 싶어요?")
+# with col2:
+    # spacer = st.empty()  # 빈 공간 추가
+    # spacer.write("")
+    
 
-st.markdown('</div>', unsafe_allow_html=True)  # 사각형 영역 종료
+# st.markdown('</div>', unsafe_allow_html=True)  # 사각형 영역 종료
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
-if search_button_clicked:
-    search(prompt)
+
 
 st.markdown('<div class="boxed">', unsafe_allow_html=True)
 st.subheader("유사 곡 검색")
@@ -265,9 +269,7 @@ st.markdown('</div>', unsafe_allow_html=True)  # 사각형 영역 종료
 if song_search_button_clicked:
     search_by_song_id(song_ids_prompt)
 
-st.markdown("---")  # 가로선 추가
-
-# Artist ID 입력과 버튼
+st.markdown('<div class="boxed">', unsafe_allow_html=True)
 st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([5, 1])
 with col5:
