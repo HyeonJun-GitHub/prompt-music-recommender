@@ -176,13 +176,13 @@ def display_sample_results(data_info):
             st.write(f"{song_name} - {artist_name}")
         
         with col2:
-            if st.button(f"재생", key=f"play_{song_id}", on_click=None):  # 새로고침 방지
+            if st.button(f"재생", key=f"play_{song_id}"):  # on_click 제거
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
         
         with col3:
-            if st.button(f"상세정보", key=f"info_{song_id}", on_click=None):  # 새로고침 방지
+            if st.button(f"상세정보", key=f"info_{song_id}"):  # on_click 제거
                 open_song_detail(song_id)
 
 def open_song_detail(song_id):
