@@ -211,8 +211,6 @@ with st.expander("유사 곡 검색"):
     with col1:
         song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     with col2:
-        st.empty()
-        st.write("")
         st.write("")
         song_search_button_clicked = st.button("곡 검색")
     
@@ -225,8 +223,6 @@ with st.expander("유사 아티스트 검색"):
     with col1:
         artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
     with col2:
-        st.empty()
-        st.write("")
         st.write("")
         artist_search_button_clicked = st.button("아티스트 검색")
     
