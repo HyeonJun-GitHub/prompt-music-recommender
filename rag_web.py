@@ -32,14 +32,21 @@ hide_streamlit_style = """
     </style>
     """
 
-# 배경 이미지 설정을 위한 CSS
-page_bg_img = '''
+# 로컬 배경 이미지 경로 설정
+background_img_path = os.path.join(os.getcwd(), "background.jpg")
+
+# Base64로 로컬 이미지 인코딩 (배경 이미지)
+with open(background_img_path, "rb") as img_file:
+    background_img_base64 = base64.b64encode(img_file.read()).decode()
+
+# 배경 이미지 적용 CSS
+page_bg_img = f'''
 <style>
-.stApp {
-  background-image: url("https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/085/534/622/85534622_1724394868251_1_600x600.JPG/dims/resize/Q_80,0");
+.stApp {{
+  background-image: url("data:image/jpg;base64,{background_img_base64}");
   background-size: cover;
   background-position: center;
-}
+}}
 </style>
 '''
 
@@ -68,7 +75,8 @@ textarea, input {
 }
 </style>
 '''
-
+# 배경 이미지 적용
+st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(input_box_style, unsafe_allow_html=True)
