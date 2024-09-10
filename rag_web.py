@@ -255,6 +255,8 @@ def display_sample_results(data_info):
 
 # Prompt 입력과 버튼
 st.markdown(prompt_box_style, unsafe_allow_html=True)
+st.markdown('<div class="prompt-container">', unsafe_allow_html=True)
+
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
