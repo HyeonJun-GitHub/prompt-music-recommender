@@ -192,7 +192,7 @@ def display_sample_results(data_info):
 
 # -------------------------------------------------------------
 spacer_height = """
-<div style="height: 50px;"></div>
+<div style="height: 10px;"></div>
 """
 
 # Prompt 입력과 버튼 (st.expander 사용)
