@@ -76,9 +76,6 @@ past_date = current_date - timedelta(days=day_number)  # 최소값
 def int_to_date(days_from_today):
     return current_date + timedelta(days=days_from_today)
 
-# 슬라이더 위에 날짜를 표시할 빈 공간 설정
-date_display = st.empty()  # 날짜 표시할 공간 생성
-
 # 슬라이더 초기 값 및 키 값 설정
 key = 1
 slider_place_holder = st.empty()
@@ -96,8 +93,8 @@ my_slider = slider_place_holder.slider(
 # 선택된 값을 날짜로 변환
 selected_date = int_to_date(my_slider)
 
-# 슬라이더 위에 날짜 출력
-date_display.markdown(f"선택된 날짜 범위: **{selected_date.strftime('%Y%m%d')} ~ {current_date.strftime('%Y%m%d')}**")
+# 선택된 날짜 출력
+st.write(f"{selected_date.strftime('%Y%m%d')} ~ {current_date.strftime('%Y%m%d')}")
 
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
@@ -166,14 +163,9 @@ def info(res_json):
 def display_sample_results(data_info): 
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
-        song_id = song.get('song_id')
-        song_name = song.get('song_name')
-        artist_name = song.get('artist_name')
-        
-        # song_id가 존재하지 않는 경우 에러 방지
-        if not song_id:
-            st.write("Error: song_id is missing.")
-            continue
+        song_id = song['song_id']
+        song_name = song['song_name']
+        artist_name = song['artist_name']
         
         # 상세정보와 Play 버튼을 같은 줄에 배치
         col1, col2, col3 = st.columns([4, 1, 1])
@@ -189,6 +181,7 @@ def display_sample_results(data_info):
         with col3:
             if st.button(f"상세정보", key=f"info_{song_id}"):
                 open_song_detail(song_id)
+        
 
 def open_song_detail(song_id):
     # 상세정보 페이지로 이동하는 함수를 정의
@@ -204,51 +197,48 @@ def get_downloadurl(song_id):
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
-with st.form(key="prompt_form"):
-    st.subheader("프롬프트")
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        prompt = st.text_area("무슨 노래가 듣고 싶어요?")
-    with col2:
-        spacer = st.empty()  # 빈 공간 추가
-        spacer.write("")
-        search_button_clicked = st.form_submit_button("프롬프트 검색")
+st.subheader("프롬프트")
+col1, col2 = st.columns([3, 1])
+with col1:
+    prompt = st.text_area("무슨 노래가 듣고 싶어요?")
+with col2:
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    search_button_clicked = st.button("프롬프트 검색")
 
-    # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
-    if search_button_clicked:
-        search(prompt)
+# Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if search_button_clicked:
+    search(prompt)
 
 # Song ID 입력과 버튼
-with st.form(key="song_form"):
-    st.subheader("유사 곡 검색")
-    col3, col4 = st.columns([3, 1])
-    with col3:
-        song_ids_prompt = st.text_input("예 : 87443133 (아이유 - 가을 아침)")
-    with col4:
-        spacer = st.empty()  # 빈 공간 추가
-        spacer.write("")
-        spacer.write("")
-        song_search_button_clicked = st.form_submit_button("곡 검색")
+st.subheader("유사 곡 검색")
+col3, col4 = st.columns([3, 1])
+with col3:
+    song_ids_prompt = st.text_input("예 : 87443133 (아이유 - 가을 아침)")
+with col4:
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
+    song_search_button_clicked = st.button("곡 검색")
 
-    # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
-    if song_search_button_clicked:
-        search_by_song_id(song_ids_prompt)
+# Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if song_search_button_clicked:
+    search_by_song_id(song_ids_prompt)
 
 # Artist ID 입력과 버튼
-with st.form(key="artist_form"):
-    st.subheader("유사 아티스트 검색")
-    col5, col6 = st.columns([3, 1])
-    with col5:
-        artist_ids_prompt = st.text_input("예 : 67872918 (아이유)")
-    with col6:
-        spacer = st.empty()  # 빈 공간 추가
-        spacer.write("")
-        spacer.write("")
-        artist_search_button_clicked = st.form_submit_button("아티스트 검색")
+st.subheader("유사 아티스트 검색")
+col5, col6 = st.columns([3, 1])
+with col5:
+    artist_ids_prompt = st.text_input("예 : 67872918 (아이유)")
+with col6:
+    spacer = st.empty()  # 빈 공간 추가
+    spacer.write("")
+    spacer.write("")
+    artist_search_button_clicked = st.button("아티스트 검색")
 
-    # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
-    if artist_search_button_clicked:
-        search_by_artist_id(artist_ids_prompt)
+# Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
+if artist_search_button_clicked:
+    search_by_artist_id(artist_ids_prompt)
 
 # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
 if st.session_state.playing_song_id:
