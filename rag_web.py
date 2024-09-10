@@ -166,9 +166,14 @@ def info(res_json):
 def display_sample_results(data_info): 
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
-        song_id = song['song_id']
-        song_name = song['song_name']
-        artist_name = song['artist_name']
+        song_id = song.get('song_id')
+        song_name = song.get('song_name')
+        artist_name = song.get('artist_name')
+        
+        # song_id가 존재하지 않는 경우 에러 방지
+        if not song_id:
+            st.write("Error: song_id is missing.")
+            continue
         
         # 상세정보와 Play 버튼을 같은 줄에 배치
         col1, col2, col3 = st.columns([4, 1, 1])
@@ -176,13 +181,13 @@ def display_sample_results(data_info):
             st.write(f"{song_name} - {artist_name}")
         
         with col2:
-            if st.button(f"재생", key=f"play_{song_id}"):  # on_click 제거
+            if st.button(f"재생", key=f"play_{song_id}"):
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
         
         with col3:
-            if st.button(f"상세정보", key=f"info_{song_id}"):  # on_click 제거
+            if st.button(f"상세정보", key=f"info_{song_id}"):
                 open_song_detail(song_id)
 
 def open_song_detail(song_id):
