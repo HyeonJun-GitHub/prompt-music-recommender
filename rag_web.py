@@ -53,23 +53,6 @@ page_bg_img = f'''
 </style>
 '''
 
-# 이미지가 적용된 전체 프롬프트 영역 CSS (배경을 더 크게 설정)
-view_style = f'''
-<style>
-.view-container {{
-  background-image: url("data:image/png;base64,{box_img_base64}");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}}
-</style>
-'''
-
 # 이미지가 적용된 전체 프롬프트 영역 CSS
 prompt_box_style = f'''
 <style>
@@ -111,7 +94,6 @@ textarea, input {
 </style>
 '''
 # 배경 이미지 적용
-st.markdown(view_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
@@ -272,30 +254,19 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
-st.markdown(view_style, unsafe_allow_html=True)
-st.markdown('<div class="view-container">', unsafe_allow_html=True)
+st.markdown(prompt_box_style, unsafe_allow_html=True)
 st.subheader("프롬프트")
-st.markdown('</div>', unsafe_allow_html=True)
-
 col1, col2 = st.columns([3, 1])
 with col1:
-    st.markdown('<div class="view-container">', unsafe_allow_html=True)
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
-    st.markdown('</div>', unsafe_allow_html=True)
-
 with col2:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
     search_button_clicked = st.button("프롬프트 검색")
 
-st.markdown('<div class="view-container">', unsafe_allow_html=True)
-
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
     search(prompt)
-
-# "View" 역할을 하는 div 닫기
-st.markdown('</div>', unsafe_allow_html=True)
 
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
