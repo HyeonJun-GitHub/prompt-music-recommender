@@ -142,12 +142,16 @@ def display_sample_results(data_info):
     datas = data_info['songs']
     for song in datas[:5]:  # 리스트 5개만 출력
         song_id = song['song_id']
-        st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
-
-        # Play/Pause 버튼
-        if st.button(f"Play {song['song_name']}", key=f"play_{song_id}"):
-            st.session_state.playing_song_id = song_id
         
+        # 상세정보와 Play 버튼을 같은 줄에 배치
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        with col2:
+            if st.button(f"Play", key=f"play_{song_id}"):
+                st.session_state.playing_song_id = song_id
+        
+        # 재생 중인 곡만 오디오 출력
         if st.session_state.playing_song_id == song_id:
             st.audio(f"https://genie.co.kr/song/{song_id}.mp3", format='audio/mp3')
 
