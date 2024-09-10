@@ -50,30 +50,23 @@ from datetime import datetime, timedelta
 current_date = datetime.now()
 
 # 과거 날짜 (예: 30일 전)
-past_date = current_date - timedelta(days=30)
+past_date = current_date - timedelta(days=90)
 
 # 슬라이더에 사용할 형식 (yyyymmdd)
 def format_date(date):
     return date.strftime("%Y%m%d")
 
-# 슬라이더와 버튼을 사용해 핸들러 이벤트 후에만 값을 참조하는 방법
-with st.form(key="slider_form"):
-    # 슬라이더 값 추적
-    selected_date = st.slider(
-        "날짜 선택",
-        min_value=past_date,
-        max_value=current_date,
-        value=current_date,  # 기본값은 현재 날짜
-        format="YYYY-MM-DD"
-    )
+# 슬라이더 값 추적 및 출력
+selected_date = st.slider(
+    "날짜 선택",
+    min_value=past_date,
+    max_value=current_date,
+    # value=current_date,  # 기본값은 현재 날짜
+    format="YYYY-MM-DD"
+)
 
-    # 제출 버튼
-    # submit_button = st.form_submit_button(label="날짜 선택 완료")
-
-# 제출 버튼이 눌렸을 때만 선택된 날짜 출력
-# if submit_button:
+# 선택된 날짜 출력
 st.write(f"선택된 날짜: {format_date(selected_date)}")
-
 
 # -------------------------------------------------------------
 
