@@ -158,18 +158,17 @@ def info(res_json):
 
 # 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
-    return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
-    # headers = {
-    #     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-    # }
-    # download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
-    # res = requests.post(download_url, headers=headers)
-    # if res.status_code == 200:
-    #     test = res['asdfqwkcjasdn']
-    #     return download_url
-    # else:
-    #     test2 = res['asdfqwkcjasdn2222']
-    #     return None
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
+    res = requests.post(download_url, headers=headers)
+    if res.status_code == 200:
+        test = res['asdfqwkcjasdn']
+        return download_url
+    else:
+        test2 = res['asdfqwkcjasdn']
+        return None
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
@@ -222,24 +221,8 @@ if st.button("아티스트 검색") or st.session_state.get('artist_search_butto
     search_by_artist_id(artist_ids_prompt)
     st.session_state.artist_search_button_clicked = True
 
-# # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
-# if st.session_state.playing_song_id and st.session_state.playing_song_url:
-#     st.markdown(f'''
-#     <div class="floating-player">
-#         🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
-#         <br>
-#         <audio controls autoplay>
-#             <source src="{st.session_state.playing_song_url}" type="audio/mpeg">
-#             Your browser does not support the audio element.
-#         </audio>
-#     </div>
-#     ''', unsafe_allow_html=True)
-
 # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
 if st.session_state.playing_song_id and st.session_state.playing_song_url:
-    st.write(f"현재 재생 중인 곡 ID: {st.session_state.playing_song_id}")
-    st.write(f"현재 재생 중인 곡 URL: {st.session_state.playing_song_url}")
-    
     st.markdown(f'''
     <div class="floating-player">
         🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
@@ -250,12 +233,3 @@ if st.session_state.playing_song_id and st.session_state.playing_song_url:
         </audio>
     </div>
     ''', unsafe_allow_html=True)
-else:
-    st.write("재생 가능한 곡이 없습니다.")
-
-def get_downloadurl(song_id):
-    # 하드코딩된 URL을 반환
-    return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
-
-# 곡 재생 함수가 제대로 작동하는지 확인
-st.session_state.playing_song_url = get_downloadurl("test_song")
