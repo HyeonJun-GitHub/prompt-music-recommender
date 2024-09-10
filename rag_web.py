@@ -177,43 +177,21 @@ def display_sample_results(data_info):
 
 # -------------------------------------------------------------
 
-# 배경 이미지를 expander 내부에 넣기 위한 CSS
-expander_background_css = f"""
-<style>
-    .streamlit-expanderContent {{
-        background-image: url("data:image/png;base64,{box_img_base64}");
-        background-size: cover;
-        background-position: center;
-        padding: 20px;
-    }}
-</style>
-"""
-
-# Custom CSS 
-st.markdown(
-    '''
-    <style>
-    .streamlit-expanderHeader {
-        background-color: white;
-        color: black; # Adjust this for expander header color
-    }
-    .streamlit-expanderContent {
-        background-color: white;
-        color: black; # Expander content color
-    }
-    </style>
-    ''',
-    unsafe_allow_html=True
-)
-
-with st.expander("Expand"):
-    st.write("Content inside the expander")
-
-
-# CSS 적용
-st.markdown(expander_background_css, unsafe_allow_html=True)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
+    custom_css = """
+    <style>
+    textarea {
+        border: 2px solid rgb(213, 194, 194);
+        outline-color: #FE6B8B;
+        padding: 10px;
+    }
+    </style>
+    """
+
+    # Apply the custom CSS
+    st.markdown(custom_css, unsafe_allow_html=True)
+
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
     search_button_clicked = st.button("프롬프트 검색")
     if search_button_clicked:
