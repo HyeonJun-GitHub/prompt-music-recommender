@@ -216,6 +216,8 @@ def display_sample_results(data_info):
 # Prompt 입력과 버튼
 st.markdown(input_box_style, unsafe_allow_html=True)
 
+st.markdown("---")  # 가로선 추가
+
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
@@ -228,6 +230,8 @@ with col2:
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
     search(prompt)
+
+st.markdown("---")  # 가로선 추가
 
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
@@ -243,6 +247,8 @@ with col4:
 # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if song_search_button_clicked:
     search_by_song_id(song_ids_prompt)
+
+st.markdown("---")  # 가로선 추가
 
 # Artist ID 입력과 버튼
 st.subheader("유사 아티스트 검색")
