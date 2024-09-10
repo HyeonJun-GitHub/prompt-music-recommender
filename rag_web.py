@@ -192,30 +192,12 @@ def display_sample_results(data_info):
         
         with col2:
             # 이미지 아이콘을 추가한 재생 버튼 생성 (크기를 줄임)
-            play_button_html = f"""
-            <div style='text-align: center;'>
-                <button style="border:none;background-color:transparent;cursor:pointer;padding:5px;margin:0;" 
-                onClick="window.location.href='?song_id={song_id}&song_name={song_name}&artist_name={artist_name}'">
-                    <img src="data:image/webp;base64,{play_btn_img_base64}" width="30" height="30" />
-                </button>
-            </div>
-            """
-            st.markdown(play_button_html, unsafe_allow_html=True)
-
-# 곡을 재생하는 함수
-def play_song():
-    song_id = st.experimental_get_query_params().get("song_id")
-    song_name = st.experimental_get_query_params().get("song_name")
-    artist_name = st.experimental_get_query_params().get("artist_name")
-
-    if song_id:
-        st.session_state.playing_song_id = song_id[0]
-        st.session_state.playing_song_name = song_name[0]
-        st.session_state.playing_artist_name = artist_name[0]
-        st.session_state.playing_song_url = get_downloadurl(song_id[0])
-
-# 호출된 재생 함수 실행
-play_song()
+            if st.button(f"Play {song_id}", key=f"play_{button_key}"):
+                st.write(f"재생 버튼이 클릭되었습니다! Song ID: {song_id}")  # 디버깅용 로그
+                st.session_state.playing_song_id = song_id
+                st.session_state.playing_song_name = song_name
+                st.session_state.playing_artist_name = artist_name
+                st.session_state.playing_song_url = get_downloadurl(song_id)
 
 # -------------------------------------------------------------
 
