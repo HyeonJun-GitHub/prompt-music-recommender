@@ -66,8 +66,7 @@ selected_date = st.slider(
 )
 
 # 선택된 날짜 출력
-st.write(f"선택된 날짜: {format_date(selected_date)}")
-
+# st.write(f"선택된 날짜: {format_date(selected_date)}")
 
 # -------------------------------------------------------------
 
