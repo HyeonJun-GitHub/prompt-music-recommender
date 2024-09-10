@@ -42,16 +42,16 @@ hide_streamlit_style = """
     </style>
     """
 
-# 배경 이미지 적용 CSS
-page_bg_img = f'''
-<style>
-.stApp {{
-  background-image: url("data:image/jpg;base64,{background_img_base64}");
-  background-size: cover;
-  background-position: center;
-}}
-</style>
-'''
+# # 배경 이미지 적용 CSS
+# page_bg_img = f'''
+# <style>
+# .stApp {{
+#   background-image: url("data:image/jpg;base64,{background_img_base64}");
+#   background-size: cover;
+#   background-position: center;
+# }}
+# </style>
+# '''
 
 # 이미지가 적용된 전체 프롬프트 영역 CSS
 # prompt_box_style = f'''
@@ -109,7 +109,7 @@ textarea, input {
 # 배경 이미지 적용
 st.markdown(prompt_box_style, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-st.markdown(page_bg_img, unsafe_allow_html=True)
+# st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(input_box_style, unsafe_allow_html=True)
 st.markdown(floating_player_style, unsafe_allow_html=True)
 
