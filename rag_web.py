@@ -50,21 +50,25 @@ from datetime import datetime, timedelta
 current_date = datetime.now()
 past_date = current_date - timedelta(days=30)
 
-# 날짜 슬라이더 형식 변환 함수
-def format_date(date):
-    return date.strftime("%Y-%m-%d")
+# 날짜 -> 숫자 변환
+def date_to_int(date):
+    return (date - past_date).days
+
+# 숫자 -> 날짜 변환
+def int_to_date(num):
+    return past_date + timedelta(days=num)
 
 # 슬라이더 초기 값 및 키 값 설정
 key = 1
 slider_place_holder = st.empty()
 
-# 슬라이더 생성 (날짜 정보를 사용)
+# 슬라이더 생성 (날짜 범위를 숫자로 변환하여 사용)
+initial_slider_value = date_to_int(current_date)
 my_slider = slider_place_holder.slider(
     "날짜 선택",
-    min_value=past_date,
-    max_value=current_date,
-    value=current_date,  # 기본값은 현재 날짜
-    format="YYYY-MM-DD",
+    min_value=0,
+    max_value=date_to_int(current_date),
+    value=initial_slider_value,  # 기본값은 현재 날짜
     key=key
 )
 
@@ -74,10 +78,9 @@ def reset_all_sliders(reset_iteration):
     # 새 슬라이더를 다른 키로 다시 그리기 (이로 인해 슬라이더 값이 초기화됨)
     return slider_place_holder.slider(
         "날짜 선택",
-        min_value=past_date,
-        max_value=current_date,
-        value=current_date,  # 기본값을 현재 날짜로 리셋
-        format="YYYY-MM-DD",
+        min_value=0,
+        max_value=date_to_int(current_date),
+        value=date_to_int(current_date),  # 기본값을 현재 날짜로 리셋
         key=(key + reset_iteration)
     )
 
@@ -90,8 +93,11 @@ if st.button('Reset to Default'):
     st.write(f"슬라이더가 {reset_iteration}번째 리셋되었습니다.")
     my_slider = reset_all_sliders(reset_iteration)  # 슬라이더 리셋
 
+# 선택된 숫자를 날짜로 변환
+selected_date = int_to_date(my_slider)
+
 # 선택된 날짜 출력
-st.write(f"선택된 날짜: {format_date(my_slider)}")
+st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
 
 # -------------------------------------------------------------
 
