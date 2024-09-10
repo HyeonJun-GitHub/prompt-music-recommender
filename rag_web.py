@@ -196,10 +196,11 @@ def display_sample_results(data_info):
         button_key = str(uuid.uuid4())
 
         # 상세정보와 Play 버튼을 같은 줄에 배치
-        col1 = st.columns([5, 1])
-        # with col1:
-            # st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        col1, col2 = st.columns([5, 1])
         with col1:
+            st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        
+        with col2:
             # 이미지 아이콘을 추가한 재생 버튼 생성 (크기를 줄임)
             play_button_html = f"""
             <div style='text-align: center;'>
