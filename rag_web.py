@@ -111,9 +111,10 @@ def display_sample_results(data_info):
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
 
-sidebar_expander = st.sidebar.beta_expander("Slim sliders underneath!")
+# 잘못된 부분 수정
+sidebar_expander = st.sidebar.expander("Slim sliders underneath!")
 with sidebar_expander:
-   _, slider_col, _ = st.beta_columns([0.02, 0.96, 0.02])
+   _, slider_col, _ = st.columns([0.02, 0.96, 0.02])  # st.beta_columns -> st.columns로 변경
    with slider_col:
         st.slider("Slimmer slider", 0, 100, value=0)
         st.slider("Slimmer slider2", 0, 100, value=(0,100))
