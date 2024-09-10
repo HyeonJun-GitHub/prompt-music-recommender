@@ -81,7 +81,7 @@ key = 1
 slider_place_holder = st.empty()
 
 # 슬라이더 생성
-initial_slider_value = 0  # 기본값을 현재 날짜로 설정
+initial_slider_value = -30  # 기본값을 현재 날짜로 설정
 my_slider = slider_place_holder.slider(
     "",
     min_value=-day_number,
