@@ -179,19 +179,6 @@ def display_sample_results(data_info):
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
-    custom_css = """
-    <style>
-    textarea {
-        border: 2px solid rgb(213, 194, 194);
-        outline-color: #FE6B8B;
-        padding: 10px;
-    }
-    </style>
-    """
-
-    # Apply the custom CSS
-    st.markdown(custom_css, unsafe_allow_html=True)
-
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
     search_button_clicked = st.button("프롬프트 검색")
     if search_button_clicked:
