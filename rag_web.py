@@ -171,7 +171,7 @@ def info(res_json):
 
 def display_sample_results(data_info): 
     datas = data_info['songs']
-    for song in datas[:5]:  # 리스트 5개만 출력
+    for idx, song in enumerate(datas[:5]):  # 리스트 5개만 출력
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
@@ -182,13 +182,13 @@ def display_sample_results(data_info):
             st.write(f"{song_name} - {artist_name}")
         
         with col2:
-            if st.button(f"재생", key=f"play_{song_id}"):
+            if st.button(f"재생", key=f"play_{song_id}_{idx}"):  # 고유한 키 생성
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
         
         with col3:
-            if st.button(f"상세정보", key=f"info_{song_id}"):
+            if st.button(f"상세정보", key=f"info_{song_id}_{idx}"):  # 고유한 키 생성
                 open_song_detail(song_id)
 
 def open_song_detail(song_id):
