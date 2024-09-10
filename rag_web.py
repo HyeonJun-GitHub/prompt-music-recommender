@@ -62,6 +62,7 @@ slider_place_holder = st.empty()
 # 슬라이더 생성 (min_value=-30, max_value=0으로 설정)
 initial_slider_value = 0  # 기본값을 현재 날짜로 설정
 my_slider = slider_place_holder.slider(
+    "",
     min_value=-day_number,  # 슬라이더의 최소값은 -30 (과거 30일)
     max_value=0,  # 슬라이더의 최대값은 0 (오늘)
     value=initial_slider_value,  # 기본값을 오늘로 설정
