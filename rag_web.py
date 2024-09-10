@@ -6,8 +6,10 @@ from datetime import datetime, timedelta
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
     st.session_state.playing_song_id = None
-if 'search_results' not in st.session_state:
-    st.session_state.search_results = None
+if 'playing_song_name' not in st.session_state:
+    st.session_state.playing_song_name = None
+if 'playing_artist_name' not in st.session_state:
+    st.session_state.playing_artist_name = None
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -29,6 +31,23 @@ page_bg_img = '''
 </style>
 '''
 
+# 플로팅 재생바를 위한 CSS
+floating_player_style = '''
+<style>
+.floating-player {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  z-index: 9999;
+}
+</style>
+'''
+
 input_box_style = '''
 <style>
 textarea, input {
@@ -41,6 +60,7 @@ textarea, input {
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(input_box_style, unsafe_allow_html=True)
+st.markdown(floating_player_style, unsafe_allow_html=True)
 
 # -------------------------------------------------------------
 
@@ -93,7 +113,6 @@ def search_by_artist_id(artist_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    st.session_state.search_results = data_info
     display_sample_results(data_info)
 
 def search_by_song_id(song_ids_prompt):
@@ -112,7 +131,6 @@ def search_by_song_id(song_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    st.session_state.search_results = data_info
     display_sample_results(data_info)
 
 def search(prompt):
@@ -131,7 +149,6 @@ def search(prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    st.session_state.search_results = data_info
     display_sample_results(data_info)
 
 def info(res_json):
@@ -144,28 +161,26 @@ def info(res_json):
     return res.json()
 
 def display_sample_results(data_info): 
-    if data_info:
-        datas = data_info['songs']
-        for song in datas[:5]:  # 리스트 5개만 출력
-            song_id = song['song_id']
-            
-            # 상세정보와 Play 버튼을 같은 줄에 배치
-            col1, col2 = st.columns([5, 1])
-            with col1:
-                st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
-            with col2:
-                if st.button(f"재생", key=f"play_{song_id}"):
-                    st.session_state.playing_song_id = song_id
-            
-            # 재생 중인 곡만 오디오 출력
-            if st.session_state.playing_song_id == song_id:
-                url = get_downloadurl(song_id)
-                st.audio(url, format='audio/mp3')
-
+    datas = data_info['songs']
+    for song in datas[:5]:  # 리스트 5개만 출력
+        song_id = song['song_id']
+        song_name = song['song_name']
+        artist_name = song['artist_name']
+        
+        # 상세정보와 Play 버튼을 같은 줄에 배치
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        with col2:
+            if st.button(f"재생", key=f"play_{song_id}"):
+                st.session_state.playing_song_id = song_id
+                st.session_state.playing_song_name = song_name
+                st.session_state.playing_artist_name = artist_name
+        
 def get_downloadurl(song_id):
     headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
     downloadUrl = f'https://stage-apis.genie.co.kr'
-    res = requests.post(downloadUrl,headers=headers)
+    res = requests.post(downloadUrl, headers=headers)
     return res.content
 
 # -------------------------------------------------------------
@@ -214,6 +229,15 @@ with col6:
 if artist_search_button_clicked:
     search_by_artist_id(artist_ids_prompt)
 
-# 검색 결과 리스트 유지
-if st.session_state.search_results:
-    display_sample_results(st.session_state.search_results)
+# 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
+if st.session_state.playing_song_id:
+    st.markdown(f'''
+    <div class="floating-player">
+        🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
+        <br>
+        <audio controls autoplay>
+            <source src="{get_downloadurl(st.session_state.playing_song_id)}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    ''', unsafe_allow_html=True)
