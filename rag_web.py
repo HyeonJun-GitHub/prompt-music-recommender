@@ -4,11 +4,14 @@ import requests
 from datetime import datetime, timedelta
 import os
 import base64
+from PIL import Image
 
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
+
+background_img = Image.open(background_img_path)
 
 # Base64로 로컬 이미지 인코딩
 with open(box_img_path, "rb") as img_file:
@@ -181,6 +184,7 @@ def display_sample_results(data_info):
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
+    st.image(background_img, use_column_width=True)
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
     search_button_clicked = st.button("프롬프트 검색")
     if search_button_clicked:
@@ -188,6 +192,7 @@ with st.expander("프롬프트 입력", expanded=True):
 
 # 곡 ID 검색 (st.expander 사용)
 with st.expander("유사 곡 검색"):
+    st.image(background_img, use_column_width=True)
     song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     song_search_button_clicked = st.button("곡 검색")
     if song_search_button_clicked:
@@ -195,6 +200,7 @@ with st.expander("유사 곡 검색"):
 
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
+    st.image(background_img, use_column_width=True)
     artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
     artist_search_button_clicked = st.button("아티스트 검색")
     if artist_search_button_clicked:
