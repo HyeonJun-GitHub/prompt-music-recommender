@@ -168,15 +168,26 @@ def display_sample_results(data_info):
         artist_name = song['artist_name']
         
         # 상세정보와 Play 버튼을 같은 줄에 배치
-        col1, col2 = st.columns([5, 1])
+        col1, col2, col3 = st.columns([4, 1, 1])
         with col1:
-            st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+            st.write(f"{song_name} - {artist_name}")
+        
         with col2:
             if st.button(f"재생", key=f"play_{song_id}"):
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
         
+        with col3:
+            if st.button(f"상세정보", key=f"info_{song_id}"):
+                open_song_detail(song_id)
+        
+
+def open_song_detail(song_id):
+    # 상세정보 페이지로 이동하는 함수를 정의
+    detail_url = f"https://genie.co.kr/detail/songInfo?xgnm={song_id}"
+    st.write(f"[상세정보 보기]({detail_url})", unsafe_allow_html=True)
+
 def get_downloadurl(song_id):
     headers = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"}
     downloadUrl = f'https://stage-apis.genie.co.kr'
