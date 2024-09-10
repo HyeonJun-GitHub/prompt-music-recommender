@@ -189,6 +189,27 @@ expander_background_css = f"""
 </style>
 """
 
+# Custom CSS 
+st.markdown(
+    '''
+    <style>
+    .streamlit-expanderHeader {
+        background-color: white;
+        color: black; # Adjust this for expander header color
+    }
+    .streamlit-expanderContent {
+        background-color: white;
+        color: black; # Expander content color
+    }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
+
+with st.expander("Expand"):
+    st.write("Content inside the expander")
+
+
 # CSS 적용
 st.markdown(expander_background_css, unsafe_allow_html=True)
 # Prompt 입력과 버튼 (st.expander 사용)
