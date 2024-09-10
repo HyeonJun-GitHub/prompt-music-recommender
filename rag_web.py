@@ -58,13 +58,14 @@ view_style = f'''
 <style>
 .view-container {{
   background-image: url("data:image/png;base64,{box_img_base64}");
-  background-size: 100% 100%;  /* 배경 크기를 전체 영역으로 확장 */
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 50px;  /* 영역을 넓히기 위해 패딩을 증가 */
+  padding: 20px;
   border-radius: 10px;
-  width: 100%;  /* 컨테이너가 화면 너비를 채우도록 설정 */
-  margin-bottom: 20px;  /* 다른 요소와의 간격 추가 */
+  width: 100%;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }}
 </style>
 '''
