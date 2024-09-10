@@ -117,7 +117,7 @@ def display_sample_results(data_info, section_type):
         
         # 섹션별로 키에 접두사 추가하여 중복 방지
         with col2:
-            if st.button(f"재생", key=f"{section_type}_play_{song_id}_{song_name}_{idx}"):  # 고유한 키 생성
+            if st.button(f"{section_type}_play_{song_id}_{song_name}_{idx}", key=f"{section_type}_play_{song_id}_{song_name}_{idx}"):  # 고유한 키 생성
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
