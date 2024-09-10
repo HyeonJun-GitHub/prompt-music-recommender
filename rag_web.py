@@ -205,7 +205,7 @@ def get_downloadurl(song_id):
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
     datas = data_info['songs']
-    for song in datas[:5]:  # 리스트 5개만 출력
+    for song in datas[:10]:  # 리스트 5개만 출력
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
