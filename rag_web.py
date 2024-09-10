@@ -209,14 +209,7 @@ def display_sample_results(data_info):
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
-        st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
-        # # UUID를 이용해 고유한 버튼 키 생성
-        # button_key = str(uuid.uuid4())
-
-        # # 상세정보와 Play 버튼을 같은 줄에 배치
-        # col1, col2 = st.columns([5, 1])
-        # with col1:
-            
+        st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # -------------------------------------------------------------
 
