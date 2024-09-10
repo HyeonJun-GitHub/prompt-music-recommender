@@ -108,9 +108,6 @@ def display_sample_results(data_info):
         st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
         # st.markdown(f"**{song['song_id']} : {song['artist_name']} - {song['song_name']} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
-# 레이아웃 시작
-st.title("AI 큐레이션 TF")
-
 import streamlit as st
 from datetime import datetime, timedelta
 
@@ -124,14 +121,17 @@ past_date = current_date - timedelta(days=30)
 def format_date(date):
     return date.strftime("%Y%m%d")
 
-# 슬라이더 값 설정
+# 슬라이더 값 설정 (초기값을 None으로 설정하여 기본값이 자동으로 설정되지 않도록)
 selected_date = st.slider(
     "날짜 선택",
     min_value=past_date,
     max_value=current_date,
-    value=current_date,  # 기본값은 현재 날짜
+    value=st.session_state.get('selected_date', current_date),  # 사용자가 선택한 날짜를 저장
     format="YYYY-MM-DD"
 )
+
+# 선택된 날짜를 session_state에 저장하여 계속 유지
+st.session_state['selected_date'] = selected_date
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {format_date(selected_date)}")
