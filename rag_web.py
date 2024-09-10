@@ -36,93 +36,6 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(input_box_style, unsafe_allow_html=True)
 
-# 임시 데이터 (나중에 API를 통해 대체 가능)
-sample_songs = [
-    {"id": 1, "artist": "Artist A", "title": "Song A", "score": 90},
-    {"id": 2, "artist": "Artist B", "title": "Song B", "score": 85},
-    {"id": 3, "artist": "Artist C", "title": "Song C", "score": 80},
-    {"id": 4, "artist": "Artist D", "title": "Song D", "score": 75},
-    {"id": 5, "artist": "Artist E", "title": "Song E", "score": 88},
-]
-
-# 검색 함수들
-def search_by_artist_id():
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
-    param = {
-        "artist_id":artist_ids_prompt,
-        "album_release_country":"KOREA",
-        "limit":200,
-        "voice_yn":"Y",
-        "sort":"SCORE",
-        "cnt":50
-    }
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
-    json_data = res.json()
-    data_info = info(json_data)
-    display_sample_results(data_info)
-
-def search_by_song_id():
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
-    param = {
-        "song_id":song_ids_prompt,
-        "album_release_country":"KOREA",
-        "limit":200,
-        "voice_yn":"Y",
-        "sort":"SCORE",
-        "cnt":50
-    }
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
-    json_data = res.json()
-    data_info = info(json_data)
-    display_sample_results(data_info)
-
-def search():
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
-    param = {
-        "prompt":prompt,
-        "album_release_country":"KOREA",
-        "limit":200,
-        "voice_yn":"Y",
-        "sort":"POPULAR",
-        "cnt":50
-    }
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
-    json_data = res.json()
-    data_info = info(json_data)
-    display_sample_results(data_info)
-
-def info(res_json):
-    info = res_json["songs"]
-    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
-    song_ids = ",".join([str(item["song_id"]) for item in info])
-    param = {"song_id":song_ids}
-    param_json = json.dumps(param)
-    res = requests.post(url, data=param_json, headers={'Content-Type':'application/json'})
-    return res.json()
-
-def display_sample_results(data_info): 
-    datas = data_info['songs']
-    for song in datas[:5]:  # 리스트 5개만 출력
-        st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
-        # st.markdown(f"**{song['song_id']} : {song['artist_name']} - {song['song_name']} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
-
-# 레이아웃 시작
-st.title("AI 큐레이션 TF")
-
-# -------------------------------------------------------------
-
-import streamlit as st
-from datetime import datetime, timedelta
-
-# 현재 날짜
-current_date = datetime.now()
-
-# 과거 날짜 (예: 30일 전)
-past_date = current_date - timedelta(days=30)
-
 # 슬라이더에 사용할 형식 (yyyymmdd)
 def format_date(date):
     return date.strftime("%Y%m%d")
@@ -142,11 +55,16 @@ def date_slider(min_date, max_date):
         format="YYYY-MM-DD"
     )
 
-    # 선택된 값이 다르면 session_state를 업데이트
+    # 선택된 날짜가 변경되면 session_state를 업데이트
     if selected_date != st.session_state['selected_date']:
         st.session_state['selected_date'] = selected_date
 
     return selected_date
+
+# 현재 날짜
+current_date = datetime.now()
+# 과거 날짜 (예: 30일 전)
+past_date = current_date - timedelta(days=30)
 
 # 함수 호출
 selected_date = date_slider(past_date, current_date)
@@ -155,37 +73,79 @@ selected_date = date_slider(past_date, current_date)
 st.write(f"선택된 날짜: {format_date(selected_date)}")
 
 # -------------------------------------------------------------
+# 임시 데이터 (나중에 API를 통해 대체 가능)
+sample_songs = [
+    {"id": 1, "artist": "Artist A", "title": "Song A", "score": 90},
+    {"id": 2, "artist": "Artist B", "title": "Song B", "score": 85},
+    {"id": 3, "artist": "Artist C", "title": "Song C", "score": 80},
+    {"id": 4, "artist": "Artist D", "title": "Song D", "score": 75},
+    {"id": 5, "artist": "Artist E", "title": "Song E", "score": 88},
+]
 
-# # 현재 날짜
-# current_date = datetime.now()
+# 검색 함수들
+def search_by_artist_id(artist_ids_prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "artist_id": artist_ids_prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "SCORE",
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
 
-# # 과거 날짜 (예: 30일 전)
-# past_date = current_date - timedelta(days=30)
+def search_by_song_id(song_ids_prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "song_id": song_ids_prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "SCORE",
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
 
-# # 슬라이더에 사용할 형식 (yyyymmdd)
-# def format_date(date):
-#     return date.strftime("%Y%m%d")
+def search(prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
+    param = {
+        "prompt": prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "POPULAR",
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
 
-# # 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
-# if 'selected_date' not in st.session_state:
-#     st.session_state['selected_date'] = current_date
+def info(res_json):
+    info = res_json["songs"]
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
+    song_ids = ",".join([str(item["song_id"]) for item in info])
+    param = {"song_id": song_ids}
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    return res.json()
 
-# # 슬라이더 값 설정
-# selected_date = st.slider(
-#     "날짜 선택",
-#     min_value=past_date,
-#     max_value=current_date,
-#     value=st.session_state['selected_date'],  # session_state에서 값 불러오기
-#     format="YYYY-MM-DD"
-# )
-# 
-# 슬라이더 값이 바뀔 때 session_state에 저장
-# st.session_state['selected_date'] = selected_date
+def display_sample_results(data_info): 
+    datas = data_info['songs']
+    for song in datas[:5]:  # 리스트 5개만 출력
+        st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
-# 선택된 날짜 출력
-# st.write(f"선택된 날짜: {format_date(selected_date)}")
-
-
+# -------------------------------------------------------------
 
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
@@ -199,7 +159,7 @@ with col2:
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
-    search()
+    search(prompt)
 
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
@@ -214,7 +174,7 @@ with col4:
 
 # Song ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if song_search_button_clicked:
-    search_by_song_id()
+    search_by_song_id(song_ids_prompt)
 
 # Artist ID 입력과 버튼
 st.subheader("유사 아티스트 검색")
@@ -229,4 +189,4 @@ with col6:
 
 # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if artist_search_button_clicked:
-    search_by_artist_id()
+    search_by_artist_id(artist_ids_prompt)
