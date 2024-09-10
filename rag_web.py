@@ -10,6 +10,12 @@ if 'playing_song_name' not in st.session_state:
     st.session_state.playing_song_name = None
 if 'playing_artist_name' not in st.session_state:
     st.session_state.playing_artist_name = None
+if 'search_results' not in st.session_state:
+    st.session_state.search_results = None
+if 'artist_search_results' not in st.session_state:
+    st.session_state.artist_search_results = None
+if 'song_search_results' not in st.session_state:
+    st.session_state.song_search_results = None
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -113,6 +119,7 @@ def search_by_artist_id(artist_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
+    st.session_state.artist_search_results = data_info  # 검색 결과를 상태에 저장
     display_sample_results(data_info)
 
 def search_by_song_id(song_ids_prompt):
@@ -131,6 +138,7 @@ def search_by_song_id(song_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
+    st.session_state.song_search_results = data_info  # 검색 결과를 상태에 저장
     display_sample_results(data_info)
 
 def search(prompt):
@@ -149,6 +157,7 @@ def search(prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
+    st.session_state.search_results = data_info  # 검색 결과를 상태에 저장
     display_sample_results(data_info)
 
 def info(res_json):
@@ -181,7 +190,6 @@ def display_sample_results(data_info):
         with col3:
             if st.button(f"상세정보", key=f"info_{song_id}"):
                 open_song_detail(song_id)
-        
 
 def open_song_detail(song_id):
     # 상세정보 페이지로 이동하는 함수를 정의
@@ -210,6 +218,10 @@ with col2:
 if search_button_clicked:
     search(prompt)
 
+# 이전 검색 결과 유지
+if st.session_state.search_results:
+    display_sample_results(st.session_state.search_results)
+
 # Song ID 입력과 버튼
 st.subheader("유사 곡 검색")
 col3, col4 = st.columns([3, 1])
@@ -225,6 +237,10 @@ with col4:
 if song_search_button_clicked:
     search_by_song_id(song_ids_prompt)
 
+# 이전 곡 검색 결과 유지
+if st.session_state.song_search_results:
+    display_sample_results(st.session_state.song_search_results)
+
 # Artist ID 입력과 버튼
 st.subheader("유사 아티스트 검색")
 col5, col6 = st.columns([3, 1])
@@ -239,6 +255,10 @@ with col6:
 # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if artist_search_button_clicked:
     search_by_artist_id(artist_ids_prompt)
+
+# 이전 아티스트 검색 결과 유지
+if st.session_state.artist_search_results:
+    display_sample_results(st.session_state.artist_search_results)
 
 # 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
 if st.session_state.playing_song_id:
