@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import requests
 from datetime import datetime, timedelta
+import uuid
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
@@ -171,13 +172,17 @@ def display_sample_results(data_info):
         col1, col2 = st.columns([5, 1])
         with col1:
             st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        # UUID를 사용하여 고유한 키 생성
+        unique_id_play = uuid.uuid4()
+        unique_id_info = uuid.uuid4()
+        
+        # 섹션별로 키에 UUID 추가하여 중복 방지
         with col2:
-            if st.button(f"재생", key=f"play_{song_id}"):
+            if st.button(f"재생", key=f"{unique_id_play}"):
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
-        
-
+                
 def open_song_detail(song_id):
     # 상세정보 페이지로 이동하는 함수를 정의
     detail_url = f"https://genie.co.kr/detail/songInfo?xgnm={song_id}"
