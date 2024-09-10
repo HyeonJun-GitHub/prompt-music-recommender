@@ -62,19 +62,11 @@ slider_place_holder = st.empty()
 # 슬라이더 생성 (min_value=-30, max_value=0으로 설정)
 initial_slider_value = 0  # 기본값을 현재 날짜로 설정
 my_slider = slider_place_holder.slider(
-    "날짜 선택",
     min_value=-day_number,  # 슬라이더의 최소값은 -30 (과거 30일)
     max_value=0,  # 슬라이더의 최대값은 0 (오늘)
     value=initial_slider_value,  # 기본값을 오늘로 설정
     key=key
 )
-
-# 슬라이더 아래에 '과거'와 '현재' 레이블 추가
-col1, col2 = st.columns([1, 1])
-with col1:
-    st.markdown("과거")
-with col2:
-    st.markdown("<div style='text-align: right'>현재</div>", unsafe_allow_html=True)
 
 # 슬라이더 리셋 함수
 def reset_all_sliders(reset_iteration):
@@ -87,20 +79,11 @@ def reset_all_sliders(reset_iteration):
         key=(key + reset_iteration)
     )
 
-# 리셋 횟수 추적
-reset_iteration = 1
-
-# 슬라이더 값 변경 및 리셋 처리
-if st.button('Reset to Default'):
-    reset_iteration += 1
-    st.write(f"슬라이더가 {reset_iteration}번째 리셋되었습니다.")
-    my_slider = reset_all_sliders(reset_iteration)  # 슬라이더 리셋
-
 # 선택된 값을 날짜로 변환 (-30일 ~ 0일을 실제 날짜로 변환)
 selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
-st.write(f"선택된 날짜: {selected_date.strftime('%Y%m%d')}")
+st.write(f"{current_date.strftime('%Y%m%d')} ~ {selected_date.strftime('%Y%m%d')}")
 
 # -------------------------------------------------------------
 
