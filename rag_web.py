@@ -9,11 +9,20 @@ import base64
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
+background_img_path = os.path.join(os.getcwd(), "background.jpg")
+
+# Base64로 로컬 이미지 인코딩
+with open(box_img_path, "rb") as img_file:
+    box_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # Base64로 로컬 이미지 인코딩
 with open(play_btn_img_path, "rb") as img_file:
     play_btn_img_base64 = base64.b64encode(img_file.read()).decode()
 
+# Base64로 로컬 이미지 인코딩 (배경 이미지)
+with open(background_img_path, "rb") as img_file:
+    background_img_base64 = base64.b64encode(img_file.read()).decode()
+    
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
     st.session_state.playing_song_id = None
@@ -32,13 +41,6 @@ hide_streamlit_style = """
     header {visibility: hidden;}
     </style>
     """
-
-# 로컬 배경 이미지 경로 설정
-background_img_path = os.path.join(os.getcwd(), "background.jpg")
-
-# Base64로 로컬 이미지 인코딩 (배경 이미지)
-with open(background_img_path, "rb") as img_file:
-    background_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # 배경 이미지 적용 CSS
 page_bg_img = f'''
