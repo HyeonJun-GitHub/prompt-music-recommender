@@ -123,6 +123,6 @@ display_sample_results()
 # Streamlit의 st.audio를 사용한 오디오 재생
 if st.session_state.playing_song_url:
     mp3_url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-    st.audio(mp3_url, format="audio/mp3", start_time=0)
+    st.audio(st.session_state.playing_song_url, format="audio/mp3", start_time=0)
 else:
     st.write("재생할 곡을 선택하세요.")
