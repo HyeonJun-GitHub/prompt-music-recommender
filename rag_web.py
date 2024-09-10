@@ -47,8 +47,9 @@ import streamlit as st
 from datetime import datetime, timedelta
 
 # 현재 날짜와 과거 날짜 설정
+day_number = 365
 current_date = datetime.now()  # 최대값 (오늘)
-past_date = current_date - timedelta(days=30)  # 최소값 (30일 전)
+past_date = current_date - timedelta(days=day_number)  # 최소값 (30일 전)
 
 # 숫자 -> 날짜 변환 함수
 def int_to_date(days_from_today):
@@ -62,7 +63,7 @@ slider_place_holder = st.empty()
 initial_slider_value = 0  # 기본값을 현재 날짜로 설정
 my_slider = slider_place_holder.slider(
     "날짜 선택",
-    min_value=-30,  # 슬라이더의 최소값은 -30 (과거 30일)
+    min_value=-day_number,  # 슬라이더의 최소값은 -30 (과거 30일)
     max_value=0,  # 슬라이더의 최대값은 0 (오늘)
     value=initial_slider_value,  # 기본값을 오늘로 설정
     key=key
@@ -80,8 +81,7 @@ def reset_all_sliders(reset_iteration):
     slider_place_holder.empty()  # 기존 슬라이더 지우기
     # 새 슬라이더를 다른 키로 다시 그리기 (이로 인해 슬라이더 값이 초기화됨)
     return slider_place_holder.slider(
-        "날짜 선택",
-        min_value=-30,  # 최소값을 -30 (과거 30일 전)
+        min_value=-day_number,  # 최소값을 -30 (과거 30일 전)
         max_value=0,  # 최대값을 0 (오늘)
         value=0,  # 기본값을 오늘로 리셋
         key=(key + reset_iteration)
