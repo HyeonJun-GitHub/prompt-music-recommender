@@ -44,36 +44,31 @@ st.title("AI 큐레이션 TF")
 # -------------------------------------------------------------
 
 import streamlit as st
-from datetime import datetime, timedelta
 
-# 현재 날짜
-current_date = datetime.now()
+# 슬라이더 초기 값 및 키 값 설정
+key = 1
+slider_place_holder = st.empty()
 
-# 과거 날짜 (예: 30일 전)
-past_date = current_date - timedelta(days=30)
+# 슬라이더 생성
+my_slider = slider_place_holder.slider("Weight", 0, 100, 70, key=key)
 
-# 슬라이더에 사용할 형식 (yyyymmdd)
-def format_date(date):
-    return date.strftime("%Y%m%d")
+# 슬라이더 리셋 함수
+def reset_all_sliders(reset_iteration):
+    slider_place_holder.empty()  # 기존 슬라이더 지우기
+    # 새 슬라이더를 다른 키로 다시 그리기 (이로 인해 슬라이더 값이 초기화됨)
+    return slider_place_holder.slider("Weight", 0, 100, 70, key=(key + reset_iteration))
 
-# 슬라이더의 선택된 날짜를 session_state에서 관리
-if 'selected_date' not in st.session_state:
-    st.session_state['selected_date'] = current_date  # 처음엔 현재 날짜로 초기화
+# 리셋 횟수 추적
+reset_iteration = 1
 
-# 슬라이더 값 고정
-selected_date = st.slider(
-    "날짜 선택",
-    min_value=past_date,
-    max_value=current_date,
-    value=st.session_state['selected_date'],  # session_state에 저장된 값으로 설정
-    format="YYYY-MM-DD"
-)
+# 슬라이더 값 변경 및 리셋 처리
+if st.button('Reset to Default'):
+    reset_iteration += 1
+    st.write(f"슬라이더가 {reset_iteration}번째 리셋되었습니다.")
+    my_slider = reset_all_sliders(reset_iteration)  # 슬라이더 리셋
 
-# 슬라이더를 움직여도 선택된 날짜를 고정
-st.session_state['selected_date'] = selected_date  # 값을 session_state에 다시 저장하여 고정
-
-# 선택된 날짜 출력
-st.write(f"선택된 날짜: {format_date(selected_date)}")
+# 슬라이더 값 출력
+st.write(f"현재 슬라이더 값: {my_slider}")
 
 # -------------------------------------------------------------
 
