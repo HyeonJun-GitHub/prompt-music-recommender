@@ -191,6 +191,9 @@ def display_sample_results(data_info):
         st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # -------------------------------------------------------------
+spacer_height = """
+<div style="height: 50px;"></div>
+"""
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
@@ -198,8 +201,7 @@ with st.expander("프롬프트 입력", expanded=True):
     with col1:
         prompt = st.text_area("무슨 노래가 듣고 싶어요?")
     with col2:
-        st.write("")  # 빈 줄 추가
-        st.write("")  # 빈 줄 추가
+        st.markdown(spacer_height, unsafe_allow_html=True)  # 50px 높이의 빈 공간 추가
         search_button_clicked = st.button("프롬프트 검색")
     
     if search_button_clicked:
@@ -211,7 +213,7 @@ with st.expander("유사 곡 검색"):
     with col1:
         song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     with col2:
-        st.write("")
+        st.markdown(spacer_height, unsafe_allow_html=True)  # 50px 높이의 빈 공간 추가
         song_search_button_clicked = st.button("곡 검색")
     
     if song_search_button_clicked:
