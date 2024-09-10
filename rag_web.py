@@ -22,7 +22,7 @@ with open(play_btn_img_path, "rb") as img_file:
 # Base64로 로컬 이미지 인코딩 (배경 이미지)
 with open(background_img_path, "rb") as img_file:
     background_img_base64 = base64.b64encode(img_file.read()).decode()
-
+    
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
     st.session_state.playing_song_id = None
@@ -53,20 +53,20 @@ page_bg_img = f'''
 </style>
 '''
 
-# 이미지가 적용된 텍스트 입력 박스 CSS
-input_box_style = f'''
+# 이미지가 적용된 전체 프롬프트 영역 CSS
+prompt_box_style = f'''
 <style>
-textarea {{
+.prompt-container {{
   background-image: url("data:image/png;base64,{box_img_base64}");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 10px;
-  color: black !important;
-  font-size: 16px !important;
+  padding: 20px;
+  border-radius: 10px;
 }}
 </style>
 '''
+
 
 # 플로팅 재생바를 위한 CSS
 floating_player_style = '''
@@ -85,10 +85,19 @@ floating_player_style = '''
 </style>
 '''
 
+input_box_style = '''
+<style>
+textarea, input {
+  background-color: white !important;
+  color: black !important;
+}
+</style>
+'''
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(input_box_style, unsafe_allow_html=True)
 st.markdown(floating_player_style, unsafe_allow_html=True)
 
 # -------------------------------------------------------------
@@ -245,7 +254,8 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
-st.markdown(input_box_style, unsafe_allow_html=True)
+st.markdown(prompt_box_style, unsafe_allow_html=True)
+st.markdown('<div class="prompt-container">', unsafe_allow_html=True)
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
