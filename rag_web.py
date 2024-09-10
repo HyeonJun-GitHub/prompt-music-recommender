@@ -259,3 +259,26 @@ def get_downloadurl(song_id):
 
 # 곡 재생 함수가 제대로 작동하는지 확인
 st.session_state.playing_song_url = get_downloadurl("test_song")
+
+# 플로팅 재생바를 위한 CSS 수정
+floating_player_style = '''
+<style>
+.floating-player {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  z-index: 9999;
+}
+audio {
+  width: 100%;
+}
+</style>
+'''
+
+# 플로팅 재생바 적용
+st.markdown(floating_player_style, unsafe_allow_html=True)
