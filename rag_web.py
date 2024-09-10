@@ -60,20 +60,19 @@ def format_date(date):
 def date_slider(min_date, max_date):
     # 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
     if 'selected_date' not in st.session_state:
-        st.session_state['selected_date'] = max_date
+        st.session_state['selected_date'] = max_date  # 기본값을 현재 날짜로 설정
 
-    # 슬라이더 값 설정 (value는 session_state에 저장된 값에 의존)
+    # 슬라이더 값 설정 (기본값을 session_state에 있는 값으로 설정)
     selected_date = st.slider(
         "날짜 선택",
         min_value=min_date,
         max_value=max_date,
-        value=st.session_state['selected_date'],  # 기본값을 session_state에서 불러옴
+        value=st.session_state['selected_date'],  # 현재 session_state에서 불러온 값
         format="YYYY-MM-DD"
     )
 
-    # 선택된 날짜가 변경되면 session_state를 업데이트
-    if selected_date != st.session_state['selected_date']:
-        st.session_state['selected_date'] = selected_date
+    # 슬라이더로 선택된 값이 변경되면 session_state를 업데이트
+    st.session_state['selected_date'] = selected_date
 
     return selected_date
 
