@@ -63,6 +63,9 @@ prompt_box_style = f'''
   background-repeat: no-repeat;
   padding: 20px;
   border-radius: 10px;
+  height: 300px;  /* 세로 높이를 300px로 고정 */
+  max-height: 500px;  /* 최대 높이 설정 (선택 사항) */
+  overflow: hidden;  /* 내용이 넘칠 경우 숨김 처리 */
 }}
 </style>
 '''
