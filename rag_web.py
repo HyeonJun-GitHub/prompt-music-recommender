@@ -8,7 +8,6 @@ from PIL import Image
 
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
-play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
 background_img = Image.open(background_img_path)
@@ -16,10 +15,6 @@ background_img = Image.open(background_img_path)
 # Base64로 로컬 이미지 인코딩
 with open(box_img_path, "rb") as img_file:
     box_img_base64 = base64.b64encode(img_file.read()).decode()
-
-# Base64로 로컬 이미지 인코딩
-with open(play_btn_img_path, "rb") as img_file:
-    play_btn_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # Base64로 로컬 이미지 인코딩 (배경 이미지)
 with open(background_img_path, "rb") as img_file:
@@ -48,10 +43,10 @@ hide_streamlit_style = """
 page_bg_img = f'''
 <style>
 .stApp {{
-  background-image: url("data:image/png;base64,{box_img_base64}"), url("data:image/jpg;base64,{background_img_base64}");
-  background-size: calc(100% - 40px) 500px, cover;
-  background-position: left 10px top 380px,center;
-  background-repeat: no-repeat, no-repeat;
+  background-image: url("data:image/jpg;base64,{background_img_base64}");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }}
 </style>
 '''
@@ -186,7 +181,7 @@ def display_sample_results(data_info):
 expander_background_css = f"""
 <style>
     .streamlit-expanderContent {{
-        background-image: url("data:image/png;base64,{background_img_base64}");
+        background-image: url("data:image/png;base64,{box_img_base64}");
         background-size: cover;
         background-position: center;
         padding: 20px;
