@@ -138,21 +138,3 @@ def display_sample_results():
 
 # 샘플 결과 표시
 display_sample_results()
-
-# 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
-if st.session_state.playing_song_id and st.session_state.playing_song_url:
-    st.write(f"현재 재생 중인 곡 ID: {st.session_state.playing_song_id}")
-    st.write(f"현재 재생 중인 곡 URL: {st.session_state.playing_song_url}")
-    
-    st.markdown(f'''
-    <div class="floating-player">
-        🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
-        <br>
-        <audio controls autoplay>
-            <source src="{st.session_state.playing_song_url}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
-    ''', unsafe_allow_html=True)
-else:
-    st.write("재생 가능한 곡이 없습니다.")
