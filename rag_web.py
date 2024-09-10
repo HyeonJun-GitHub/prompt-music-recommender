@@ -72,6 +72,13 @@ my_slider = slider_place_holder.slider(
     key=key
 )
 
+# 슬라이더 아래에 '과거'와 '현재' 레이블 추가
+col1, col2 = st.columns([1, 1])
+with col1:
+    st.markdown("과거")
+with col2:
+    st.markdown("<div style='text-align: right'>현재</div>", unsafe_allow_html=True)
+
 # 슬라이더 리셋 함수
 def reset_all_sliders(reset_iteration):
     slider_place_holder.empty()  # 기존 슬라이더 지우기
