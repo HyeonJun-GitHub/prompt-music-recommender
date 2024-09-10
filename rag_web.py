@@ -50,7 +50,7 @@ from datetime import datetime, timedelta
 current_date = datetime.now()
 
 # 과거 날짜 (예: 30일 전)
-past_date = current_date - timedelta(days=30)
+past_date = current_date - timedelta(days=90)
 
 # 슬라이더에 사용할 형식 (yyyymmdd)
 def format_date(date):
@@ -61,12 +61,12 @@ selected_date = st.slider(
     "날짜 선택",
     min_value=past_date,
     max_value=current_date,
-    value=current_date,  # 기본값은 현재 날짜
+    # value=current_date,  # 기본값은 현재 날짜
     format="YYYY-MM-DD"
 )
 
 # 선택된 날짜 출력
-# st.write(f"선택된 날짜: {format_date(selected_date)}")
+st.write(f"선택된 날짜: {format_date(selected_date)}")
 
 # -------------------------------------------------------------
 
