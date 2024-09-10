@@ -82,34 +82,6 @@ textarea, input {
 </style>
 '''
 
-# 오버레이 스타일 정의 (배경 이미지를 포함)
-overlay_style = f'''
-<style>
-.overlay-container {{
-  position: relative;
-  width: 100%;
-  height: auto;
-  background-image: url("data:image/png;base64,{box_img_base64}");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 50px;
-  border-radius: 10px;
-  display: block;
-}}
-
-.overlay-content {{
-  background: rgba(255, 255, 255, 0.8);  /* 반투명 배경 */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* 그림자 */
-  width: 100%;
-  max-width: 800px;  /* 최대 너비 */
-  margin: 0 auto;  /* 가운데 정렬 */
-}}
-</style>
-'''
-
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -272,16 +244,6 @@ def display_sample_results(data_info):
 # Prompt 입력과 버튼
 st.markdown(input_box_style, unsafe_allow_html=True)
 
-# CSS 스타일 적용
-st.markdown(overlay_style, unsafe_allow_html=True)
-
-# 오버레이 컨테이너 시작
-st.markdown('<div class="overlay-container">', unsafe_allow_html=True)
-
-# 오버레이 컨텐츠 (위젯 포함)
-st.markdown('<div class="overlay-content">', unsafe_allow_html=True)
-
-
 st.subheader("프롬프트")
 col1, col2 = st.columns([3, 1])
 with col1:
@@ -290,12 +252,6 @@ with col2:
     spacer = st.empty()  # 빈 공간 추가
     spacer.write("")
     search_button_clicked = st.button("프롬프트 검색")
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 오버레이 컨테이너 종료
-st.markdown('</div>', unsafe_allow_html=True)
-
 
 # Prompt 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if search_button_clicked:
