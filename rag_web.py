@@ -156,6 +156,24 @@ def info(res_json):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     return res.json()
 
+# 곡 다운로드 URL을 가져오는 함수
+def get_downloadurl(song_id):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
+    res = requests.post(download_url, headers=headers)
+    
+    # 디버깅용 로그 출력
+    st.write(f"API 호출 결과 상태 코드: {res.status_code}")
+    
+    if res.status_code == 200:
+        st.write(f"다운로드 URL: {download_url}")  # URL을 출력하여 확인
+        return download_url
+    else:
+        st.write("다운로드 URL을 가져오지 못했습니다.")  # 실패 시 출력
+        return None
+
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
     datas = data_info['songs']
@@ -176,12 +194,28 @@ def display_sample_results(data_info):
             # 이미지 아이콘을 추가한 재생 버튼 생성 (크기를 줄임)
             play_button_html = f"""
             <div style='text-align: center;'>
-                <button style="border:none;background-color:transparent;cursor:pointer;padding:5px;margin:0;">
+                <button style="border:none;background-color:transparent;cursor:pointer;padding:5px;margin:0;" 
+                onClick="window.location.href='?song_id={song_id}&song_name={song_name}&artist_name={artist_name}'">
                     <img src="data:image/webp;base64,{play_btn_img_base64}" width="30" height="30" />
                 </button>
             </div>
             """
             st.markdown(play_button_html, unsafe_allow_html=True)
+
+# 곡을 재생하는 함수
+def play_song():
+    song_id = st.experimental_get_query_params().get("song_id")
+    song_name = st.experimental_get_query_params().get("song_name")
+    artist_name = st.experimental_get_query_params().get("artist_name")
+
+    if song_id:
+        st.session_state.playing_song_id = song_id[0]
+        st.session_state.playing_song_name = song_name[0]
+        st.session_state.playing_artist_name = artist_name[0]
+        st.session_state.playing_song_url = get_downloadurl(song_id[0])
+
+# 호출된 재생 함수 실행
+play_song()
 
 # -------------------------------------------------------------
 
