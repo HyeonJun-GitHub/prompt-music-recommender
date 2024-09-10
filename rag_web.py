@@ -3,6 +3,8 @@ import json
 import requests
 from datetime import datetime, timedelta
 import uuid  # UUID를 생성하기 위한 모듈
+import os
+import base64
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
@@ -180,10 +182,13 @@ def display_sample_results(data_info):
             st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         with col2:
             # 이미지 아이콘을 추가한 재생 버튼 생성
+            play_btn_img_path = os.path.join(os.getcwd(), "playbtn_img.webp")
+
+            # 이미지 아이콘을 추가한 재생 버튼 생성
             play_button_html = f"""
             <div style='text-align: center;'>
                 <button style="border:none;background-color:transparent;cursor:pointer;" onClick="window.location.reload()">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Simpleicons_Interface_play-button-music.svg" width="20" height="20" />
+                    <img src="data:image/webp;base64,{base64.b64encode(open(play_btn_img_path, "rb").read()).decode()}" width="20" height="20" />
                 </button>
             </div>
             """
