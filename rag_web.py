@@ -209,33 +209,14 @@ def display_sample_results(data_info):
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
+        st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        # # UUID를 이용해 고유한 버튼 키 생성
+        # button_key = str(uuid.uuid4())
 
-        # UUID를 이용해 고유한 버튼 키 생성
-        button_key = str(uuid.uuid4())
-
-        # 상세정보와 Play 버튼을 같은 줄에 배치
-        col1, col2 = st.columns([5, 1])
-        with col1:
-            st.markdown(f"{song_name} - {artist_name}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
-        
-        with col2:
-            # 이미지 아이콘을 추가한 재생 버튼 생성 (크기를 줄임)
-            play_button_html = f"""
-            <div style='text-align: center;'>
-                <button style="border:none;background-color:transparent;cursor:pointer;padding:5px;margin:0;">
-                    <img src="data:image/webp;base64,{play_btn_img_base64}" width="30" height="30" />
-                </button>
-            </div>
-            """
-            st.markdown(play_button_html, unsafe_allow_html=True)
-
-            if st.button(f"재생", key=f"play_{button_key}"):
-                st.write(f"재생 버튼이 클릭되었습니다! Song ID: {song_id}")  # 디버깅용 로그
-                # st.session_state.playing_song_id = song_id
-                # st.session_state.playing_song_name = song_name
-                # st.session_state.playing_artist_name = artist_name
-                # st.session_state.playing_song_url = get_downloadurl(song_id)
-
+        # # 상세정보와 Play 버튼을 같은 줄에 배치
+        # col1, col2 = st.columns([5, 1])
+        # with col1:
+            
 
 # -------------------------------------------------------------
 
@@ -284,32 +265,3 @@ with col6:
 # Artist ID 검색 결과 표시 (버튼이 눌렸을 때만 결과 표시)
 if artist_search_button_clicked:
     search_by_artist_id(artist_ids_prompt)
-
-# 재생 중인 곡이 있을 때 하단에 고정된 재생바 출력
-if st.session_state.playing_song_id and st.session_state.playing_song_url:
-    st.markdown(f'''
-    <div class="floating-player">
-        🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
-        <br>
-        <audio controls autoplay>
-            <source src="{st.session_state.playing_song_url}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
-    ''', unsafe_allow_html=True)
-
-# 재생바를 보여주는 함수
-def show_playing_bar():
-    if st.session_state.playing_song_id and st.session_state.playing_song_url:
-        st.markdown(f'''
-        <div class="floating-player">
-            🎵 재생 중: {st.session_state.playing_song_name} - {st.session_state.playing_artist_name}
-            <br>
-            <audio controls autoplay>
-                <source src="{st.session_state.playing_song_url}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        ''', unsafe_allow_html=True)
-
-show_playing_bar()
