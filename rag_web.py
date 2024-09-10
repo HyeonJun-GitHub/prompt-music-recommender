@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import requests
+from datetime import datetime, timedelta
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -108,8 +109,11 @@ def display_sample_results(data_info):
         st.markdown(f"{song['song_name']} - {song['artist_name']}  [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
         # st.markdown(f"**{song['song_id']} : {song['artist_name']} - {song['song_name']} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song['song_id']})")
 
-import streamlit as st
-from datetime import datetime, timedelta
+# 레이아웃 시작
+st.title("AI 큐레이션 TF")
+
+
+
 
 # 현재 날짜
 current_date = datetime.now()
@@ -121,20 +125,26 @@ past_date = current_date - timedelta(days=30)
 def format_date(date):
     return date.strftime("%Y%m%d")
 
-# 슬라이더 값 설정 (초기값을 None으로 설정하여 기본값이 자동으로 설정되지 않도록)
+# 처음 실행될 때 session_state에 selected_date가 없으면 현재 날짜로 초기화
+if 'selected_date' not in st.session_state:
+    st.session_state['selected_date'] = current_date
+
+# 슬라이더 값 설정
 selected_date = st.slider(
     "날짜 선택",
     min_value=past_date,
     max_value=current_date,
-    value=st.session_state.get('selected_date', current_date),  # 사용자가 선택한 날짜를 저장
+    value=st.session_state['selected_date'],  # session_state에서 값 불러오기
     format="YYYY-MM-DD"
 )
 
-# 선택된 날짜를 session_state에 저장하여 계속 유지
+# 슬라이더 값이 바뀔 때 session_state에 저장
 st.session_state['selected_date'] = selected_date
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {format_date(selected_date)}")
+
+
 
 # Prompt 입력과 버튼
 st.subheader("프롬프트")
