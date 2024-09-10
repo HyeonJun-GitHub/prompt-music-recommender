@@ -47,28 +47,24 @@ import streamlit as st
 from datetime import datetime, timedelta
 
 # 현재 날짜와 과거 날짜 설정
-current_date = datetime.now()  # 최대값 (현재 날짜)
+current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=30)  # 최소값 (30일 전)
 
-# 날짜 -> 숫자 변환
-def date_to_int(date):
-    return (date - past_date).days
-
-# 숫자 -> 날짜 변환
-def int_to_date(num):
-    return past_date + timedelta(days=num)
+# 숫자 -> 날짜 변환 함수
+def int_to_date(days_from_today):
+    return current_date + timedelta(days=days_from_today)
 
 # 슬라이더 초기 값 및 키 값 설정
 key = 1
 slider_place_holder = st.empty()
 
-# 슬라이더 생성 (날짜 범위를 숫자로 변환하여 사용)
-initial_slider_value = date_to_int(current_date)  # 기본값은 현재 날짜
+# 슬라이더 생성 (min_value=-30, max_value=0으로 설정)
+initial_slider_value = 0  # 기본값을 현재 날짜로 설정
 my_slider = slider_place_holder.slider(
     "날짜 선택",
-    min_value=date_to_int(past_date),  # 최소값을 날짜에서 숫자로 변환 (과거 날짜)
-    max_value=date_to_int(current_date),  # 최대값을 날짜에서 숫자로 변환 (현재 날짜)
-    value=initial_slider_value,  # 기본값을 현재 날짜로 설정
+    min_value=-30,  # 슬라이더의 최소값은 -30 (과거 30일)
+    max_value=0,  # 슬라이더의 최대값은 0 (오늘)
+    value=initial_slider_value,  # 기본값을 오늘로 설정
     key=key
 )
 
@@ -85,9 +81,9 @@ def reset_all_sliders(reset_iteration):
     # 새 슬라이더를 다른 키로 다시 그리기 (이로 인해 슬라이더 값이 초기화됨)
     return slider_place_holder.slider(
         "날짜 선택",
-        min_value=date_to_int(past_date),  # 최소값을 과거 날짜로 설정
-        max_value=date_to_int(current_date),  # 최대값을 현재 날짜로 설정
-        value=date_to_int(current_date),  # 기본값을 현재 날짜로 리셋
+        min_value=-30,  # 최소값을 -30 (과거 30일 전)
+        max_value=0,  # 최대값을 0 (오늘)
+        value=0,  # 기본값을 오늘로 리셋
         key=(key + reset_iteration)
     )
 
@@ -100,7 +96,7 @@ if st.button('Reset to Default'):
     st.write(f"슬라이더가 {reset_iteration}번째 리셋되었습니다.")
     my_slider = reset_all_sliders(reset_iteration)  # 슬라이더 리셋
 
-# 선택된 숫자를 날짜로 변환
+# 선택된 값을 날짜로 변환 (-30일 ~ 0일을 실제 날짜로 변환)
 selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
