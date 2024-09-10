@@ -1,12 +1,19 @@
 import streamlit as st
 import json
+import requests
 from datetime import datetime, timedelta
+import os
+import base64
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
     st.session_state.playing_song_id = None
 if 'playing_song_name' not in st.session_state:
     st.session_state.playing_song_name = None
+if 'playing_artist_name' not in st.session_state:
+    st.session_state.playing_artist_name = None
+if 'playing_song_url' not in st.session_state:
+    st.session_state.playing_song_url = None
 
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
@@ -92,7 +99,7 @@ with col4:
     song_search_button_clicked = st.button("곡 검색")
 
 if song_search_button_clicked:
-    st.write(f"Searching for song ID: {song_ids_prompt}")  # 검색 결과를 출력 (예시)
+    search_by_song_id(song_ids_prompt)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # 유사 아티스트 검색 박스
@@ -106,5 +113,79 @@ with col6:
     artist_search_button_clicked = st.button("아티스트 검색")
 
 if artist_search_button_clicked:
-    st.write(f"Searching for artist ID: {artist_ids_prompt}")  # 검색 결과를 출력 (예시)
+    search_by_artist_id(artist_ids_prompt)
 st.markdown('</div>', unsafe_allow_html=True)
+
+# -------------------------------------------------------------
+# 검색 함수들 정의
+def search_by_artist_id(artist_ids_prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "artist_id": artist_ids_prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "SCORE",
+        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
+        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
+
+def search_by_song_id(song_ids_prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
+    param = {
+        "song_id": song_ids_prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "SCORE",
+        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
+        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
+
+def search(prompt):
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
+    param = {
+        "prompt": prompt,
+        "album_release_country": "KOREA",
+        "limit": 200,
+        "voice_yn": "Y",
+        "sort": "POPULAR",
+        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
+        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "cnt": 50
+    }
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    json_data = res.json()
+    data_info = info(json_data)
+    display_sample_results(data_info)
+
+def info(res_json):
+    info = res_json["songs"]
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
+    song_ids = ",".join([str(item["song_id"]) for item in info])
+    param = {"song_id": song_ids}
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    return res.json()
+
+# 곡 리스트에서 샘플을 보여주는 함수
+def display_sample_results(data_info):
+    datas = data_info['songs']
+    for song in datas[:5]:
+        song_id = song['song_id']
+        song_name = song['song_name']
+        artist_name = song['artist_name']
+        st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
