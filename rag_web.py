@@ -179,9 +179,15 @@ def get_downloadurl(song_id):
     }
     download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
     res = requests.post(download_url, headers=headers)
+    
+    # 디버깅용 로그 출력
+    st.write(f"API 호출 결과 상태 코드: {res.status_code}")
+    
     if res.status_code == 200:
+        st.write(f"다운로드 URL: {download_url}")  # URL을 출력하여 확인
         return download_url
     else:
+        st.write("다운로드 URL을 가져오지 못했습니다.")  # 실패 시 출력
         return None
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
@@ -212,10 +218,13 @@ def display_sample_results(data_info):
             st.markdown(play_button_html, unsafe_allow_html=True)
 
             if st.button(f"재생", key=f"play_{button_key}"):
+                st.write(f"재생 버튼이 클릭되었습니다! Song ID: {song_id}")  # 디버깅용 로그
                 st.session_state.playing_song_id = song_id
                 st.session_state.playing_song_name = song_name
                 st.session_state.playing_artist_name = artist_name
                 st.session_state.playing_song_url = get_downloadurl(song_id)
+
+
 # -------------------------------------------------------------
 
 # Prompt 입력과 버튼
