@@ -58,16 +58,6 @@ def date_to_int(date):
 def int_to_date(num):
     return past_date + timedelta(days=num)
 
-# CSS를 사용해 슬라이더의 숫자(최소값, 최대값, 현재 선택된 값)를 숨김
-hide_slider_labels_style = """
-    <style>
-    .stSlider > div > div > div > span {
-        display: none;  /* 슬라이더의 최솟값, 최댓값 텍스트를 숨김 */
-    }
-    </style>
-"""
-st.markdown(hide_slider_labels_style, unsafe_allow_html=True)
-
 # 슬라이더 초기 값 및 키 값 설정
 key = 1
 slider_place_holder = st.empty()
@@ -75,6 +65,7 @@ slider_place_holder = st.empty()
 # 슬라이더 생성 (날짜 범위를 숫자로 변환하여 사용)
 initial_slider_value = date_to_int(current_date)
 my_slider = slider_place_holder.slider(
+    "날짜 선택",
     min_value=0,
     max_value=date_to_int(current_date),
     value=initial_slider_value,  # 기본값은 현재 날짜
@@ -114,7 +105,6 @@ selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
-
 
 # -------------------------------------------------------------
 
