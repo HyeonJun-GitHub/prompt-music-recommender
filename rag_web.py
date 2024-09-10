@@ -220,7 +220,7 @@ st.markdown("---")  # 가로선 추가
 
 st.subheader("프롬프트")
 
-col1, col2 = st.columns([3, 1])
+col1, col2 = st.columns([5, 1])
 with col1:
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
 with col2:
@@ -253,7 +253,7 @@ st.markdown("---")  # 가로선 추가
 
 # Artist ID 입력과 버튼
 st.subheader("유사 아티스트 검색")
-col5, col6 = st.columns([3, 1])
+col5, col6 = st.columns([5, 1])
 with col5:
     artist_ids_prompt = st.text_input("예) 67872918 [아이유]")
 with col6:
