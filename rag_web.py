@@ -182,6 +182,20 @@ def display_sample_results(data_info):
 
 # -------------------------------------------------------------
 
+# 배경 이미지를 expander의 UI 뒤로 넣기 위한 CSS
+expander_background_css = f"""
+<style>
+    .stExpander > div > div {{
+        background-image: url("data:image/png;base64,{background_img_base64}");
+        background-size: cover;
+        background-position: center;
+    }}
+</style>
+"""
+
+# CSS 적용
+st.markdown(expander_background_css, unsafe_allow_html=True)
+
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     st.image(background_img, use_column_width=True)
