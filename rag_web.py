@@ -80,11 +80,6 @@ my_slider = slider_place_holder.slider(
     value=initial_slider_value,  # 기본값은 현재 날짜
     key=key
 )
-# 선택된 숫자를 날짜로 변환
-selected_date = int_to_date(my_slider)
-
-# 선택된 날짜 출력
-st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
 
 # 슬라이더 아래에 '과거'와 '현재' 레이블 추가
 col1, col2 = st.columns([1, 1])
@@ -113,6 +108,12 @@ if st.button('Reset to Default'):
     reset_iteration += 1
     st.write(f"슬라이더가 {reset_iteration}번째 리셋되었습니다.")
     my_slider = reset_all_sliders(reset_iteration)  # 슬라이더 리셋
+
+# 선택된 숫자를 날짜로 변환
+selected_date = int_to_date(my_slider)
+
+# 선택된 날짜 출력
+st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
 
 
 # -------------------------------------------------------------
