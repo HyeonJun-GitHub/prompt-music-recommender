@@ -59,14 +59,14 @@ def int_to_date(num):
     return past_date + timedelta(days=num)
 
 # CSS를 사용해 슬라이더의 숫자(최소값, 최대값, 현재 선택된 값)를 숨김
-hide_slider_number_style = """
+hide_slider_labels_style = """
     <style>
-    .stSlider > div div div div {
-        display: none;  /* 슬라이더 위의 숫자들을 숨기기 */
+    .stSlider > div > div > div > span {
+        display: none;  /* 슬라이더의 최솟값, 최댓값 텍스트를 숨김 */
     }
     </style>
 """
-st.markdown(hide_slider_number_style, unsafe_allow_html=True)
+st.markdown(hide_slider_labels_style, unsafe_allow_html=True)
 
 # 슬라이더 초기 값 및 키 값 설정
 key = 1
@@ -115,6 +115,7 @@ selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
 st.write(f"선택된 날짜: {selected_date.strftime('%Y-%m-%d')}")
+
 
 # -------------------------------------------------------------
 
