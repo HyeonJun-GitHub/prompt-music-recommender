@@ -219,6 +219,8 @@ st.markdown(input_box_style, unsafe_allow_html=True)
 st.markdown("---")  # 가로선 추가
 
 st.subheader("프롬프트")
+
+st.set_page_config(layout="wide")
 col1, col2 = st.columns([3, 1])
 with col1:
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
