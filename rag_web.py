@@ -7,7 +7,7 @@ global_playing_song_url = None
 # 하드코딩된 URL을 반환하는 함수
 def get_downloadurl(song_id):
     # 하드코딩된 MP3 URL 반환
-    return "http://www.noiseaddicts.com/samples_1w72b820/4261.mp3"
+    return "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 
 # 샘플 곡 리스트에서 결과를 표시하는 함수
 def display_sample_results():
@@ -47,7 +47,3 @@ def display_sample_results():
 
 # 샘플 결과 표시
 display_sample_results()
-
-# 전역 변수를 사용한 오디오 재생
-if global_playing_song_url:
-    st.audio(global_playing_song_url, format="audio/mp3", start_time=0)
