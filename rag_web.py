@@ -59,24 +59,52 @@ st.set_page_config(layout="wide")
 # components.html(spacer_height, height=0)
 
 # JavaScript를 사용하여 userAgent를 가져오는 코드
-user_agent = components.html("""
+components.html(
+    """
     <script>
         const userAgent = navigator.userAgent;
-        document.body.innerHTML = `<div id='userAgent'>${userAgent}</div>`;
+        const userAgentDiv = document.createElement('div');
+        userAgentDiv.textContent = userAgent;
+        document.body.appendChild(userAgentDiv);
+        
+        // Streamlit으로 userAgent 정보를 보냄
+        window.parent.postMessage({ userAgent: userAgent }, "*");
     </script>
-    <div id='userAgent'></div>
-    """, height=35)
+    """,
+    height=0
+)
 
-# user_agent 값을 사용하여 분기 처리
-if "Mobile" in user_agent:
-    spacer_height = """
-        <div style="height: 0px;"></div>
+# JavaScript 메시지를 수신하여 처리
+if "user_agent" not in st.session_state:
+    st.session_state["user_agent"] = ""
+
+def on_js_message(message):
+    if "userAgent" in message.data:
+        st.session_state["user_agent"] = message.data["userAgent"]
+
+components.html(
     """
+    <script>
+    window.addEventListener("message", (event) => {
+        if (event.data.userAgent) {
+            const userAgent = event.data.userAgent;
+            Streamlit.setComponentValue(userAgent);
+        }
+    });
+    </script>
+    """,
+    height=0
+)
+
+# session_state에서 userAgent 정보 가져오기
+user_agent = st.session_state.get("user_agent", "")
+
+# user_agent 값을 사용하여 모바일 또는 PC에 따라 스페이서 높이를 다르게 설정
+if "Mobile" in user_agent:
+    spacer_height = "<div style='height: 0px;'></div>"
     st.write("모바일 기기입니다.")
 else:
-    spacer_height = """
-        <div style="height: 28px;"></div>
-    """
+    spacer_height = "<div style='height: 28px;'></div>"
     st.write("PC입니다.")
 
 # HTML을 사용하여 spacer_height 값을 반영
