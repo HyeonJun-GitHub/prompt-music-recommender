@@ -132,7 +132,7 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 # -------------------------------------------------------------
 
-st.image(title_00_img, caption='', use_column_width=False, classes="fixed-height-img")
+st.image(title_00_img, caption='', use_column_width=True)
 # 레이아웃 시작
 st.write("---")
 st.title("검색 설정")
