@@ -205,9 +205,12 @@ def search_by_artist_id(artist_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    score_info = evaluate(json_data)
-    display_sample_results(data_info)
-    display_score_result(score_info)
+    if len(data_info['songs']) >= 1:
+        score_info = evaluate(json_data)
+        display_sample_results(data_info)
+        display_score_result(score_info)
+    else:
+        st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
 
 def search_by_song_id(song_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
@@ -225,9 +228,12 @@ def search_by_song_id(song_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    score_info = evaluate(json_data)
-    display_sample_results(data_info)
-    display_score_result(score_info)
+    if len(data_info['songs']) >= 1:
+        score_info = evaluate(json_data)
+        display_sample_results(data_info)
+        display_score_result(score_info)
+    else:
+        st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
 
 def search(prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
@@ -245,8 +251,7 @@ def search(prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
-    list = data_info['songs']
-    if len(list) >= 1:
+    if len(data_info['songs']) >= 1:
         score_info = evaluate(json_data)
         display_sample_results(data_info)
         display_score_result(score_info)
