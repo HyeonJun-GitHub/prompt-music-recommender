@@ -201,10 +201,14 @@ spacer_height = "<div style='height: -30px;'></div>"
 with st.expander("프롬프트 입력", expanded=True):
     col1, col2 = st.columns([4, 1])  # 비율을 4:1로 설정하여 왼쪽에 입력, 오른쪽에 버튼 배치
     with col1:
-        prompt = st.text_area("무슨 노래가 듣고 싶어요?")
-    with col2:
-        st.markdown(spacer_height, unsafe_allow_html=True)
-        search_button_clicked = st.button("프롬프트 검색")
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            prompt = st.text_area("무슨 노래가 듣고 싶어요?")
+        with col2:
+            search_button_clicked = st.button("프롬프트 검색")
+    # with col2:
+    #     st.markdown(spacer_height, unsafe_allow_html=True)
+        
     
     if search_button_clicked:
         search(prompt)
