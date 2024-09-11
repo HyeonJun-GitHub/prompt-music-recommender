@@ -49,7 +49,9 @@ st.markdown(
     .st-expanderContent {
         color: lightgray !important; /* Expander 내부 텍스트 색상 */
     }
-
+    button[title="View fullscreen"] {
+        display: none;
+    }
     </style>
     """,
     unsafe_allow_html=True
