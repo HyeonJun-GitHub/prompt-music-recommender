@@ -12,15 +12,6 @@ import calendar
 
 st.set_page_config(layout="wide",)
 
-st.code("""
-[theme]
-primaryColor="#F39C12"
-backgroundColor="#2E86C1"
-secondaryBackgroundColor="#AED6F1"
-textColor="#FFFFFF"
-font="monospace"
-""")
-
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
 title_00_path = os.path.join(os.getcwd(), "title_00.png")
