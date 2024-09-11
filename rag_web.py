@@ -9,86 +9,34 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
-# JavaScript를 사용하여 userAgent를 가져오는 코드
-# js_code = """
-# <script>
-#     const userAgent = navigator.userAgent;
-#     document.addEventListener("DOMContentLoaded", function() {
-#         window.parent.postMessage({isStreamlitMessage: true, userAgent: userAgent}, "*");
-#     });
-# </script>
-# """
 
-# # JavaScript를 통해 userAgent 정보를 받아와 처리
-# components.html(f"""
-#     <div id="userAgentData"></div>
-#     {js_code}
-# """, height=0)
-
-# # userAgent 정보를 처리하는 부분
-# components.html(
-#     """
-#     <script>
-#     window.addEventListener("message", (event) => {
-#         if (event.data.isStreamlitMessage) {
-#             const userAgent = event.data.userAgent;
-#             window.userAgent = userAgent;
-#             const uaDiv = document.getElementById("userAgentData");
-#             uaDiv.innerText = userAgent;
-#         }
-#     });
-#     </script>
-#     """,
-#     height=0
-# )
-
-# # JavaScript로부터 받은 userAgent 값을 streamlit에 전달
-# user_agent = st.session_state.get('user_agent', '')
-
-# # 모바일 또는 PC에 따른 분기 처리
-# if "Mobile" in user_agent:
-#     spacer_height = """
-#         <div style="height: 0px;"></div>
-#     """
-# else:
-#     spacer_height = """
-#         <div style="height: 28px;"></div>
-#     """
-
-# # HTML을 사용하여 spacer_height 값을 반영
-# components.html(spacer_height, height=0)
-
-# JavaScript를 사용하여 userAgent를 가져오는 코드
+# JavaScript를 통해 userAgent 정보를 가져오는 코드
 components.html(
     """
     <script>
         const userAgent = navigator.userAgent;
-        const userAgentDiv = document.createElement('div');
-        userAgentDiv.textContent = userAgent;
-        document.body.appendChild(userAgentDiv);
-        
-        // Streamlit으로 userAgent 정보를 보냄
         window.parent.postMessage({ userAgent: userAgent }, "*");
     </script>
     """,
     height=0
 )
 
-# JavaScript 메시지를 수신하여 처리
+# Streamlit의 session_state에 userAgent를 저장하기 위한 초기화
 if "user_agent" not in st.session_state:
     st.session_state["user_agent"] = ""
 
+# JavaScript 메시지를 처리하는 함수 정의
 def on_js_message(message):
     if "userAgent" in message.data:
         st.session_state["user_agent"] = message.data["userAgent"]
 
+# Streamlit이 JavaScript로부터 받은 메시지를 처리하는 부분
 components.html(
     """
     <script>
     window.addEventListener("message", (event) => {
         if (event.data.userAgent) {
-            const userAgent = event.data.userAgent;
-            Streamlit.setComponentValue(userAgent);
+            Streamlit.setComponentValue(event.data.userAgent);
         }
     });
     </script>
@@ -96,36 +44,21 @@ components.html(
     height=0
 )
 
-# session_state에서 userAgent 정보 가져오기
+# session_state에서 user_agent 값을 가져오기
 user_agent = st.session_state.get("user_agent", "")
 
-# user_agent 값을 사용하여 모바일 또는 PC에 따라 스페이서 높이를 다르게 설정
-if "Mobile" in user_agent:
+# 모바일 장치 여부를 확인하는 로직 (모바일 장치 판별을 위한 다양한 문자열 확인)
+is_mobile = any(keyword in user_agent for keyword in ["Mobile", "Android", "iPhone", "iPad"])
+
+# 모바일과 PC에 따른 스페이서 높이 설정
+if is_mobile:
     spacer_height = "<div style='height: 0px;'></div>"
     st.write("모바일 기기입니다.")
 else:
     spacer_height = "<div style='height: 28px;'></div>"
     st.write("PC입니다.")
 
-# HTML을 사용하여 spacer_height 값을 반영
-# components.html(spacer_height, height=0)
-
-# # User-Agent를 가져오는 함수
-# user_agent = st.experimental_get_query_params().get('user-agent', [''])[0]
-# if not user_agent:
-#     user_agent = st.session_state.get('user_agent', '')
-# if user_agent == '':
-#     st.warning("User-Agent 정보를 가져오는 중입니다...")
-# else:
-#     if "Mobile" in user_agent:
-#         spacer_height = """
-#             <div style="height: 0px;"></div>
-#         """
-#     else:
-#         spacer_height = """
-#             <div style="height: 28px;"></div>
-#         """
-#     st.session_state.user_agent = user_agent
+st.write(f"userAgent: {user_agent}")
 
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
