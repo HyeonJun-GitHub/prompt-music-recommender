@@ -20,7 +20,7 @@ st.markdown(
         background-color: #000000;
     }
     .stMarkdown, .stTitle, .stText, .stHeader {
-        color: white;
+        color: #00FF00;
     }
 
     </style>
