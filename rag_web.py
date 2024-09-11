@@ -89,8 +89,9 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 st.image(title_00_img, caption='', use_column_width=True)
 # 레이아웃 시작
-st.write("국가 선택")
-segment = st.radio("", ("전체", "국내", "해외"))
+st.write("---")
+st.title("검색 설정")
+segment = st.radio("국가 선택", ("전체", "국내", "해외"))
 
 album_release_country = ""
 if segment == "전체":
@@ -150,10 +151,10 @@ start_last_date = yyyymm_to_last_date(selected_date[0])
 start_last_format = start_last_date.strftime("%Y%m%d")
 end_last_date = yyyymm_to_last_date(selected_date[1])
 end_last_format = end_last_date.strftime("%Y%m%d")
-
+st.write("---")
 # 선택된 날짜 출력
-st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
-st.write("")
+# st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
+# st.write("")
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
