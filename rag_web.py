@@ -205,7 +205,9 @@ def search_by_artist_id(artist_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
+    score_info = evaluate(json_data)
     display_sample_results(data_info)
+    display_score_result(score_info)
 
 def search_by_song_id(song_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
@@ -223,7 +225,9 @@ def search_by_song_id(song_ids_prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
+    score_info = evaluate(json_data)
     display_sample_results(data_info)
+    display_score_result(score_info)
 
 def search(prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
