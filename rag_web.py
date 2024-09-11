@@ -31,6 +31,15 @@ st.markdown(
         border-radius: 5px;
         padding: 10px;
     }
+    .blue-button button {
+        background-color: #3f4e9e !important;
+    }
+    .purple-button button {
+        background-color: #583c9e !important;
+    }
+    .green-button button {
+        background-color: #397063 !important;
+    }
     label {
         color: rgb(155, 155, 155) !important;
     }
@@ -332,16 +341,6 @@ def get_downloadurl(song_id):
     
 # -------------------------------------------------------------
 
-st.markdown(
-    """
-        <style>
-        button {
-                background-color: #3f4e9e !important;
-            }
-        </style>
-    """,unsafe_allow_html=True
-)
-
 spacer_height = "<div style='height: 28px;'></div>"
 st.image(title_01_img, caption='', use_column_width=True)
 # Prompt 입력과 버튼 (st.expander 사용)
@@ -350,7 +349,7 @@ with st.expander("프롬프트 입력", expanded=True):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        search_button_clicked = st.button("프롬프트 검색", use_container_width=True)
+        search_button_clicked = st.markdown('<div class="blue-button">' + st.button("프롬프트 검색", use_container_width=True) + '</div>', unsafe_allow_html=True)
     
     if search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
@@ -359,37 +358,18 @@ with st.expander("프롬프트 입력", expanded=True):
 st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
 
-st.markdown(
-    """
-        <style>
-        button {
-                background-color: #583c9e !important;
-            }
-        </style>
-    """,unsafe_allow_html=True
-)
-
 with st.expander("유사 곡 검색"):
     song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        song_search_button_clicked = st.button("곡 검색", use_container_width=True)
+        song_search_button_clicked = st.markdown('<div class="purple-button">' + st.button("곡 검색", use_container_width=True) + '</div>', unsafe_allow_html=True)
     
     if song_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(song_ids_prompt)
 
 
-st.markdown(
-    """
-        <style>
-        button {
-                background-color: #397063 !important;
-            }
-        </style>
-    """,unsafe_allow_html=True
-)
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
@@ -397,7 +377,7 @@ with st.expander("유사 아티스트 검색"):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
+        artist_search_button_clicked = st.markdown('<div class="green-button">' + st.button("아티스트 검색", use_container_width=True) + '</div>', unsafe_allow_html=True)
     
     if artist_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
