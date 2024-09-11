@@ -216,7 +216,7 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 spacer_height = "<div style='height: 28px;'></div>"
-st.image(title_01_img, caption='title_01', use_column_width=False)
+st.image(title_01_img, caption='title_01', use_column_width=True)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
