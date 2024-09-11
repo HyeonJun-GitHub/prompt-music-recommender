@@ -79,6 +79,13 @@ textarea, input {
 }
 </style>
 """
+st.markdown("""
+    <style>
+    body {
+        color: white;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
