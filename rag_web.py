@@ -16,7 +16,7 @@ title_01_path = os.path.join(os.getcwd(), "title_01.png")
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
-title_01_img = Image.open(background_img_path)
+title_01_img = Image.open(title_01_path)
 background_img = Image.open(background_img_path)
 
 # Base64로 로컬 이미지 인코딩
