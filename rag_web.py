@@ -195,7 +195,7 @@ def display_sample_results(data_info):
 
 # -------------------------------------------------------------
 
-spacer_height = "<div style='height: -30px;'></div>"
+spacer_height = "<div style='height: 28px;'></div>"
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
@@ -206,8 +206,8 @@ with st.expander("프롬프트 입력", expanded=True):
             prompt = st.text_area("무슨 노래가 듣고 싶어요?")
         with col2:
             search_button_clicked = st.button("프롬프트 검색")
-    # with col2:
-    #     st.markdown(spacer_height, unsafe_allow_html=True)
+    with col2:
+        st.markdown(spacer_height, unsafe_allow_html=True)
         
     
     if search_button_clicked:
