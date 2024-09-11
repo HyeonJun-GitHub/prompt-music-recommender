@@ -227,7 +227,7 @@ def search_by_song_id(song_ids_prompt):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
-    if len(json_data['songs']) >= 1:
+    if len(json_data.get('songs',[])) >= 1:
         data_info = info(json_data)
         score_info = evaluate(json_data)
         display_sample_results(data_info)
@@ -250,7 +250,7 @@ def search(prompt):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
-    if len(json_data['songs']) >= 1:
+    if len(json_data.get('songs',[])) >= 1:
         data_info = info(json_data)
         score_info = evaluate(json_data)
         display_sample_results(data_info)
