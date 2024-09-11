@@ -23,6 +23,13 @@ st.markdown(
     h1, h2, h3, h4, h5, h6 {
         color: white !important;
     }
+    /* radio 버튼과 select 슬라이더의 텍스트 색상을 흰색으로 설정 */
+    .css-1cpxqw2, .css-qrbaxs, .css-16huue1, .css-1n543e5 {
+        color: white !important;
+    }
+    .css-1q8dd3e {
+        color: white !important; /* 발매 기간 범위 텍스트 */
+    }
 
     </style>
     """,
