@@ -90,13 +90,13 @@ date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0,
 
 st.markdown("""
     <style>
-    /* 슬라이더 색상 */
+    /* 슬라이더 바 색상 */
     .streamlit-slider > div[data-baseweb="slider"] > div {
-        background: linear-gradient(to right, #FF6F61, #F7CAC9);
+        background: linear-gradient(to right, #1E90FF, #87CEEB); /* 파란색 그라데이션 */
     }
     /* 슬라이더 핸들 색상 */
     .streamlit-slider > div[data-baseweb="slider"] > div > div > div {
-        background-color: #FF6F61;
+        background-color: #1E90FF; /* 슬라이더 핸들 파란색 */
     }
     </style>
     """, unsafe_allow_html=True)
