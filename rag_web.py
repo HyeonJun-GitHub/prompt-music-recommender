@@ -116,10 +116,6 @@ start_last_format = start_last_date.strftime("%Y%m%d")
 end_last_date = yyyymm_to_last_date(selected_date[1])
 end_last_format = end_last_date.strftime("%Y%m%d")
 
-# 출력
-st.write(f"선택한 날짜 (말일, YYYYMMDD 형식): {start_last_format}")
-st.write(f"선택한 날짜 (말일, YYYYMMDD 형식): {end_last_format}")
-
 # 선택된 날짜 출력
 st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
 st.write("")
