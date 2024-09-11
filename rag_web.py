@@ -8,6 +8,23 @@ from PIL import Image
 
 st.set_page_config(layout="wide")
 
+# JavaScript로 User-Agent 정보를 가져오는 함수
+user_agent_script = """
+    <script>
+    const userAgent = navigator.userAgent;
+    document.write('<input type="hidden" id="user-agent" value="' + userAgent + '">');
+    </script>
+"""
+st.markdown(user_agent_script, unsafe_allow_html=True)
+# User-Agent를 가져오는 함수
+user_agent = st.experimental_get_query_params().get('user-agent', [''])[0]
+if not user_agent:
+    user_agent = st.session_state.get('user_agent', '')
+if user_agent == '':
+    st.warning("User-Agent 정보를 가져오는 중입니다...")
+else:
+    st.session_state.user_agent = user_agent
+
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
@@ -193,9 +210,14 @@ def display_sample_results(data_info):
         st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # -------------------------------------------------------------
-spacer_height = """
-<div style="height: 28px;"></div>
-"""
+if "Mobile" in user_agent:
+    spacer_height = """
+        <div style="height: 28px;"></div>
+    """
+else:
+    spacer_height = """
+        <div style="height: 0px;"></div>
+    """
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
