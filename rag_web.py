@@ -24,7 +24,7 @@ st.markdown(
         color: white !important;
     }
     button {
-        background-color: rgb(5, 30, 60) !important; /* 버튼 배경을 밝은 파란색으로 변경 */
+        background-color: rgb(10, 50, 80) !important; /* 버튼 배경을 밝은 파란색으로 변경 */
         color: white !important; /* 버튼 텍스트를 흰색으로 설정 */
         border-radius: 5px;
         padding: 10px;
