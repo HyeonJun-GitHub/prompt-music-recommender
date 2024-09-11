@@ -21,7 +21,7 @@ st.markdown(
         background-color: #000022;
         color: white;
         max-width: 1200px;  /* 전체 페이지의 최대 너비 */
-        margin: 0 auto;     /* 가로로 가운데 정렬 */
+        margin: -20 auto;     /* 가로로 가운데 정렬 */
     }
     h1, h2, h3, h4, h5, h6 {
         color: white !important;
