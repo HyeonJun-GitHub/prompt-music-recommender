@@ -12,21 +12,6 @@ import calendar
 
 st.set_page_config(layout="wide")
 
-segment = st.radio("국가 선택", ("전체", "국내", "해외"))
-
-album_release_country = ""
-if segment == "전체":
-    album_release_country = ""
-elif segment == "국내":
-    album_release_country = "KOREA"
-elif segment == "해외":
-    album_release_country = "POPULAR"
-
-# 필터링된 데이터 표시
-st.write(f"선택한 세그먼트: {album_release_country}")
-
-
-
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
 title_00_path = os.path.join(os.getcwd(), "title_00.png")
@@ -104,8 +89,18 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 st.image(title_00_img, caption='', use_column_width=True)
 # 레이아웃 시작
-st.title("AI 큐레이션 TF")
+st.title("국가 선택")
+segment = st.radio("", ("전체", "국내", "해외"))
 
+album_release_country = ""
+if segment == "전체":
+    album_release_country = ""
+elif segment == "국내":
+    album_release_country = "KOREA"
+elif segment == "해외":
+    album_release_country = "POPULAR"
+
+st.title("발매 기간 선택")
 # 현재 날짜와 과거 날짜 설정
 day_number = 365
 current_date = datetime.now()  # 최대값 (오늘)
