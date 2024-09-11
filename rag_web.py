@@ -168,7 +168,7 @@ st.markdown("""
 selected_date = st.select_slider(
     '발매 기간 범위',
     options=date_range,
-    value=(date_range[-12], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
+    value=(date_range[-18], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
 )
 
 def yyyymm_to_date(yyyymm):
