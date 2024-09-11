@@ -7,6 +7,32 @@ import base64
 from PIL import Image
 import streamlit.components.v1 as components
 import calendar
+# 예시 데이터 (국내/해외 구분)
+data = {
+    '지역': ['서울', '뉴욕', '부산', '런던', '인천', '도쿄'],
+    '세그먼트': ['국내', '해외', '국내', '해외', '국내', '해외'],
+    '매출': [1000, 2000, 1500, 1800, 1200, 2500]
+}
+
+df = pd.DataFrame(data)
+
+# 국내/해외 세그먼트 선택
+st.title("국내/해외 세그먼트 필터링")
+segment = st.radio("세그먼트를 선택하세요", ("전체", "국내", "해외"))
+
+# 선택한 세그먼트에 따라 데이터 필터링
+if segment == "전체":
+    filtered_df = df
+else:
+    filtered_df = df[df['세그먼트'] == segment]
+
+# 필터링된 데이터 표시
+st.write(f"선택한 세그먼트: {segment}")
+st.dataframe(filtered_df)
+
+# 매출 총합 계산 및 출력
+total_sales = filtered_df['매출'].sum()
+st.write(f"선택한 세그먼트의 총 매출: {total_sales}원")
 
 st.set_page_config(layout="wide")
 
