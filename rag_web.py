@@ -90,17 +90,34 @@ selected_date = st.select_slider(
     value=(date_range[-4], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
 )
 
-# 숫자 -> 날짜 변환 함수
-def int_to_date(days_from_today):
-    return current_date + timedelta(days=days_from_today)
-
 def yyyymm_to_date(yyyymm):
     return datetime.strptime(yyyymm, "%Y%m")
+
+# 슬라이더에서 선택된 값 변환 함수
+def yyyymm_to_last_date(yyyymm):
+    # YYYYMM 형식의 문자열을 연도와 월로 분리
+    year = int(yyyymm[:4])
+    month = int(yyyymm[4:])
+    
+    # 해당 연도와 월의 말일을 계산
+    last_day = calendar.monthrange(year, month)[1]
+    
+    # 말일로 datetime 객체 생성
+    return datetime(year, month, last_day)
 
 
 # 선택된 값을 날짜로 변환
 start_date = yyyymm_to_date(selected_date[0])
 end_date = yyyymm_to_date(selected_date[1])
+
+start_last_date = yyyymm_to_last_date(selected_date[0])
+start_last_format = start_last_date.strftime("%Y%m%d")
+end_last_date = yyyymm_to_last_date(selected_date[1])
+end_last_format = end_last_date.strftime("%Y%m%d")
+
+# 출력
+st.write(f"선택한 날짜 (말일, YYYYMMDD 형식): {start_last_format}")
+st.write(f"선택한 날짜 (말일, YYYYMMDD 형식): {end_last_format}")
 
 # 선택된 날짜 출력
 st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
