@@ -114,8 +114,8 @@ def search_by_artist_id(artist_ids_prompt):
         "limit": 200,
         "voice_yn": "Y",
         "sort": "SCORE",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
-        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "album_release_start_date": f'{selected_date.strftime("%Y%m")}01',
+        "album_release_end_date": f'{current_date.strftime("%Y%m")}01',
         "cnt": 50
     }
     param_json = json.dumps(param)
