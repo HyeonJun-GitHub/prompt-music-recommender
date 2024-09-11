@@ -9,23 +9,6 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
-# JavaScript 코드로 userAgent를 가져오기 위한 함수
-user_agent = st.experimental_js_eval("navigator.userAgent", timeout=10)
-
-# 모바일 장치 판별
-is_mobile = any(keyword in user_agent for keyword in ["Mobile", "Android", "iPhone", "iPad"])
-
-# 모바일 또는 PC에 따른 분기 처리
-if is_mobile:
-    spacer_height = "<div style='height: 0px;'></div>"
-    st.write("모바일 기기입니다.")
-else:
-    spacer_height = "<div style='height: 28px;'></div>"
-    st.write("PC입니다.")
-
-
-st.write(f"userAgent: {user_agent}")
-
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
@@ -211,6 +194,8 @@ def display_sample_results(data_info):
         st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # -------------------------------------------------------------
+
+spacer_height = "<div style='height: 28px;'></div>"
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
