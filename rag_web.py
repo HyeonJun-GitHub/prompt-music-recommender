@@ -292,19 +292,9 @@ def display_score_result(score_info):
 def display_image(base64_str):
     img_data = base64.b64decode(base64_str)
     img = Image.open(BytesIO(img_data))
-    st.markdown(
-        """
-        <style>
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    st.image(img, caption="Radial Image", use_column_width=False, width=300, output_format="auto", class_="center")
+    cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
+    with cols[1]:  # 중간 열에 이미지를 배치
+        st.image(img, caption="Radial Image", use_column_width=True)
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
