@@ -37,7 +37,7 @@ st.markdown(
         color: white !important;
     }
     .st-expander {
-        border: 2px solid #f5f5f5 !important; /* 더 밝은 회색 경계선 */
+        border: 2px solid #ff6347 !important; /* 새로운 경계선 색상을 적용 (예: 토마토 색상) */
         border-radius: 10px;
     }
     .st-expanderHeader {
