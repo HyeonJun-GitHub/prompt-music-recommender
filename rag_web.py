@@ -147,7 +147,7 @@ elif segment == "해외":
     album_release_country = "POPULAR"
 
 # 현재 날짜와 과거 날짜 설정
-day_number = 365 * 5
+day_number = 365 * 4
 current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=day_number)  # 최소값
 date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0, day_number+1, 30)]  # 매월 1회씩
@@ -168,7 +168,7 @@ st.markdown("""
 selected_date = st.select_slider(
     '발매 기간 범위',
     options=date_range,
-    value=(date_range[-4], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
+    value=(date_range[-12], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
 )
 
 def yyyymm_to_date(yyyymm):
@@ -310,7 +310,7 @@ def display_sample_results(data_info):
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
-        st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        st.markdown(f"{song_name} - {artist_name} [ 들어보기 ](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
@@ -350,7 +350,7 @@ st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
 
 with st.expander("유사 곡 검색"):
-    song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
+    song_ids_prompt = st.text_input("곡 ID를 입력하세요 ( 예: 87443133 [아이유 - 가을 아침] )")
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
@@ -363,7 +363,7 @@ with st.expander("유사 곡 검색"):
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
-    artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
+    artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 ( 예: 67872918 [아이유] )")
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
@@ -372,126 +372,3 @@ with st.expander("유사 아티스트 검색"):
     if artist_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_artist_id(artist_ids_prompt)
-
-import streamlit as st
-
-from helper.ai_voice_helper import AIVoiceHelper
-from helper.voices_dictionary import voices_dict
-
-voice_dict = voices_dict.copy()
-
-language_list = voice_dict.keys()
-
-
-st.set_page_config(
-    page_title="AI 음성 만들기 with AWS Polly",
-    page_icon="🎤",
-)
-
-st.title("AI 음성 만들기")
-
-st.markdown(
-    """
-    AI 음성을 만들어 보세요.
-    
-    ### 사용법
-    1. 언어를 선택 합니다.
-    2. 엔진을 선택 합니다.
-       - neural 엔진 : 표준 음성보다 더 높은 품질의 음성을 생성할 수 있습니다. NTTS 시스템은 가능한 가장 자연스럽고 인간과 유사한 텍스트 음성 변환을 제공합니다.
-       - standard 엔진 : 표준 TTS 음성은 연결합성(concatenative synthesis)을 사용합니다. 이 방법은 녹음된 음성의 음운을 연결하여 매우 자연스러운 합성 음성을 생성합니다. 그러나 불가피한 음성 변화와 음파를 분할하는 기술적인 한계로 인해 음성의 품질이 제한됩니다.
-    3. 목소리를 선택 합니다.
-    4. 속도를 선택 합니다.
-    </br>
-    """,
-    unsafe_allow_html=True
-)
-with st.sidebar:
-    access_key = st.text_input(
-        "Write down a AWS ACCESS KEY",
-        placeholder="AWS ACCESS KEY",
-    )
-    secret_access_key = st.text_input(
-        "Write down a AWS SECRET ACCESS KEY",
-        placeholder="AWS SECRET ACCESS KEY",
-    )
-
-selected_language = st.selectbox("언어 선택", language_list)
-
-selected_engine = st.selectbox("엔진 선택", voice_dict[selected_language].keys())
-select_data_list = [item['select_data'] for item in voice_dict[selected_language][selected_engine]]
-selected_data = st.selectbox("목소리 선택", select_data_list)
-
-selected_person_name = selected_data.split(" / ")[0]  # "Lupe / Female / Bilingual" -> "Lupe"
-
-st.markdown(
-    """
-    ### 속도 선택
-    - 20% : 매우 느림
-    - 50% : 느림
-    - 100% : 표준
-    - 150% : 빠름
-    - 200% : 매우 빠름
-    """,
-    unsafe_allow_html=True
-)
-speed_rate = st.slider(
-    label="속도 선택",
-    min_value=20, max_value=200, value=100,
-    help="전체적으로 적용할 속도를 선택합니다. ssml 태그를 사용하면 부분적으로 속도를 따로 적용할 수 있습니다.",
-)
-
-text = st.text_area(
-    label="내용 입력",
-    help='음성으로 변환할 내용을 입력해주세요.',
-    placeholder='음성으로 변환할 내용을 입력해주세요.',
-    height=500,
-)
-
-create = st.button(
-    label="음성 만들기",
-)
-
-if create:
-    if selected_person_name and text:
-        try:
-            audio_stream = AIVoiceHelper(
-                service="polly",
-                access_key=access_key,
-                secret_access_key=secret_access_key,
-            ).synthesize_voice(
-                text=text,
-                voice_id=selected_person_name,
-                rate=speed_rate,
-                engine=selected_engine,
-            )
-
-        except Exception as e:
-            st.error(f"음성 변환에 실패했습니다. {e}")
-            audio_stream = None
-            print(e)
-
-        if audio_stream:
-            selected_language_name = selected_language.split("/")[0]  # Swedish/sv-SE -> Swedish
-
-            st.download_button(
-                label="Download MP3",
-                data=audio_stream,
-                file_name=f"ai_voice_{selected_language_name}_{selected_engine}_{selected_person_name}.mp3",
-                mime="audio/mpeg",
-                disabled=False if audio_stream else True,
-            )
-            st.audio(audio_stream, format="audio/mpeg")
-
-    else:
-        st.warning("내용을 입력해주세요.")
-        print("no")
-
-
-st.markdown(
-    """
-    ### FAQ
-    1. 음성 변환 실패 사례 (voice id 에러)
-        - [AWS Polly 음성 목록](https://docs.aws.amazon.com/ko_kr/polly/latest/dg/voicelist.html) 에서 사용 가능한 목소리를 확인해주세요.
-        - 만약 목소리가 없다면, helper/voice_dictionary.py 에서 해당 목소리를 삭제 해주세요. (aws 에서 지원 종료 했을 경우)
-    """
-)
