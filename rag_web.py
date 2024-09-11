@@ -304,7 +304,7 @@ def display_image(base64_str):
         """,
         unsafe_allow_html=True
     )
-    st.image(img, caption="Radial Image", width=300)
+    st.image(img, caption="Radial Image", use_column_width=False, width=300, output_format="auto", class_="center")
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
