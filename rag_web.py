@@ -343,15 +343,40 @@ def get_downloadurl(song_id):
 
 spacer_height = "<div style='height: 28px;'></div>"
 st.image(title_01_img, caption='', use_column_width=True)
+
+
+st.markdown("""
+    <script>
+    const blueButton = parent.document.querySelector('button[aria-label="프롬프트 검색"]');
+    const purpleButton = parent.document.querySelector('button[aria-label="곡 검색"]');
+    const greenButton = parent.document.querySelector('button[aria-label="아티스트 검색"]');
+    
+    if (blueButton) {
+        blueButton.style.backgroundColor = "#3f4e9e";
+        blueButton.style.color = "white";
+    }
+
+    if (purpleButton) {
+        purpleButton.style.backgroundColor = "#583c9e";
+        purpleButton.style.color = "white";
+    }
+
+    if (greenButton) {
+        greenButton.style.backgroundColor = "#397063";
+        greenButton.style.color = "white";
+    }
+    </script>
+    """, unsafe_allow_html=True)
+
+
+
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        st.markdown('<div class="blue-button">', unsafe_allow_html=True)
-        search_button_clicked = st.button("프롬프트 검색", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        search_button_clicked = st.button("프롬프트 검색", key="prompt_search")
     
     if search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
@@ -365,9 +390,7 @@ with st.expander("유사 곡 검색"):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        st.markdown('<div class="purple-button">', unsafe_allow_html=True)
-        song_search_button_clicked = st.button("곡 검색", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        song_search_button_clicked = st.button("곡 검색", key="song_search")
     
     if song_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
@@ -381,9 +404,7 @@ with st.expander("유사 아티스트 검색"):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        st.markdown('<div class="green-button">', unsafe_allow_html=True)
-        artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        artist_search_button_clicked = st.button("아티스트 검색", key="artist_search")
     
     if artist_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
