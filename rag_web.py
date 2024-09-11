@@ -23,6 +23,14 @@ if not user_agent:
 if user_agent == '':
     st.warning("User-Agent 정보를 가져오는 중입니다...")
 else:
+    if "Mobile" in user_agent:
+        spacer_height = """
+            <div style="height: 0px;"></div>
+        """
+    else:
+        spacer_height = """
+            <div style="height: 28px;"></div>
+        """
     st.session_state.user_agent = user_agent
 
 # 로컬 이미지 경로 설정
@@ -210,13 +218,6 @@ def display_sample_results(data_info):
         st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # -------------------------------------------------------------
-spacer_height = """
-        <div style="height: 28px;"></div>
-    """
-if "Mobile" in user_agent:
-    spacer_height = """
-        <div style="height: 0px;"></div>
-    """
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
