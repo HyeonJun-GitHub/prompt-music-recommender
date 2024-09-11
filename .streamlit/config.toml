@@ -1,5 +1,4 @@
+# config.toml 파일
 [theme]
-base="dark"
-backgroundColor="#000000"  # 어두운 회색 배경
-textColor="#FFFFFF"  # 흰색 텍스트
-primaryColor="#1f77b4"
+primaryColor="green" 			# theme
+secondaryBackgroundColor="red" 		# side bar
