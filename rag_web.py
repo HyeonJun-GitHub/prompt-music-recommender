@@ -101,7 +101,6 @@ elif segment == "국내":
 elif segment == "해외":
     album_release_country = "POPULAR"
 
-st.write("기간 선택")
 # 현재 날짜와 과거 날짜 설정
 day_number = 365
 current_date = datetime.now()  # 최대값 (오늘)
