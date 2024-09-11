@@ -82,7 +82,7 @@ textarea, input {
 st.markdown("""
     <style>
     body {
-        color: white;
+        color: #FFFFFF;
     }
     </style>
     """, unsafe_allow_html=True)
