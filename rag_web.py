@@ -16,10 +16,10 @@ st.set_page_config(layout="wide",)
 st.markdown(
     """
     <style>
-    .main {
+    .rag_web {
         background-color: #000000;
     }
-    .stMarkdown, .stTitle, .stText, .stHeader {
+    body, .stMarkdown, .stTitle, .stText, .stHeader, .stSubheader {
         color: green;
     }
     </style>
