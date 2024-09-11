@@ -132,8 +132,8 @@ def search_by_artist_id(artist_ids_prompt):
         "limit": 200,
         "voice_yn": "Y",
         "sort": "SCORE",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m")}01',
-        "album_release_end_date": f'{current_date.strftime("%Y%m")}01',
+        "album_release_start_date": f'{start_last_format}',
+        "album_release_end_date": f'{end_last_format}',
         "cnt": 50
     }
     param_json = json.dumps(param)
@@ -150,8 +150,8 @@ def search_by_song_id(song_ids_prompt):
         "limit": 200,
         "voice_yn": "Y",
         "sort": "SCORE",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
-        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "album_release_start_date": f'{start_last_format}',
+        "album_release_end_date": f'{end_last_format}',
         "cnt": 50
     }
     param_json = json.dumps(param)
@@ -168,8 +168,8 @@ def search(prompt):
         "limit": 200,
         "voice_yn": "Y",
         "sort": "POPULAR",
-        "album_release_start_date": f'{selected_date.strftime("%Y%m%d")}',
-        "album_release_end_date": f'{current_date.strftime("%Y%m%d")}',
+        "album_release_start_date": f'{start_last_format}',
+        "album_release_end_date": f'{end_last_format}',
         "cnt": 50
     }
     param_json = json.dumps(param)
