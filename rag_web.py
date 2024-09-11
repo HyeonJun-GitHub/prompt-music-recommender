@@ -11,9 +11,12 @@ import calendar
 st.set_page_config(layout="wide")
 
 # 로컬 이미지 경로 설정
+# 리소스 디렉토리 경로 설정
+title_01_path = os.path.join(os.getcwd(), "title_01.png")
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
+title_01_img = Image.open(background_img_path)
 background_img = Image.open(background_img_path)
 
 # Base64로 로컬 이미지 인코딩
@@ -213,7 +216,7 @@ def display_sample_results(data_info):
 # -------------------------------------------------------------
 
 spacer_height = "<div style='height: 28px;'></div>"
-
+st.image(title_01_img, caption='Example Image from Resources', use_column_width=True)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
