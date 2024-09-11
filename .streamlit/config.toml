@@ -1,5 +1,7 @@
 [theme]
-textColor="#FFFFFF"
-primaryColor="#F39C12"
-backgroundColor="#2E86C1"
-secondaryBackgroundColor="#7F8C8D"
+base="dark"  # 다크 모드를 사용하면 더 잘 어울립니다.
+textColor="#FFFFFF"  # 전체 텍스트 색상을 흰색으로 설정
+primaryColor="#1f77b4"  # 기본 버튼 및 UI 색상 (필요에 따라 수정)
+backgroundColor="#0e1117"  # 배경색 (다크 모드용)
+secondaryBackgroundColor="#31333F"  # 사이드바 배경 색상
+font="sans serif"  # 폰트 스타일 설정 (sans serif, serif, monospace 중 선택)
