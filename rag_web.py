@@ -16,7 +16,7 @@ st.set_page_config(layout="wide",)
 st.markdown(
     """
     <style>
-    .rag_web {
+    .stApp {
         background-color: #000000;
     }
     body, .stMarkdown, .stTitle, .stText, .stHeader, .stSubheader {
