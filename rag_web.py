@@ -195,7 +195,7 @@ def display_sample_results(data_info):
 
 # -------------------------------------------------------------
 
-spacer_height = "<div style='height: 0px;'></div>"
+spacer_height = "<div style='height: -30px;'></div>"
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
