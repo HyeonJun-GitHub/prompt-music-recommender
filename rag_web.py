@@ -108,7 +108,7 @@ start_date = int_to_date(selected_date[0])
 end_date = int_to_date(selected_date[1])
 
 # 선택된 날짜 출력
-st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}}")
+st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
 
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
