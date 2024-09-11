@@ -6,6 +6,8 @@ import os
 import base64
 from PIL import Image
 
+st.set_page_config(layout="wide")
+
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
