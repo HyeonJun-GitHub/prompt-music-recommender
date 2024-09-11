@@ -30,10 +30,8 @@ st.markdown(
         color: white !important;
     }
     .st-expander {
-        border: 1px solid #f0f0f0 !important; /* 라인 색상을 더 밝게 설정 */
+        border: 1px solid #ffffff !important; /* 라인 색상을 더 밝게 설정 */
     }
-
-
     </style>
     """,
     unsafe_allow_html=True
