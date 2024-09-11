@@ -85,7 +85,7 @@ past_date = current_date - timedelta(days=day_number)  # 최소값
 date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0, 366, 30)]  # 매월 1회씩
 
 selected_date = st.select_slider(
-    '검색 기간을 선택하세요:',
+    '검색하는 발매 기간을 선택하세요:',
     options=date_range,
     value=(date_range[-4], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
 )
@@ -94,17 +94,17 @@ selected_date = st.select_slider(
 def int_to_date(days_from_today):
     return current_date + timedelta(days=days_from_today)
 
-# 슬라이더 생성
-initial_slider_value = -90  # 기본값을 현재 날짜로 설정
-my_slider = st.slider(
-    "날짜를 선택하세요:",
-    min_value=-day_number,
-    max_value=0,
-    value=initial_slider_value
-)
+# # 슬라이더 생성
+# initial_slider_value = -90  # 기본값을 현재 날짜로 설정
+# my_slider = st.slider(
+#     "날짜를 선택하세요:",
+#     min_value=-day_number,
+#     max_value=0,
+#     value=initial_slider_value
+# )
 
 # 선택된 값을 날짜로 변환
-selected_date = int_to_date(my_slider)
+selected_date = int_to_date(selected_date)
 
 # 선택된 날짜 출력
 st.write(f"검색 기간 : {selected_date.strftime('%Y년 %m월')} ~ 현재 날짜")
