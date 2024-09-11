@@ -35,41 +35,41 @@ else:
 # HTML을 사용하여 spacer_height 값을 반영
 components.html(spacer_height, height=0)
 
-# # JavaScript를 사용하여 userAgent를 가져오는 코드
-# js_code = """
-# <script>
-#     const userAgent = navigator.userAgent;
-#     document.addEventListener("DOMContentLoaded", function() {
-#         window.parent.postMessage({isStreamlitMessage: true, userAgent: userAgent}, "*");
-#     });
-# </script>
-# """
+# JavaScript를 사용하여 userAgent를 가져오는 코드
+js_code = """
+<script>
+    const userAgent = navigator.userAgent;
+    document.addEventListener("DOMContentLoaded", function() {
+        window.parent.postMessage({isStreamlitMessage: true, userAgent: userAgent}, "*");
+    });
+</script>
+"""
 
-# # JavaScript를 통해 userAgent 정보를 받아와 처리
-# components.html(f"""
-#     <div id="userAgentData"></div>
-#     {js_code}
-# """, height=0)
+# JavaScript를 통해 userAgent 정보를 받아와 처리
+components.html(f"""
+    <div id="userAgentData"></div>
+    {js_code}
+""", height=0)
 
-# # userAgent 정보를 처리하는 부분
-# components.html(
-#     """
-#     <script>
-#     window.addEventListener("message", (event) => {
-#         if (event.data.isStreamlitMessage) {
-#             const userAgent = event.data.userAgent;
-#             window.userAgent = userAgent;
-#             const uaDiv = document.getElementById("userAgentData");
-#             uaDiv.innerText = userAgent;
-#         }
-#     });
-#     </script>
-#     """,
-#     height=0
-# )
+# userAgent 정보를 처리하는 부분
+components.html(
+    """
+    <script>
+    window.addEventListener("message", (event) => {
+        if (event.data.isStreamlitMessage) {
+            const userAgent = event.data.userAgent;
+            window.userAgent = userAgent;
+            const uaDiv = document.getElementById("userAgentData");
+            uaDiv.innerText = userAgent;
+        }
+    });
+    </script>
+    """,
+    height=0
+)
 
-# # JavaScript로부터 받은 userAgent 값을 streamlit에 전달
-# user_agent = st.session_state.get('user_agent', '')
+# JavaScript로부터 받은 userAgent 값을 streamlit에 전달
+user_agent = st.session_state.get('user_agent', '')
 
 # 모바일 또는 PC에 따른 분기 처리
 if "Mobile" in user_agent:
