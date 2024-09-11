@@ -19,21 +19,21 @@ title_01_path = os.path.join(os.getcwd(), "title_01.png")
 title_02_path = os.path.join(os.getcwd(), "title_02.png")
 title_03_path = os.path.join(os.getcwd(), "title_03.png")
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
-background_img_path = os.path.join(os.getcwd(), "background.jpg")
+# background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
 title_00_img = Image.open(title_00_path)
 title_01_img = Image.open(title_01_path)
 title_02_img = Image.open(title_02_path)
 title_03_img = Image.open(title_03_path)
-background_img = Image.open(background_img_path)
+# background_img = Image.open(background_img_path)
 
 # Base64로 로컬 이미지 인코딩
 with open(box_img_path, "rb") as img_file:
     box_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # Base64로 로컬 이미지 인코딩 (배경 이미지)
-with open(background_img_path, "rb") as img_file:
-    background_img_base64 = base64.b64encode(img_file.read()).decode()
+# with open(background_img_path, "rb") as img_file:
+#     background_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
