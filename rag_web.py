@@ -294,7 +294,7 @@ def display_image(base64_str):
     img = Image.open(BytesIO(img_data))
     cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
     with cols[1]:  # 중간 열에 이미지를 배치
-        st.image(img, caption="데이터 일관성", width=400)
+        st.image(img, caption="데이터 일관성", width=300)
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
