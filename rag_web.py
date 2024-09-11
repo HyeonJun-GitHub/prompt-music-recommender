@@ -348,22 +348,30 @@ st.image(title_01_img, caption='', use_column_width=True)
 st.markdown(
     """
     <style>
-    .blue-button > button {
+    /* 각각의 버튼에 다른 배경 색상 적용 */
+    .blue-button > div > button {
         background-color: #3f4e9e !important;
         color: white !important;
+        border-radius: 5px !important;
+        padding: 10px !important;
     }
-    .purple-button > button {
+    .purple-button > div > button {
         background-color: #583c9e !important;
         color: white !important;
+        border-radius: 5px !important;
+        padding: 10px !important;
     }
-    .green-button > button {
+    .green-button > div > button {
         background-color: #397063 !important;
         color: white !important;
+        border-radius: 5px !important;
+        padding: 10px !important;
     }
     </style>
     """, 
     unsafe_allow_html=True
 )
+
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
