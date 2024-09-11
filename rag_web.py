@@ -147,10 +147,10 @@ elif segment == "해외":
     album_release_country = "POPULAR"
 
 # 현재 날짜와 과거 날짜 설정
-day_number = 365
+day_number = 1095
 current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=day_number)  # 최소값
-date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0, 366, 30)]  # 매월 1회씩
+date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0, day_number+1, 30)]  # 매월 1회씩
 
 st.markdown("""
     <style>
