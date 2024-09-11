@@ -380,14 +380,27 @@ with st.expander("유사 곡 검색"):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(song_ids_prompt)
 
-
+# st.markdown(
+#     """
+#         <style>
+#         button {background-color: #397063 !important;}
+#         </style>
+#     """,unsafe_allow_html=True
+# )
 st.markdown(
     """
-        <style>
-        button {background-color: #397063 !important;}
-        </style>
-    """,unsafe_allow_html=True
+    <style>
+    .specific-button-container button {
+        background-color: #397063 !important;
+        color: white !important;
+        border-radius: 5px !important;
+        padding: 10px !important;
+    }
+    </style>
+    """, 
+    unsafe_allow_html=True
 )
+
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
@@ -395,7 +408,9 @@ with st.expander("유사 아티스트 검색"):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
+        st.markdown('<div class="specific-button-container">', unsafe_allow_html=True)
+        prompt_search_button = st.button("프롬프트 검색", key="prompt_search")
+        st.markdown('</div>', unsafe_allow_html=True)
     
     if artist_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
