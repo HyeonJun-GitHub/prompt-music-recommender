@@ -30,7 +30,7 @@ st.markdown(
         padding: 10px;
     }
     label {
-        color: white !important;
+        color: rgb(235, 235, 235) !important;
     }
     .stRadio > div > label > div {
         color: white !important;
