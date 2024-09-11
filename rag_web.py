@@ -292,7 +292,16 @@ def display_score_result(score_info):
 def display_image(base64_str):
     img_data = base64.b64decode(base64_str)
     img = Image.open(BytesIO(img_data))
-    st.image(img, caption="Radial Image", use_column_width=True)
+    st.image(img, caption="Radial Image", width=300)
+
+# 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
+def display_sample_results(data_info):
+    datas = data_info['songs']
+    for song in datas[:5]:  # 리스트 5개만 출력
+        song_id = song['song_id']
+        song_name = song['song_name']
+        artist_name = song['artist_name']
+        st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
@@ -311,16 +320,7 @@ def get_downloadurl(song_id):
     else:
         st.write("다운로드 URL을 가져오지 못했습니다.")  # 실패 시 출력
         return None
-
-# 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
-def display_sample_results(data_info):
-    datas = data_info['songs']
-    for song in datas[:5]:  # 리스트 5개만 출력
-        song_id = song['song_id']
-        song_name = song['song_name']
-        artist_name = song['artist_name']
-        st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
-
+    
 # -------------------------------------------------------------
 
 spacer_height = "<div style='height: 28px;'></div>"
