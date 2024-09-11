@@ -18,9 +18,7 @@ st.markdown(
     <style>
     .stApp {
         background-color: #000000;
-    }
-    body, .stMarkdown, .stTitle, .stText, .stHeader, .stSubheader {
-        color: green;
+        color: white;
     }
     </style>
     """,
