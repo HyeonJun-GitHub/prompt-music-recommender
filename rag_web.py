@@ -104,10 +104,11 @@ def int_to_date(days_from_today):
 # )
 
 # 선택된 값을 날짜로 변환
-selected_date = int_to_date(selected_date)
+start_date = int_to_date(selected_date[0])
+end_date = int_to_date(selected_date[1])
 
 # 선택된 날짜 출력
-st.write(f"검색 기간 : {selected_date.strftime('%Y년 %m월')} ~ 현재 날짜")
+st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}}")
 
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
