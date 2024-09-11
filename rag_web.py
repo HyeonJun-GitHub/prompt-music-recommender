@@ -199,36 +199,33 @@ spacer_height = "<div style='height: 28px;'></div>"
 
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
-    col1, col2 = st.columns([4, 1])  # 비율을 4:1로 설정하여 왼쪽에 입력, 오른쪽에 버튼 배치
-    with col1:
-        prompt = st.text_area("무슨 노래가 듣고 싶어요?")
-    with col2:
-        st.markdown(spacer_height, unsafe_allow_html=True)
-        search_button_clicked = st.button("프롬프트 검색")
+    prompt = st.text_area("무슨 노래가 듣고 싶어요?")
+    
+    # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
+    with st.container():
+        search_button_clicked = st.button("프롬프트 검색", use_container_width=True)
     
     if search_button_clicked:
         search(prompt)
 
 # 곡 ID 검색 (st.expander 사용)
 with st.expander("유사 곡 검색"):
-    col1, col2 = st.columns([4, 1])  # 비율을 4:1로 설정하여 왼쪽에 입력, 오른쪽에 버튼 배치
-    with col1:
-        song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
-    with col2:
-        st.markdown(spacer_height, unsafe_allow_html=True)
-        song_search_button_clicked = st.button("곡 검색")
+    song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
+    
+    # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
+    with st.container():
+        song_search_button_clicked = st.button("곡 검색", use_container_width=True)
     
     if song_search_button_clicked:
         search_by_song_id(song_ids_prompt)
 
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
-    col1, col2 = st.columns([4, 1])
-    with col1:
-        artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
-    with col2:
-        st.markdown(spacer_height, unsafe_allow_html=True)
-        artist_search_button_clicked = st.button("아티스트 검색")
+    artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
+    
+    # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
+    with st.container():
+        artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
     
     if artist_search_button_clicked:
         search_by_artist_id(artist_ids_prompt)
