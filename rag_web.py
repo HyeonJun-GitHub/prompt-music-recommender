@@ -36,7 +36,9 @@ st.markdown(
         color: white !important;
     }
     .st-expander {
-        border: 2px solid #ffffff !important; /* 라인 색상을 더 밝게 설정 */
+        border: 2px solid #f5f5f5 !important; /* 더 밝은 회색 경계선 */
+        border-radius: 10px;
+
     }
     </style>
     """,
