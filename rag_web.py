@@ -52,6 +52,32 @@ st.markdown(
     button[title="View fullscreen"] {
         display: none;
     }
+
+    /* 기본 폰트 크기 */
+    body {
+        font-size: 16px;
+    }
+
+    /* 해상도가 1200px 이상일 때 폰트 크기를 크게 설정 */
+    @media (min-width: 1200px) {
+        body {
+            font-size: 20px;
+        }
+    }
+
+    /* 해상도가 768px 이상 1200px 미만일 때 폰트 크기를 중간 크기로 설정 */
+    @media (min-width: 768px) and (max-width: 1199px) {
+        body {
+            font-size: 18px;
+        }
+    }
+
+    /* 해상도가 768px 미만일 때 폰트 크기를 작게 설정 */
+    @media (max-width: 767px) {
+        body {
+            font-size: 14px;
+        }
+    }
     </style>
     """,
     unsafe_allow_html=True
