@@ -312,7 +312,7 @@ def display_sample_results(data_info):
         artist_name = song['artist_name']
         # st.markdown(f"[{song_name} - {artist_name}](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         st.markdown(f"""
-            <div style='text-align: center; background-color: gray; padding: 2px 0; border-radius: 0px; width: 100%;'>
+            <div style='text-align: center; background-color: rgba(0, 0, 0, 0.2); padding: 2px 0; border-radius: 0px; width: 100%;'>
                 <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 15px; padding: 10px 20px; display: inline-block; border-radius: 0px; width: 100%; box-sizing: border-box;'> 
                     {song_name} - {artist_name} 
                 </a>
