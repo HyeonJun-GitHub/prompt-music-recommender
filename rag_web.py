@@ -12,6 +12,18 @@ import calendar
 
 st.set_page_config(layout="wide",)
 
+# CSS를 사용하여 배경 색상을 설정
+st.markdown(
+    """
+    <style>
+    .main {
+        background-color: #00FF00;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
 title_00_path = os.path.join(os.getcwd(), "title_00.png")
