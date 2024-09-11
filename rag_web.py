@@ -7,6 +7,7 @@ import base64
 from PIL import Image
 import streamlit.components.v1 as components
 import calendar
+from io import BytesIO
 
 # 국내/해외 세그먼트 선택
 
@@ -240,7 +241,9 @@ def search(prompt):
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     data_info = info(json_data)
+    score_info = evaluate(json_data)
     display_sample_results(data_info)
+    display_score_result(score_info)
 
 def info(res_json):
     info = res_json["songs"]
@@ -250,6 +253,26 @@ def info(res_json):
     param_json = json.dumps(param)
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     return res.json()
+
+def evaluate(res_json):
+    info = res_json["songs"]
+    url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/evaluate/consistency"
+    song_ids = ",".join([str(item["song_id"]) for item in info])
+    param = {"song_id": song_ids}
+    param_json = json.dumps(param)
+    res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
+    return res.json()
+
+def display_score_result(score_info):
+    info = score_info['score']
+    image_data = info['radial_image']
+    display_image(image_data)
+
+# 이미지 디코딩 및 표시
+def display_image(base64_str):
+    img_data = base64.b64decode(base64_str)
+    img = Image.open(BytesIO(img_data))
+    st.image(img, caption="Radial Image", use_column_width=True)
 
 # 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
