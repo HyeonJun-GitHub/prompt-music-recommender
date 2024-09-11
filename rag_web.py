@@ -226,7 +226,8 @@ with st.expander("프롬프트 입력", expanded=True):
         search_button_clicked = st.button("프롬프트 검색", use_container_width=True)
     
     if search_button_clicked:
-        search(prompt)
+        with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
+            search(prompt)
 
 # 곡 ID 검색 (st.expander 사용)
 with st.expander("유사 곡 검색"):
@@ -237,7 +238,8 @@ with st.expander("유사 곡 검색"):
         song_search_button_clicked = st.button("곡 검색", use_container_width=True)
     
     if song_search_button_clicked:
-        search_by_song_id(song_ids_prompt)
+        with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
+            search_by_song_id(song_ids_prompt)
 
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
@@ -248,4 +250,5 @@ with st.expander("유사 아티스트 검색"):
         artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
     
     if artist_search_button_clicked:
-        search_by_artist_id(artist_ids_prompt)
+        with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
+            search_by_artist_id(artist_ids_prompt)
