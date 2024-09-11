@@ -83,17 +83,19 @@ day_number = 365
 current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=day_number)  # 최소값
 
-# 숫자 -> 날짜 변환 함수
-def int_to_date(days_from_today):
-    return current_date + timedelta(days=days_from_today)
+# 숫자 -> YYYYMM 형식으로 변환하는 함수
+def int_to_yyyymm(days_from_today):
+    target_date = current_date + timedelta(days=days_from_today)
+    return target_date.strftime('%Y%m')
 
-# 슬라이더 생성
+# 슬라이더 생성 (날짜 포맷을 'YYYYMM'으로 사용)
 initial_slider_value = -90  # 기본값을 현재 날짜로 설정
 my_slider = st.slider(
     "날짜를 선택하세요:",
     min_value=-day_number,
     max_value=0,
-    value=initial_slider_value
+    value=initial_slider_value,
+    format_func=lambda x: int_to_yyyymm(x)  # 슬라이더 값이 YYYYMM 형식으로 표시됨
 )
 
 # 선택된 값을 날짜로 변환
