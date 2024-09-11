@@ -299,7 +299,7 @@ def display_image(base64_str):
     st.write("")
     img_data = base64.b64decode(base64_str)
     img = Image.open(BytesIO(img_data))
-    cols = st.columns([1, 3, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
+    cols = st.columns([1, 5, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
     with cols[1]:  # 중간 열에 이미지를 배치
         st.image(img, caption="데이터 일관성", width=300)
 
