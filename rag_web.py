@@ -82,6 +82,13 @@ st.title("AI 큐레이션 TF")
 day_number = 365
 current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=day_number)  # 최소값
+date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0, 366, 30)]  # 매월 1회씩
+
+selected_date = st.select_slider(
+    '검색 기간을 선택하세요:',
+    options=date_range,
+    value=(date_range[-4], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
+)
 
 # 숫자 -> 날짜 변환 함수
 def int_to_date(days_from_today):
