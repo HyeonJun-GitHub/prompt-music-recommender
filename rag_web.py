@@ -332,6 +332,16 @@ def get_downloadurl(song_id):
     
 # -------------------------------------------------------------
 
+st.markdown(
+    """
+        <style>
+        button {
+                background-color: rgb(123, 156, 248) !important;
+            }
+        </style>
+    """,unsafe_allow_html=True
+)
+
 spacer_height = "<div style='height: 28px;'></div>"
 st.image(title_01_img, caption='', use_column_width=True)
 # Prompt 입력과 버튼 (st.expander 사용)
