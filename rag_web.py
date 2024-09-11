@@ -95,16 +95,6 @@ textarea, input {
 }
 </style>
 """
-st.markdown("""
-    <style>
-    body {
-        background-color: #333333; /* 어두운 배경 */
-        color: #FFFFFF; /* 흰색 텍스트 */
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-st.title("흰색 텍스트 제목")
 
 # 배경 이미지 적용
 # st.markdown(page_bg_img, unsafe_allow_html=True)
