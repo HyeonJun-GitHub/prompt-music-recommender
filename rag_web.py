@@ -295,6 +295,8 @@ def display_score_result(score_info):
 
 # 이미지 디코딩 및 표시
 def display_image(base64_str):
+    st.write("")
+    st.write("")
     img_data = base64.b64decode(base64_str)
     img = Image.open(BytesIO(img_data))
     cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
