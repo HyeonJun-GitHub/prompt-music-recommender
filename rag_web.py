@@ -333,7 +333,6 @@ with st.expander("프롬프트 입력", expanded=True):
 
 st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
-
 # 스타일 설정
 st.markdown("""
     <style>
@@ -347,6 +346,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 with st.expander("유사 곡 검색"):
+    st.markdown("<p style='color: lightgray;'>이 곳에 유사 곡 검색 관련 내용을 입력하세요.</p>", unsafe_allow_html=True)
     song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
