@@ -26,6 +26,9 @@ st.markdown(
     label {
         color: white !important;
     }
+    .stRadio > div > label > div {
+        color: white !important;
+    }
 
 
     </style>
