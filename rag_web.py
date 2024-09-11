@@ -52,17 +52,7 @@ st.markdown(
     button[title="View fullscreen"] {
         display: none;
     }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
-    <style>
-    /* 이미지 높이 고정 및 가로 중앙 정렬 */
     .fixed-height-img {
-        display: block;
         margin-left: auto;
         margin-right: auto;
         height: 200px; /* 이미지 높이를 고정 */
