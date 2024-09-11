@@ -210,11 +210,10 @@ def display_sample_results(data_info):
         st.markdown(f"{song_name} - {artist_name} [상세정보](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
 
 # -------------------------------------------------------------
-if "Mobile" in user_agent:
-    spacer_height = """
+spacer_height = """
         <div style="height: 28px;"></div>
     """
-else:
+if "Mobile" in user_agent:
     spacer_height = """
         <div style="height: 0px;"></div>
     """
