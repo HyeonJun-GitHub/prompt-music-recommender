@@ -339,7 +339,7 @@ def get_downloadurl(song_id):
 # -------------------------------------------------------------
 
 spacer_height = "<div style='height: 28px;'></div>"
-st.image(title_01_img, caption='', use_column_width=False, classes="fixed-height-img")
+st.image(title_01_img, caption='', use_column_width=False)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
@@ -352,8 +352,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-# st.image(title_02_img, caption='', use_column_width=True)
-st.image(title_02_img, caption='', use_column_width=False, classes="fixed-height-img")
+st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
 
 with st.expander("유사 곡 검색"):
@@ -367,8 +366,7 @@ with st.expander("유사 곡 검색"):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(song_ids_prompt)
 
-# st.image(title_03_img, caption='', use_column_width=True)
-st.image(title_03_img, caption='', use_column_width=False, classes="fixed-height-img")
+st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
     artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
