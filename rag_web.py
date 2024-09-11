@@ -19,6 +19,10 @@ st.markdown(
     .main {
         background-color: #000000;
     }
+    .stMarkdown, .stTitle, .stText, .stHeader {
+        color: white;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
