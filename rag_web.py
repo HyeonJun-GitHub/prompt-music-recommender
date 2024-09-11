@@ -10,7 +10,7 @@ import calendar
 
 # 국내/해외 세그먼트 선택
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",)
 
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
