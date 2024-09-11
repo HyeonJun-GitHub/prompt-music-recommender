@@ -55,16 +55,16 @@ hide_streamlit_style = """
     """
 
 # 배경 이미지 적용 CSS
-page_bg_img = f'''
-<style>
-.stApp {{
-  background-image: url("data:image/jpg;base64,{background_img_base64}");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}}
-</style>
-'''
+# page_bg_img = f'''
+# <style>
+# .stApp {{
+#   background-image: url("data:image/jpg;base64,{background_img_base64}");
+#   background-size: cover;
+#   background-position: center;
+#   background-repeat: no-repeat;
+# }}
+# </style>
+# '''
 
 # 텍스트 입력창을 하얀색으로 설정하는 CSS
 text_area_style = """
@@ -91,7 +91,7 @@ st.markdown("""
 st.title("흰색 텍스트 제목")
 
 # 배경 이미지 적용
-st.markdown(page_bg_img, unsafe_allow_html=True)
+# st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
 
