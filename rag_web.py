@@ -55,8 +55,8 @@ else:
         <div style="height: 28px;"></div>
     """
 
-# HTML을 사용하여 spacer_height 값을 반영
-components.html(spacer_height, height=0)
+# # HTML을 사용하여 spacer_height 값을 반영
+# components.html(spacer_height, height=0)
 
 # # User-Agent를 가져오는 함수
 # user_agent = st.experimental_get_query_params().get('user-agent', [''])[0]
