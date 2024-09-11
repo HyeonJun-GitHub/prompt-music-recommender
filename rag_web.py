@@ -409,7 +409,7 @@ with st.expander("유사 아티스트 검색"):
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
         st.markdown('<div class="specific-button-container">', unsafe_allow_html=True)
-        prompt_search_button = st.button("프롬프트 검색", key="prompt_search")
+        artist_search_button_clicked = st.button("프롬프트 검색", key="prompt_search")
         st.markdown('</div>', unsafe_allow_html=True)
     
     if artist_search_button_clicked:
