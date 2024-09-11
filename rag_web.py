@@ -292,7 +292,16 @@ def display_score_result(score_info):
 def display_image(base64_str):
     img_data = base64.b64decode(base64_str)
     img = Image.open(BytesIO(img_data))
-    st.image(img, caption="Radial Image", width=300)
+    # st.image(img, caption="Radial Image", width=300)
+    st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="data:image/png;base64,{}" alt="Radial Image" width="300"/>
+        <p>Radial Image</p>
+    </div>
+    """.format(img_data),
+    unsafe_allow_html=True
+)
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
