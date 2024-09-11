@@ -52,12 +52,6 @@ st.markdown(
     button[title="View fullscreen"] {
         display: none;
     }
-    .fixed-height-img {
-        margin-left: auto;
-        margin-right: auto;
-        height: 200px; /* 이미지 높이를 고정 */
-        object-fit: cover; /* 이미지 비율을 유지하면서 크기에 맞추기 */
-    }
     </style>
     """,
     unsafe_allow_html=True
