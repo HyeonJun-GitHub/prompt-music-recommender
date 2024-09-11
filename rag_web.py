@@ -40,7 +40,7 @@ st.markdown(
         border: 2px solid #f5f5f5 !important; /* 더 밝은 회색 경계선 */
         border-radius: 10px;
     }
-        .st-expanderHeader {
+    .st-expanderHeader {
         color: white !important; /* Expander 헤더 텍스트 색상 */
     }
     .st-expanderContent {
