@@ -13,10 +13,14 @@ st.set_page_config(layout="wide")
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
 title_01_path = os.path.join(os.getcwd(), "title_01.png")
+title_02_path = os.path.join(os.getcwd(), "title_02.png")
+title_03_path = os.path.join(os.getcwd(), "title_03.png")
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
 title_01_img = Image.open(title_01_path)
+title_02_img = Image.open(title_02_path)
+title_03_img = Image.open(title_03_path)
 background_img = Image.open(background_img_path)
 
 # Base64로 로컬 이미지 인코딩
@@ -242,6 +246,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
+st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
 with st.expander("유사 곡 검색"):
     song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
@@ -254,6 +259,7 @@ with st.expander("유사 곡 검색"):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(song_ids_prompt)
 
+st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
     artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
