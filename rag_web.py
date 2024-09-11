@@ -97,14 +97,6 @@ def int_to_date(days_from_today):
 def yyyymm_to_date(yyyymm):
     return datetime.strptime(yyyymm, "%Y%m")
 
-# # 슬라이더 생성
-# initial_slider_value = -90  # 기본값을 현재 날짜로 설정
-# my_slider = st.slider(
-#     "날짜를 선택하세요:",
-#     min_value=-day_number,
-#     max_value=0,
-#     value=initial_slider_value
-# )
 
 # 선택된 값을 날짜로 변환
 start_date = yyyymm_to_date(selected_date[0])
@@ -112,7 +104,7 @@ end_date = yyyymm_to_date(selected_date[1])
 
 # 선택된 날짜 출력
 st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
-
+st.write("")
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
