@@ -310,7 +310,14 @@ def display_sample_results(data_info):
         song_id = song['song_id']
         song_name = song['song_name']
         artist_name = song['artist_name']
-        st.markdown(f"[{song_name} - {artist_name}](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        # st.markdown(f"[{song_name} - {artist_name}](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
+        st.markdown(f"""
+        <div style='text-align: center;'>
+            {song_name} - {artist_name} 
+            <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: red;'> 들어보기 </a>
+        </div>
+        """, unsafe_allow_html=True)
+
 
 # 곡 다운로드 URL을 가져오는 함수
 def get_downloadurl(song_id):
