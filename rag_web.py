@@ -91,6 +91,7 @@ st.image(title_00_img, caption='', use_column_width=True)
 # 레이아웃 시작
 st.write("")
 st.title("국가 선택")
+st.subheader("국가 선택")
 segment = st.radio("", ("전체", "국내", "해외"))
 
 album_release_country = ""
