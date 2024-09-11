@@ -12,12 +12,14 @@ st.set_page_config(layout="wide")
 
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
+title_00_path = os.path.join(os.getcwd(), "title_00.png")
 title_01_path = os.path.join(os.getcwd(), "title_01.png")
 title_02_path = os.path.join(os.getcwd(), "title_02.png")
 title_03_path = os.path.join(os.getcwd(), "title_03.png")
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
+title_00_img = Image.open(title_00_path)
 title_01_img = Image.open(title_01_path)
 title_02_img = Image.open(title_02_path)
 title_03_img = Image.open(title_03_path)
@@ -83,6 +85,7 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 # -------------------------------------------------------------
 
+st.image(title_00_img, caption='', use_column_width=True)
 # 레이아웃 시작
 st.title("AI 큐레이션 TF")
 
