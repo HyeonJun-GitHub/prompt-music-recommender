@@ -20,8 +20,7 @@ st.markdown(
     .stApp {
         background-color: #000022;
         color: white;
-        max-width: 1200px;  /* 전체 페이지의 최대 너비 */
-        margin: -20 auto;     /* 가로로 가운데 정렬 */
+        overflow-x: hidden;
     }
     h1, h2, h3, h4, h5, h6 {
         color: white !important;
@@ -41,6 +40,8 @@ st.markdown(
     .st-expander {
         border: 2px solid #ff6347 !important; /* 새로운 경계선 색상을 적용 (예: 토마토 색상) */
         border-radius: 10px;
+        width: 100% !important;  /* 너비를 100%로 설정하여 작은 화면에서 가로 스크롤 방지 */
+        margin: 0 auto;  /* 중앙 정렬 */
     }
     .st-expanderHeader {
         color: white !important; /* Expander 헤더 텍스트 색상 */
