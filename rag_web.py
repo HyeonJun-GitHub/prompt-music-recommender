@@ -349,7 +349,9 @@ with st.expander("프롬프트 입력", expanded=True):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        search_button_clicked = st.markdown('<div class="blue-button">' + st.button("프롬프트 검색", use_container_width=True) + '</div>', unsafe_allow_html=True)
+        st.markdown('<div class="blue-button">', unsafe_allow_html=True)
+        search_button_clicked = st.button("프롬프트 검색", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
     
     if search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
@@ -363,7 +365,9 @@ with st.expander("유사 곡 검색"):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        song_search_button_clicked = st.markdown('<div class="purple-button">' + st.button("곡 검색", use_container_width=True) + '</div>', unsafe_allow_html=True)
+        st.markdown('<div class="purple-button">', unsafe_allow_html=True)
+        song_search_button_clicked = st.button("곡 검색", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
     
     if song_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
@@ -377,7 +381,9 @@ with st.expander("유사 아티스트 검색"):
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        artist_search_button_clicked = st.markdown('<div class="green-button">' + st.button("아티스트 검색", use_container_width=True) + '</div>', unsafe_allow_html=True)
+        st.markdown('<div class="green-button">', unsafe_allow_html=True)
+        artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
     
     if artist_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
