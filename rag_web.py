@@ -83,26 +83,80 @@ day_number = 365
 current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=day_number)  # 최소값
 
-# 숫자 -> YYYYMM 형식으로 변환하는 함수
-def int_to_yyyymm(days_from_today):
-    target_date = current_date + timedelta(days=days_from_today)
-    return target_date.strftime('%Y%m')
+# 현재 날짜 및 초기 날짜 설정
+current_date = datetime.datetime.now()
+past_date = current_date - datetime.timedelta(days=365)
 
-# 슬라이더 생성 (날짜 포맷을 'YYYYMM'으로 사용)
+# noUiSlider를 사용한 슬라이더 컴포넌트 삽입
+components.html(
+    f"""
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.5.1/distribute/nouislider.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.5.1/distribute/nouislider.min.js"></script>
+
+    <div id="slider" style="margin: 50px 0;"></div>
+    <p id="slider-value"></p>
+
+    <script>
+        var slider = document.getElementById('slider');
+
+        noUiSlider.create(slider, {{
+            start: [{(current_date.year * 12 + current_date.month - 1) - (past_date.year * 12 + past_date.month - 1)}, 0],
+            connect: true,
+            range: {{
+                'min': 0,
+                'max': 12 * (current_date.year - past_date.year) + (current_date.month - past_date.month)
+            }},
+            step: 1,
+            format: {{
+                to: function (value) {{
+                    var year = Math.floor(value / 12) + {past_date.year};
+                    var month = Math.floor(value % 12) + 1;
+                    return year.toString() + (month < 10 ? '0' + month : month);
+                }},
+                from: function (value) {{
+                    var year = parseInt(value.slice(0, 4));
+                    var month = parseInt(value.slice(4, 6)) - 1;
+                    return (year - {past_date.year}) * 12 + month;
+                }}
+            }}
+        }});
+
+        slider.noUiSlider.on('update', function (values) {{
+            document.getElementById('slider-value').innerText = values[0] + ' ~ ' + values[1];
+            window.parent.postMessage({{type: 'update-slider', values}}, '*');
+        }});
+    </script>
+    """,
+    height=150
+)
+
+# JavaScript로부터 값을 받아오기 위한 세션 상태 저장
+if 'slider_values' not in st.session_state:
+    st.session_state.slider_values = None
+
+# 메시지를 받아서 슬라이더 값 업데이트
+slider_values = st.session_state.slider_values if st.session_state.slider_values else "000000 ~ 000000"
+st.write(f"선택한 기간: {slider_values}")
+
+
+# 숫자 -> 날짜 변환 함수
+def int_to_date(days_from_today):
+    return current_date + timedelta(days=days_from_today)
+
+# 슬라이더 생성
 initial_slider_value = -90  # 기본값을 현재 날짜로 설정
 my_slider = st.slider(
     "날짜를 선택하세요:",
     min_value=-day_number,
     max_value=0,
-    value=initial_slider_value,
-    format_func=lambda x: int_to_yyyymm(x)  # 슬라이더 값이 YYYYMM 형식으로 표시됨
+    value=initial_slider_value
 )
 
 # 선택된 값을 날짜로 변환
-selected_yyyymm = int_to_yyyymm(my_slider)
+selected_date = int_to_date(my_slider)
 
 # 선택된 날짜 출력
-st.write(f"검색 기간 : {selected_yyyymm.strftime('%Y년 %m월')} ~ 현재 날짜")
+st.write(f"검색 기간 : {selected_date.strftime('%Y년 %m월')} ~ 현재 날짜")
 
 # 검색 함수들
 def search_by_artist_id(artist_ids_prompt):
