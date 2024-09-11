@@ -333,6 +333,19 @@ with st.expander("프롬프트 입력", expanded=True):
 
 st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
+
+# 스타일 설정
+st.markdown("""
+    <style>
+    .streamlit-expanderHeader {
+        color: white;  /* 제목의 색상을 흰색으로 설정 */
+    }
+    .streamlit-expanderContent {
+        color: lightgray;  /* 내부 텍스트 색상을 밝은 회색으로 설정 */
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 with st.expander("유사 곡 검색"):
     song_ids_prompt = st.text_input("곡 ID를 입력하세요 (예: 87443133 [아이유 - 가을 아침])")
     
