@@ -5,33 +5,75 @@ from datetime import datetime, timedelta
 import os
 import base64
 from PIL import Image
+import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
-# JavaScript로 User-Agent 정보를 가져오는 함수
-user_agent_script = """
-    <script>
+# JavaScript를 사용하여 userAgent를 가져오는 코드
+js_code = """
+<script>
     const userAgent = navigator.userAgent;
-    document.write('<input type="hidden" id="user-agent" value="' + userAgent + '">');
-    </script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.parent.postMessage({isStreamlitMessage: true, userAgent: userAgent}, "*");
+    });
+</script>
 """
-st.markdown(user_agent_script, unsafe_allow_html=True)
-# User-Agent를 가져오는 함수
-user_agent = st.experimental_get_query_params().get('user-agent', [''])[0]
-if not user_agent:
-    user_agent = st.session_state.get('user_agent', '')
-if user_agent == '':
-    st.warning("User-Agent 정보를 가져오는 중입니다...")
+
+# JavaScript를 통해 userAgent 정보를 받아와 처리
+components.html(f"""
+    <div id="userAgentData"></div>
+    {js_code}
+""", height=0)
+
+# userAgent 정보를 처리하는 부분
+components.html(
+    """
+    <script>
+    window.addEventListener("message", (event) => {
+        if (event.data.isStreamlitMessage) {
+            const userAgent = event.data.userAgent;
+            window.userAgent = userAgent;
+            const uaDiv = document.getElementById("userAgentData");
+            uaDiv.innerText = userAgent;
+        }
+    });
+    </script>
+    """,
+    height=0
+)
+
+# JavaScript로부터 받은 userAgent 값을 streamlit에 전달
+user_agent = st.session_state.get('user_agent', '')
+
+# 모바일 또는 PC에 따른 분기 처리
+if "Mobile" in user_agent:
+    spacer_height = """
+        <div style="height: 0px;"></div>
+    """
 else:
-    if "Mobile" in user_agent:
-        spacer_height = """
-            <div style="height: 0px;"></div>
-        """
-    else:
-        spacer_height = """
-            <div style="height: 28px;"></div>
-        """
-    st.session_state.user_agent = user_agent
+    spacer_height = """
+        <div style="height: 28px;"></div>
+    """
+
+# HTML을 사용하여 spacer_height 값을 반영
+components.html(spacer_height, height=0)
+
+# # User-Agent를 가져오는 함수
+# user_agent = st.experimental_get_query_params().get('user-agent', [''])[0]
+# if not user_agent:
+#     user_agent = st.session_state.get('user_agent', '')
+# if user_agent == '':
+#     st.warning("User-Agent 정보를 가져오는 중입니다...")
+# else:
+#     if "Mobile" in user_agent:
+#         spacer_height = """
+#             <div style="height: 0px;"></div>
+#         """
+#     else:
+#         spacer_height = """
+#             <div style="height: 28px;"></div>
+#         """
+#     st.session_state.user_agent = user_agent
 
 # 로컬 이미지 경로 설정
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
