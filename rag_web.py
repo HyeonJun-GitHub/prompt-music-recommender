@@ -18,7 +18,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-color: #000022;
+        background-color: #000000;
         color: white;
         overflow-x: hidden;
     }
