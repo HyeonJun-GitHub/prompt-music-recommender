@@ -122,7 +122,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 selected_date = st.select_slider(
-    '검색하는 발매 기간을 선택하세요.',
+    '발매 기간 범위',
     options=date_range,
     value=(date_range[-4], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
 )
