@@ -86,6 +86,7 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
+st.title("흰색 텍스트 제목")
 
 # 배경 이미지 적용
 st.markdown(page_bg_img, unsafe_allow_html=True)
