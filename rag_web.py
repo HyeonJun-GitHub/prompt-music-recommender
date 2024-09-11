@@ -94,6 +94,9 @@ selected_date = st.select_slider(
 def int_to_date(days_from_today):
     return current_date + timedelta(days=days_from_today)
 
+def yyyymm_to_date(yyyymm):
+    return datetime.strptime(yyyymm, "%Y%m")
+
 # # 슬라이더 생성
 # initial_slider_value = -90  # 기본값을 현재 날짜로 설정
 # my_slider = st.slider(
@@ -104,8 +107,8 @@ def int_to_date(days_from_today):
 # )
 
 # 선택된 값을 날짜로 변환
-start_date = int_to_date(selected_date[0])
-end_date = int_to_date(selected_date[1])
+start_date = yyyymm_to_date(selected_date[0])
+end_date = yyyymm_to_date(selected_date[1])
 
 # 선택된 날짜 출력
 st.write(f"검색 기간 : {start_date.strftime('%Y년 %m월')} ~ {end_date.strftime('%Y년 %m월')}")
