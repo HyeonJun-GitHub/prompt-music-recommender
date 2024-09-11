@@ -18,7 +18,6 @@ st.markdown(
     <style>
     .stApp {
         background-color: #000022;
-        textColor: white;
         color: white;
     }
     </style>
@@ -33,21 +32,21 @@ title_01_path = os.path.join(os.getcwd(), "title_01.png")
 title_02_path = os.path.join(os.getcwd(), "title_02.png")
 title_03_path = os.path.join(os.getcwd(), "title_03.png")
 box_img_path = os.path.join(os.getcwd(), "box_01.png")
-# background_img_path = os.path.join(os.getcwd(), "background.jpg")
+background_img_path = os.path.join(os.getcwd(), "background.jpg")
 
 title_00_img = Image.open(title_00_path)
 title_01_img = Image.open(title_01_path)
 title_02_img = Image.open(title_02_path)
 title_03_img = Image.open(title_03_path)
-# background_img = Image.open(background_img_path)
+background_img = Image.open(background_img_path)
 
 # Base64로 로컬 이미지 인코딩
 with open(box_img_path, "rb") as img_file:
     box_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # Base64로 로컬 이미지 인코딩 (배경 이미지)
-# with open(background_img_path, "rb") as img_file:
-#     background_img_base64 = base64.b64encode(img_file.read()).decode()
+with open(background_img_path, "rb") as img_file:
+    background_img_base64 = base64.b64encode(img_file.read()).decode()
 
 # 상태 저장을 위한 session_state 사용
 if 'playing_song_id' not in st.session_state:
@@ -69,16 +68,16 @@ hide_streamlit_style = """
     """
 
 # 배경 이미지 적용 CSS
-# page_bg_img = f'''
-# <style>
-# .stApp {{
-#   background-image: url("data:image/jpg;base64,{background_img_base64}");
-#   background-size: cover;
-#   background-position: center;
-#   background-repeat: no-repeat;
-# }}
-# </style>
-# '''
+page_bg_img = f'''
+<style>
+.stApp {{
+  background-image: url("data:image/jpg;base64,{background_img_base64}");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}}
+</style>
+'''
 
 # 텍스트 입력창을 하얀색으로 설정하는 CSS
 text_area_style = """
@@ -95,7 +94,7 @@ textarea, input {
 """
 
 # 배경 이미지 적용
-# st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
 
