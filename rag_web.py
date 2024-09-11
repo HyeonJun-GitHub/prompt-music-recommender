@@ -313,7 +313,7 @@ def display_sample_results(data_info):
         # st.markdown(f"[{song_name} - {artist_name}](https://genie.co.kr/detail/songInfo?xgnm={song_id})")
         st.markdown(f"""
             <div style='text-align: center; background-color: black; padding: 5px 0; border-radius: 2px;'>
-                <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 20px; padding: 10px 20px; display: inline-block; background-color: #333; border-radius: 10px;'> 
+                <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 15px; padding: 10px 20px; display: inline-block; background-color: #333; border-radius: 2px;'> 
                     {song_name} - {artist_name} 
                 </a>
             </div>
