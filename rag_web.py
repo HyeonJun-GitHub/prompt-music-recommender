@@ -9,54 +9,20 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
+# JavaScript 코드로 userAgent를 가져오기 위한 함수
+user_agent = st.experimental_js_eval("navigator.userAgent", timeout=10)
 
-# JavaScript를 통해 userAgent 정보를 가져오는 코드
-components.html(
-    """
-    <script>
-        const userAgent = navigator.userAgent;
-        window.parent.postMessage({ userAgent: userAgent }, "*");
-    </script>
-    """,
-    height=0
-)
-
-# Streamlit의 session_state에 userAgent를 저장하기 위한 초기화
-if "user_agent" not in st.session_state:
-    st.session_state["user_agent"] = ""
-
-# JavaScript 메시지를 처리하는 함수 정의
-def on_js_message(message):
-    if "userAgent" in message.data:
-        st.session_state["user_agent"] = message.data["userAgent"]
-
-# Streamlit이 JavaScript로부터 받은 메시지를 처리하는 부분
-components.html(
-    """
-    <script>
-    window.addEventListener("message", (event) => {
-        if (event.data.userAgent) {
-            Streamlit.setComponentValue(event.data.userAgent);
-        }
-    });
-    </script>
-    """,
-    height=0
-)
-
-# session_state에서 user_agent 값을 가져오기
-user_agent = st.session_state.get("user_agent", "")
-
-# 모바일 장치 여부를 확인하는 로직 (모바일 장치 판별을 위한 다양한 문자열 확인)
+# 모바일 장치 판별
 is_mobile = any(keyword in user_agent for keyword in ["Mobile", "Android", "iPhone", "iPad"])
 
-# 모바일과 PC에 따른 스페이서 높이 설정
+# 모바일 또는 PC에 따른 분기 처리
 if is_mobile:
     spacer_height = "<div style='height: 0px;'></div>"
     st.write("모바일 기기입니다.")
 else:
     spacer_height = "<div style='height: 28px;'></div>"
     st.write("PC입니다.")
+
 
 st.write(f"userAgent: {user_agent}")
 
