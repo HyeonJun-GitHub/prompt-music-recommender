@@ -52,31 +52,21 @@ st.markdown(
     button[title="View fullscreen"] {
         display: none;
     }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-    /* 기본 폰트 크기 */
-    body {
-        font-size: 16px;
-    }
-
-    /* 해상도가 1200px 이상일 때 폰트 크기를 크게 설정 */
-    @media (min-width: 1200px) {
-        body {
-            font-size: 20px;
-        }
-    }
-
-    /* 해상도가 768px 이상 1200px 미만일 때 폰트 크기를 중간 크기로 설정 */
-    @media (min-width: 768px) and (max-width: 1199px) {
-        body {
-            font-size: 18px;
-        }
-    }
-
-    /* 해상도가 768px 미만일 때 폰트 크기를 작게 설정 */
-    @media (max-width: 767px) {
-        body {
-            font-size: 14px;
-        }
+st.markdown(
+    """
+    <style>
+    /* 이미지 높이 고정 및 가로 중앙 정렬 */
+    .fixed-height-img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 200px; /* 이미지 높이를 고정 */
+        object-fit: cover; /* 이미지 비율을 유지하면서 크기에 맞추기 */
     }
     </style>
     """,
@@ -158,7 +148,7 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 # -------------------------------------------------------------
 
-st.image(title_00_img, caption='', use_column_width=True)
+st.image(title_00_img, caption='', use_column_width=False, classes="fixed-height-img")
 # 레이아웃 시작
 st.write("---")
 st.title("검색 설정")
@@ -359,7 +349,7 @@ def get_downloadurl(song_id):
 # -------------------------------------------------------------
 
 spacer_height = "<div style='height: 28px;'></div>"
-st.image(title_01_img, caption='', use_column_width=True)
+st.image(title_01_img, caption='', use_column_width=False, classes="fixed-height-img")
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
@@ -372,7 +362,8 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-st.image(title_02_img, caption='', use_column_width=True)
+# st.image(title_02_img, caption='', use_column_width=True)
+st.image(title_02_img, caption='', use_column_width=False, classes="fixed-height-img")
 # 곡 ID 검색 (st.expander 사용)
 
 with st.expander("유사 곡 검색"):
@@ -386,7 +377,8 @@ with st.expander("유사 곡 검색"):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(song_ids_prompt)
 
-st.image(title_03_img, caption='', use_column_width=True)
+# st.image(title_03_img, caption='', use_column_width=True)
+st.image(title_03_img, caption='', use_column_width=False, classes="fixed-height-img")
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
     artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 (예: 67872918 [아이유])")
