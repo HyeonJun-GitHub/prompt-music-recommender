@@ -309,7 +309,7 @@ def display_sample_results(data_info):
         st.markdown(f"""
             <div style='text-align: center; background-color: rgba(20, 20, 20, 0.35); padding: 2px 10px; border-radius: 0px; width: 100%;'>
                 <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 15px; padding: 10px 20px; display: inline-block; border-radius: 0px; width: 100%; box-sizing: border-box;'> 
-                    <span style='font-size: 14px;'>▶️</span> 재생 {song_name} - {artist_name} 
+                    <span style='font-size: 14px;'>[▶️</span> 재생] {song_name} - {artist_name} 
                 </a>
             </div>
         """, unsafe_allow_html=True)
