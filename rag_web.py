@@ -393,35 +393,34 @@ with st.expander("프롬프트 입력", expanded=True):
             search(prompt)
 
 
-st.image(title_02_img, caption='', use_column_width=True)
-# 곡 ID 검색 (st.expander 사용)
+# st.image(title_02_img, caption='', use_column_width=True)
 
-with st.expander("유사 곡 검색"):
-    query = st.text_input("곡 이름을 입력하세요")
+# with st.expander("유사 곡 검색"):
+#     query = st.text_input("곡 이름을 입력하세요")
     
-    # 검색어가 있을 경우
-    if query:
-        song_names, song_ids = search_api(query, 'songs')
+#     # 검색어가 있을 경우
+#     if query:
+#         song_names, song_ids = search_api(query, 'songs')
         
-        if song_names:
-            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
-            selected_artist_name = st.selectbox("Search Results", song_names)
+#         if song_names:
+#             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
+#             selected_artist_name = st.selectbox("Search Results", song_names)
             
-            if selected_artist_name:
-                # 선택한 아티스트의 ID 찾기
-                selected_artist_index = artist_names.index(selected_artist_name)
-                selected_artist_id = artist_ids[selected_artist_index]
+#             if selected_artist_name:
+#                 # 선택한 아티스트의 ID 찾기
+#                 selected_artist_index = artist_names.index(selected_artist_name)
+#                 selected_artist_id = artist_ids[selected_artist_index]
                 
-                # 선택된 아티스트 ID 표시
-                st.write(f"Selected Artist ID: {selected_artist_id}")
+#                 # 선택된 아티스트 ID 표시
+#                 st.write(f"Selected Artist ID: {selected_artist_id}")
 
-    # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
-    with st.container():
-        song_search_button_clicked = st.button("곡 검색", use_container_width=True)
+#     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
+#     with st.container():
+#         song_search_button_clicked = st.button("곡 검색", use_container_width=True)
     
-    if song_search_button_clicked:
-        with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
-            search_by_song_id(selected_artist_id)
+#     if song_search_button_clicked:
+#         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
+#             search_by_song_id(selected_artist_id)
 
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
