@@ -51,7 +51,7 @@ def search_ui():
     st.title("Artist Search")
 
     # 검색 입력 필드
-    query = st.text_input(query"아티스트 이름")
+    query = st.text_input("아티스트 이름")
 
     # 검색어가 있을 경우
     if query:
