@@ -433,34 +433,67 @@ with st.expander("유사 곡 검색"):
 
 st.image(title_03_img, caption='', use_column_width=True)
 
-# 유사 아티스트 검색
-with st.expander("유사 아티스트 검색"):
-    query = st.text_input("아티스트 이름을 입력하세요")
+# # 유사 아티스트 검색
+# with st.expander("유사 아티스트 검색"):
+#     query = st.text_input("아티스트 이름을 입력하세요")
     
-    # 초기값으로 None 할당
-    selected_artist_name = None
-    selected_artist_id = None
+#     # 초기값으로 None 할당
+#     selected_artist_name = None
+#     selected_artist_id = None
     
-    if query:
-        artist_names, artist_ids = search_api(query, 'artists')
+#     if query:
+#         artist_names, artist_ids = search_api(query, 'artists')
         
-        if artist_names:
-            selected_artist_name = st.selectbox("검색 결과", artist_names)
+#         if artist_names:
+#             selected_artist_name = st.selectbox("검색 결과", artist_names)
             
-            if selected_artist_name:
-                selected_artist_index = artist_names.index(selected_artist_name)
-                selected_artist_id = artist_ids[selected_artist_index]
+#             if selected_artist_name:
+#                 selected_artist_index = artist_names.index(selected_artist_name)
+#                 selected_artist_id = artist_ids[selected_artist_index]
     
-    # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
-    with st.container():
-        if selected_artist_name and selected_artist_id:
-            artist_search_button_clicked = st.button(f'유사 아티스트 검색 : \'{selected_artist_name}\'', use_container_width=True)
-        else:
-            artist_search_button_clicked = st.button("아티스트 조회", use_container_width=True)
+#     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
+#     with st.container():
+#         if selected_artist_name and selected_artist_id:
+#             artist_search_button_clicked = st.button(f'유사 아티스트 검색 : \'{selected_artist_name}\'', use_container_width=True)
+#         else:
+#             artist_search_button_clicked = st.button("아티스트 조회", use_container_width=True)
     
-    if artist_search_button_clicked and selected_artist_id:
-        with st.spinner(f'AI가 동작 중입니다..'):
-            search_by_artist_id(selected_artist_id)
-    elif artist_search_button_clicked:
-        st.error("선택된 아티스트가 없습니다.")
+#     if artist_search_button_clicked and selected_artist_id:
+#         with st.spinner(f'AI가 동작 중입니다..'):
+#             search_by_artist_id(selected_artist_id)
+#     elif artist_search_button_clicked:
+#         st.error("선택된 아티스트가 없습니다.")
 
+# 유사 곡 검색
+with st.expander("유사 곡 검색"):
+    query = st.text_input("곡 이름을 입력하세요")
+    
+    # 곡 이름 리스트를 초기화
+    song_names = []
+    selected_song_name = None
+    selected_song_id = None
+
+    # 사용자가 텍스트 입력 시 바로 검색 API를 호출하여 리스트를 갱신
+    if query:
+        song_names, song_ids = search_api(query, 'songs')
+
+        # 검색 결과가 있을 경우 selectbox로 선택 가능
+        if song_names:
+            selected_song_name = st.selectbox("검색 결과", song_names)
+            
+            # 선택된 곡의 ID 가져오기
+            if selected_song_name:
+                selected_song_index = song_names.index(selected_song_name)
+                selected_song_id = str(song_ids[selected_song_index])
+    
+    # 곡 선택 후 버튼 표시
+    if selected_song_name and selected_song_id:
+        song_search_button_clicked = st.button(f'유사 곡 검색 : \'{selected_song_name}\'', use_container_width=True)
+    else:
+        song_search_button_clicked = st.button("곡 조회", use_container_width=True)
+    
+    if song_search_button_clicked and selected_song_id:
+        with st.spinner(f'AI가 동작 중입니다..'):
+            search_by_song_id(selected_song_id)
+    elif song_search_button_clicked:
+        st.error("선택된 곡이 없습니다.")
