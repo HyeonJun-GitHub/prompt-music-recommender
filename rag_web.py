@@ -469,6 +469,7 @@ with st.expander("유사 아티스트 검색"):
             
             if selected_artist_name:
                 # 선택된 아티스트의 ID 찾기
+                selected_artist_name = artist_names[selected_artist_index]
                 selected_artist_index = artist_names.index(selected_artist_name)
                 selected_artist_id = artist_ids[selected_artist_index]
                 
@@ -476,7 +477,7 @@ with st.expander("유사 아티스트 검색"):
 
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        song_search_button_clicked = st.button(f"{artist_names} : 아티스트 검색", use_container_width=True)
+        song_search_button_clicked = st.button(f"{selected_artist_name} : 아티스트 검색", use_container_width=True)
     
     if song_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
