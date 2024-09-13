@@ -412,7 +412,7 @@ with st.expander("유사 곡 검색"):
         song_names, song_ids = search_api(query, 'songs')
         
         if song_names:
-            selected_song_name = st.selectbox("조회된 곡", song_names)
+            selected_song_name = st.selectbox("조회결과 곡", song_names)
             
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
@@ -445,7 +445,7 @@ with st.expander("유사 아티스트 검색"):
         artist_names, artist_ids = search_api(query, 'artists')
         
         if artist_names:
-            selected_artist_name = st.selectbox("조회된 아티스트", artist_names)
+            selected_artist_name = st.selectbox("조회결과 아티스트", artist_names)
             
             if selected_artist_name:
                 selected_artist_index = artist_names.index(selected_artist_name)
