@@ -469,8 +469,8 @@ with st.expander("유사 아티스트 검색"):
             
             if selected_artist_name:
                 # 선택된 아티스트의 ID 찾기
-                selected_artist_name = artist_names[selected_artist_index]
                 selected_artist_index = artist_names.index(selected_artist_name)
+                selected_artist_name = artist_names[selected_artist_index]
                 selected_artist_id = artist_ids[selected_artist_index]
                 
                 st.write(f"선택된 아티스트 ID: {selected_artist_id}")
