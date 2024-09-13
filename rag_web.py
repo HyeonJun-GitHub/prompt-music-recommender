@@ -370,6 +370,9 @@ def search_api(query, mode="songs"):
             # 이름과 ID 리스트로 분리하여 반환
             song_names = [song["name"] for song in song_list]
             song_ids = [song["id"] for song in song_list]
+
+            return song_names, song_ids
+
         else :
             # 아티스트 이름과 ID 추출
             artist_list = [
@@ -384,7 +387,7 @@ def search_api(query, mode="songs"):
             artist_names = [artist["name"] for artist in artist_list]
             artist_ids = [artist["id"] for artist in artist_list]
         
-        return artist_names, artist_ids
+            return artist_names, artist_ids
 
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
