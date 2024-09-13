@@ -421,16 +421,13 @@ with st.expander("유사 곡 검색"):
         
         if song_names:
             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
-            selected_song_name = st.selectbox("Search Results", song_names)
+            selected_song_name = st.selectbox("검색 결과", song_names)
             
             if selected_song_name:
                 # 선택한 아티스트의 ID 찾기
                 selected_song_index = song_names.index(selected_song_name)
                 selected_song_name = song_names[selected_song_index]
                 selected_song_id = song_ids[selected_song_index]
-                
-                # 선택된 아티스트 ID 표시
-                st.write(f"Selected Song ID: {selected_song_id}")
 
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
