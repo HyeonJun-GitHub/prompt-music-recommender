@@ -119,7 +119,7 @@ textarea, input {
     padding: 10px;
     border-radius: 5px;
     outline-color: #FE6B8B;
-    caret-color: black;
+    caret-color: blue; !important;
 }
 </style>
 """
