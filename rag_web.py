@@ -9,8 +9,8 @@ import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
 
-import streamlit as st
 import requests
+import streamlit as st
 
 # 아티스트 검색 API 호출 함수
 def search_artist_api(query):
@@ -27,24 +27,25 @@ def search_artist_api(query):
     try:
         # API 호출 시 헤더 추가
         response = requests.get(url, headers=headers)
-        st.write(f"Response Status Code: {response.status_code}")  # 상태 코드 출력
         response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
         
         try:
             data = response.json()  # JSON 형식으로 변환 시도
-            st.write(data)  # JSON 응답 데이터 출력
         except ValueError:
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
             return []
         
-        # artist_name 추출 (API 응답 구조에 맞게 수정해야 할 수 있음)
-        artist_list = [artist["artist_name"] for artist in data.get('search_result', {}).get('artist', [])]
+        # 아티스트 이름 추출
+        artist_list = [
+            artist["artist_name"].get("kor", "Unknown Artist")  # 'kor' 필드에서 아티스트 이름 가져옴
+            for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
+        ]
         return artist_list
 
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
         return []
-        
+
 # Streamlit을 통해 검색 UI 및 결과 출력
 def search_ui():
     """
@@ -72,7 +73,7 @@ def search_ui():
         else:
             st.write("No results found.")
 
-# search_ui()
+search_ui()
 
 st.set_page_config(layout="wide",)
 
