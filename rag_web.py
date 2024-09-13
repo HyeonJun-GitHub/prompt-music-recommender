@@ -38,7 +38,7 @@ def search_artist_api(query):
         # 아티스트 이름과 ID 추출
         artist_list = [
             {
-                "name": artist["artist_name"].get("kor", "Unknown Artist"),
+                "name": artist["artist_name"].get("original", "Unknown Artist"),
                 "id": artist["artist_id"]
             }
             for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
