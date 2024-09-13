@@ -341,7 +341,6 @@ def search_api(query, mode="songs"):
     """
     url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
     
-    # 요청에 사용할 헤더
     headers = {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
     }
@@ -358,22 +357,19 @@ def search_api(query, mode="songs"):
             return [], []
         
         if mode == "songs":
-            # 아티스트 이름과 ID 추출
+            # 곡 이름과 ID 추출
             song_list = [
                 {
-                    "name": song["song_name"].get("original", "Unknown Song"),
-                    "id": song["song_id"]
+                    "name": song.get("song_name", "Unknown Song"),
+                    "id": song.get("song_id", None)
                 }
                 for song in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
             ]
-            
-            # 이름과 ID 리스트로 분리하여 반환
             song_names = [song["name"] for song in song_list]
             song_ids = [song["id"] for song in song_list]
-
             return song_names, song_ids
 
-        else :
+        else:
             # 아티스트 이름과 ID 추출
             artist_list = [
                 {
@@ -382,11 +378,8 @@ def search_api(query, mode="songs"):
                 }
                 for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
             ]
-            
-            # 이름과 ID 리스트로 분리하여 반환
             artist_names = [artist["name"] for artist in artist_list]
             artist_ids = [artist["id"] for artist in artist_list]
-        
             return artist_names, artist_ids
 
     except requests.exceptions.RequestException as e:
@@ -395,7 +388,6 @@ def search_api(query, mode="songs"):
 
 # -------------------------------------------------------------
 
-spacer_height = "<div style='height: 28px;'></div>"
 st.image(title_01_img, caption='', use_column_width=True)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
@@ -409,57 +401,69 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-
 st.image(title_02_img, caption='', use_column_width=True)
 
+# 유사 곡 검색
 with st.expander("유사 곡 검색"):
     query = st.text_input("곡 이름을 입력하세요")
     
-    # 검색어가 있을 경우
+    # 초기값으로 None 할당
+    selected_song_name = None
+    selected_song_id = None
+    
     if query:
         song_names, song_ids = search_api(query, 'songs')
         
         if song_names:
-            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
             selected_song_name = st.selectbox("검색 결과", song_names)
             
             if selected_song_name:
-                # 선택한 아티스트의 ID 찾기
                 selected_song_index = song_names.index(selected_song_name)
-                selected_song_name = song_names[selected_song_index]
                 selected_song_id = song_ids[selected_song_index]
-
+    
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        song_search_button_clicked = st.button(f"{selected_song_name} : 곡 검색", use_container_width=True)
+        if selected_song_name and selected_song_id:
+            song_search_button_clicked = st.button(f"{selected_song_name} : 곡 검색", use_container_width=True)
+        else:
+            song_search_button_clicked = st.button("곡 검색", use_container_width=True)
     
-    if song_search_button_clicked:
+    if song_search_button_clicked and selected_song_id:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
-            search_by_song_id(selected_artist_id)
+            search_by_song_id(selected_song_id)
+    elif song_search_button_clicked:
+        st.error("선택된 곡이 없습니다.")
 
 st.image(title_03_img, caption='', use_column_width=True)
-# 아티스트 ID 검색 (st.expander 사용)
+
+# 유사 아티스트 검색
 with st.expander("유사 아티스트 검색"):
     query = st.text_input("아티스트 이름을 입력하세요")
+    
+    # 초기값으로 None 할당
+    selected_artist_name = None
+    selected_artist_id = None
     
     if query:
         artist_names, artist_ids = search_api(query, 'artists')
         
         if artist_names:
-            # 검색 결과에서 한 명만 선택할 수 있도록 selectbox 사용
             selected_artist_name = st.selectbox("검색 결과", artist_names)
             
             if selected_artist_name:
-                # 선택된 아티스트의 ID 찾기
                 selected_artist_index = artist_names.index(selected_artist_name)
-                selected_artist_name = artist_names[selected_artist_index]
                 selected_artist_id = artist_ids[selected_artist_index]
-                
+    
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        song_search_button_clicked = st.button(f"{selected_artist_name} : 아티스트 검색", use_container_width=True)
+        if selected_artist_name and selected_artist_id:
+            artist_search_button_clicked = st.button(f"{selected_artist_name} : 아티스트 검색", use_container_width=True)
+        else:
+            artist_search_button_clicked = st.button("아티스트 검색", use_container_width=True)
     
-    if song_search_button_clicked:
+    if artist_search_button_clicked and selected_artist_id:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
-            # 선택한 아티스트 ID로 검색
             search_by_artist_id(selected_artist_id)
+    elif artist_search_button_clicked:
+        st.error("선택된 아티스트가 없습니다.")
+
