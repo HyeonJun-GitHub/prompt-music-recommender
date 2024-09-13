@@ -455,13 +455,27 @@ def search_ui():
             st.write("No results found.")
 
 
-
-
-
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
-    artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 ( 예: 67872918 [아이유] )")
+    # artist_ids_prompt = st.text_input("아티스트 ID를 입력하세요 ( 예: 67872918 [아이유] )")
+    query = st.text_input("아티스트 이름")
+    
+    # 검색어가 있을 경우
+    if query:
+        artist_names, artist_ids = search_artist_api(query)
+        
+        if artist_names:
+            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
+            selected_artist_name = st.selectbox("Search Results", artist_names)
+            
+            if selected_artist_name:
+                # 선택한 아티스트의 ID 찾기
+                selected_artist_index = artist_names.index(selected_artist_name)
+                selected_artist_id = artist_ids[selected_artist_index]
+                
+                # 선택된 아티스트 ID 표시
+                st.write(f"Selected Artist ID: {selected_artist_id}")
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
@@ -469,4 +483,4 @@ with st.expander("유사 아티스트 검색"):
     
     if artist_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
-            search_by_artist_id(artist_ids_prompt)
+            search_by_artist_id(selected_artist_id)
