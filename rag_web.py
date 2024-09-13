@@ -412,7 +412,7 @@ with st.expander("유사 곡 검색"):
         song_names, song_ids = search_api(query, 'songs')
         
         if song_names:
-            selected_song_name = st.selectbox("검색 결과", song_names)
+            selected_song_name = st.selectbox("", song_names)
             
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
