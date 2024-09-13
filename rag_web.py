@@ -363,7 +363,7 @@ def search_api(query, mode="songs"):
                 "name": artist["artist_name"].get("original", "Unknown Artist"),
                 "id": artist["artist_id"]
             }
-            for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
+            for artist in data.get('searchResult', {}).get('result', {}).get(f'{mode}'', {}).get('items', [])
         ]
         
         # 이름과 ID 리스트로 분리하여 반환
