@@ -37,7 +37,7 @@ def search_artist_api(query):
         
         # 아티스트 이름 추출
         artist_list = [
-            artist["artist_name"].get("kor", "Unknown Artist")  # 'kor' 필드에서 아티스트 이름 가져옴
+            artist["artist_name"].get("original", "Unknown Artist")  # 'kor' 필드에서 아티스트 이름 가져옴
             for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
         ]
         return artist_list
