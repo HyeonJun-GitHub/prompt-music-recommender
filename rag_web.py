@@ -416,7 +416,7 @@ with st.expander("유사 곡 검색"):
             
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
-                selected_song_id = song_ids[selected_song_index]
+                selected_song_id = str(song_ids[selected_song_index])
     
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
@@ -427,7 +427,7 @@ with st.expander("유사 곡 검색"):
     
     if song_search_button_clicked and selected_song_id:
         with st.spinner(f'{selected_song_name} : AI가 플레이리스트를 만드는 중입니다...'):
-            search_by_song_id(str(selected_song_id))
+            search_by_song_id(selected_song_id)
     elif song_search_button_clicked:
         st.error("선택된 곡이 없습니다.")
 
