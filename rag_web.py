@@ -309,30 +309,10 @@ def display_sample_results(data_info):
         st.markdown(f"""
             <div style='text-align: center; background-color: rgba(20, 20, 20, 0.35); padding: 2px 10px; border-radius: 0px; width: 100%;'>
                 <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 15px; padding: 10px 20px; display: inline-block; border-radius: 0px; width: 100%; box-sizing: border-box;'> 
-                    {song_name} - {artist_name} 
+                    [ ▶️ 재생 ] {song_name} - {artist_name} 
                 </a>
             </div>
         """, unsafe_allow_html=True)
-
-
-# 곡 다운로드 URL을 가져오는 함수
-def get_downloadurl(song_id):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-    }
-    download_url = f'https://stage-apis.genie.co.kr/api/v1/tracks/juice/{song_id}?protocolType=http&bitRate=192'
-    res = requests.post(download_url, headers=headers)
-    
-    # 디버깅용 로그 출력
-    st.write(f"API 호출 결과 상태 코드: {res.status_code}")
-    
-    if res.status_code == 200:
-        st.write(f"다운로드 URL: {download_url}")  # URL을 출력하여 확인
-        return download_url
-    else:
-        st.write("다운로드 URL을 가져오지 못했습니다.")  # 실패 시 출력
-        return None
-    
 
 # 아티스트 검색 API 호출 함수
 def search_api(query, mode="songs"):
@@ -468,30 +448,6 @@ with st.expander("유사 아티스트 검색"):
 st.title("Streamlit 재생 버튼 예제")
 
 # 재생 버튼 HTML과 CSS
-st.markdown("""
-<style>
-.play-button {
-  background-color: #4CAF50; /* 버튼 색상 */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 50%;
-}
-.play-button:before {
-  content: '\\25B6'; /* 재생 버튼 아이콘 (유니코드) */
-  font-size: 24px;
-}
-</style>
-<a class="play-button" href="#"></a>
-""", unsafe_allow_html=True)
 
-# 버튼 클릭 시의 동작
-if st.markdown("<a class='play-button' href='#'></a>", unsafe_allow_html=True):
-    st.write("재생 버튼이 클릭되었습니다!")
+    # st.write("재생 버튼이 클릭되었습니다!")
 
