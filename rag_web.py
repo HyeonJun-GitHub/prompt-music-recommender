@@ -9,36 +9,67 @@ import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
 
-# API 호출 함수
-def search_artist(query):
+import streamlit as st
+import requests
+
+# 아티스트 검색 API 호출 함수
+def search_artist_api(query):
+    """
+    주어진 query로 API를 호출하여 artist_name 리스트를 반환.
+    """
     url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        # artist_name 추출 (예시: json 구조에 따라 변환해야 함)
+        # artist_name 추출 (API 응답 구조에 맞게 수정해야 할 수 있음)
         artist_list = [artist["artist_name"] for artist in data.get('search_result', {}).get('artist', [])]
         return artist_list
     else:
         return []
 
-# Streamlit UI 구성
-st.title("Artist Search")
+# Streamlit을 통해 검색 UI 및 결과 출력
+def search_ui():
+    """
+    Streamlit UI로 검색어 입력, 결과 선택 및 표시 기능 구현.
+    """
+    st.title("Artist Search")
 
-# 검색 입력 필드
-query = st.text_input("Enter artist name")
+    # 검색 입력 필드
+    query = st.text_input("Enter artist name")
 
-# 검색 버튼 클릭 시 API 호출
-if query:
-    artist_names = search_artist(query)
-    
-    if artist_names:
-        # 검색 결과 리스트
-        selected_artist = st.selectbox("Search Results", artist_names)
+    # 검색어가 있을 경우
+    if query:
+        artist_names = search_artist_api(query)
         
-        # 선택된 아티스트 이름 표시
-        st.write(f"Selected Artist: {selected_artist}")
+        if artist_names:
+            # 검색 결과 리스트
+            selected_artist = st.selectbox("Search Results", artist_names)
+            
+            # 선택된 아티스트 이름 표시
+            st.write(f"Selected Artist: {selected_artist}")
+        else:
+            st.write("No results found.")
+
+# 테스트 함수
+def test_search():
+    """
+    검색 기능을 테스트하기 위한 함수.
+    """
+    # 예시로 검색할 쿼리
+    test_query = "아이유"
+    results = search_artist_api(test_query)
+
+    if results:
+        print("검색된 아티스트 목록:")
+        for artist in results:
+            print(f"- {artist}")
     else:
-        st.write("No results found.")
+        print("결과가 없습니다.")
+
+
+search_ui()
+test_search()
+
 
 
 
