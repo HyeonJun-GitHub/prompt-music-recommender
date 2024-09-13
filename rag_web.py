@@ -374,7 +374,7 @@ def search_api(query, mode="songs"):
             artist_list = [
                 {
                     "name": artist["artist_name"].get("original", "Unknown Artist"),
-                    "id": song.get("artist_id", None)
+                    "id": artist.get("artist_id", None)
                 }
                 for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
             ]
