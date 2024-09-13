@@ -398,7 +398,7 @@ st.image(title_02_img, caption='', use_column_width=True)
 
 with st.expander("유사 곡 검색"):
     # song_ids_prompt = st.text_input("곡 ID를 입력하세요 ( 예: 87443133 [아이유 - 가을 아침] )")
-    query = st.text_input("아티스트 이름")
+    query = st.text_input("곡 이름")
     
     # 검색어가 있을 경우
     if query:
@@ -427,32 +427,32 @@ with st.expander("유사 곡 검색"):
 
 
 # Streamlit을 통해 검색 UI 및 결과 출력
-def search_ui():
-    """
-    Streamlit UI로 검색어 입력, 결과 리스트에서 한 명만 선택 가능하게 구현.
-    """
-    st.title("Artist Search")
+# def search_ui():
+#     """
+#     Streamlit UI로 검색어 입력, 결과 리스트에서 한 명만 선택 가능하게 구현.
+#     """
+#     st.title("Artist Search")
 
-    # 검색 입력 필드
-    query = st.text_input("아티스트 이름")
+#     # 검색 입력 필드
+#     query = st.text_input("아티스트 이름")
 
-    # 검색어가 있을 경우
-    if query:
-        artist_names, artist_ids = search_artist_api(query)
+#     # 검색어가 있을 경우
+#     if query:
+#         artist_names, artist_ids = search_artist_api(query)
         
-        if artist_names:
-            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
-            selected_artist_name = st.selectbox("Search Results", artist_names)
+#         if artist_names:
+#             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
+#             selected_artist_name = st.selectbox("Search Results", artist_names)
             
-            if selected_artist_name:
-                # 선택한 아티스트의 ID 찾기
-                selected_artist_index = artist_names.index(selected_artist_name)
-                selected_artist_id = artist_ids[selected_artist_index]
+#             if selected_artist_name:
+#                 # 선택한 아티스트의 ID 찾기
+#                 selected_artist_index = artist_names.index(selected_artist_name)
+#                 selected_artist_id = artist_ids[selected_artist_index]
                 
-                # 선택된 아티스트 ID 표시
-                st.write(f"Selected Artist ID: {selected_artist_id}")
-        else:
-            st.write("No results found.")
+#                 # 선택된 아티스트 ID 표시
+#                 st.write(f"Selected Artist ID: {selected_artist_id}")
+#         else:
+#             st.write("No results found.")
 
 
 st.image(title_03_img, caption='', use_column_width=True)
