@@ -360,10 +360,10 @@ def search_api(query, mode="songs"):
         # 아티스트 이름과 ID 추출
         artist_list = [
             {
-                "name": artist["artist_name"].get("original", "Unknown Artist"),
-                "id": artist["artist_id"]
+                "name": artist[f"{mode}_name"].get("original", "Unknown Artist"),
+                "id": artist[f"{song}_id"]
             }
-            for artist in data.get('searchResult', {}).get('result', {}).get(f'{mode}'', {}).get('items', [])
+            for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
         ]
         
         # 이름과 ID 리스트로 분리하여 반환
