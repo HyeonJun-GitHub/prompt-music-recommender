@@ -221,6 +221,8 @@ def search_by_artist_id(artist_ids_prompt):
         st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
 
 def search_by_song_id(song_ids_prompt):
+    st.warning(f'{song_ids_prompt}')
+
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
         "song_id": song_ids_prompt,
@@ -336,9 +338,6 @@ def get_downloadurl(song_id):
 
 # 아티스트 검색 API 호출 함수
 def search_api(query, mode="songs"):
-    """
-    주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
-    """
     url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
     
     headers = {
