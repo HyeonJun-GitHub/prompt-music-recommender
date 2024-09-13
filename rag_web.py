@@ -444,11 +444,3 @@ with st.expander("유사 아티스트 검색"):
             search_by_artist_id(selected_artist_id)
     elif artist_search_button_clicked:
         st.error("선택된 아티스트가 없습니다.")
-
-# Streamlit 앱
-st.title("Streamlit 재생 버튼 예제")
-
-# 재생 버튼 HTML과 CSS
-
-    # st.write("재생 버튼이 클릭되었습니다!")
-
