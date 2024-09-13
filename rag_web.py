@@ -405,7 +405,7 @@ with st.expander("유사 곡 검색"):
         
         if song_names:
             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
-            selected_artist_name = st.selectbox("Search Results", artist_names)
+            selected_artist_name = st.selectbox("Search Results", song_names)
             
             if selected_artist_name:
                 # 선택한 아티스트의 ID 찾기
