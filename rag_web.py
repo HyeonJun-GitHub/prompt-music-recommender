@@ -307,9 +307,10 @@ def display_sample_results(data_info):
         song_name = song['song_name']
         artist_name = song['artist_name']
         st.markdown(f"""
-            <div style='text-align: center; background-color: rgba(20, 20, 20, 0.35); padding: 2px 10px; border-radius: 0px; width: 100%;'>
-                <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 15px; padding: 10px 20px; display: inline-block; border-radius: 0px; width: 100%; box-sizing: border-box;'> 
-                    [ ▶️ 재생 ] {song_name} - {artist_name} 
+            <div style='text-align: center; background-color: rgba(20, 20, 20, 0.35); padding: 10px 20px; border-radius: 10px; width: 100%;'>
+                <a href='https://genie.co.kr/detail/songInfo?xgnm={song_id}' style='color: white; text-decoration: none; font-size: 18px; padding: 15px 30px; display: inline-block; border-radius: 10px; width: 100%; box-sizing: border-box; 
+                    background-color: #1DB954; font-weight: bold;'>
+                    <span style='font-size: 20px;'>▶️</span> 재생 {song_name} - {artist_name} 
                 </a>
             </div>
         """, unsafe_allow_html=True)
