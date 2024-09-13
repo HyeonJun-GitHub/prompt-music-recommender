@@ -403,7 +403,7 @@ with st.expander("유사 곡 검색"):
     if query:
         song_names, song_ids = search_api(query, 'songs')
         
-        if artist_names:
+        if song_names:
             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
             selected_artist_name = st.selectbox("Search Results", artist_names)
             
