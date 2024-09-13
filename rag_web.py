@@ -429,7 +429,7 @@ with st.expander("유사 곡 검색"):
             song_search_button_clicked = st.button("곡 통합 검색", use_container_width=True)
     
     if song_search_button_clicked and selected_song_id:
-        with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
+        with st.spinner(f'{selected_song_id} : AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(selected_song_id)
     elif song_search_button_clicked:
         st.error("선택된 곡이 없습니다.")
