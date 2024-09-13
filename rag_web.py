@@ -15,7 +15,7 @@ import streamlit as st
 # 아티스트 검색 API 호출 함수
 def search_artist_api(query):
     """
-    주어진 query로 API를 호출하여 artist_name 리스트를 반환.
+    주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
     """
     url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
     
@@ -33,23 +33,31 @@ def search_artist_api(query):
             data = response.json()  # JSON 형식으로 변환 시도
         except ValueError:
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
-            return []
+            return [], []
         
-        # 아티스트 이름 추출
+        # 아티스트 이름과 ID 추출
         artist_list = [
-            artist["artist_name"].get("original", "Unknown Artist")  # 'kor' 필드에서 아티스트 이름 가져옴
+            {
+                "name": artist["artist_name"].get("kor", "Unknown Artist"),
+                "id": artist["artist_id"]
+            }
             for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
         ]
-        return artist_list
+        
+        # 이름과 ID 리스트로 분리하여 반환
+        artist_names = [artist["name"] for artist in artist_list]
+        artist_ids = [artist["id"] for artist in artist_list]
+        
+        return artist_names, artist_ids
 
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
-        return []
+        return [], []
 
 # Streamlit을 통해 검색 UI 및 결과 출력
 def search_ui():
     """
-    Streamlit UI로 검색어 입력, 결과 리스트 선택 및 표시 기능 구현.
+    Streamlit UI로 검색어 입력, 결과 리스트에서 한 명만 선택 가능하게 구현.
     """
     st.title("Artist Search")
 
@@ -58,22 +66,24 @@ def search_ui():
 
     # 검색어가 있을 경우
     if query:
-        artist_names = search_artist_api(query)
+        artist_names, artist_ids = search_artist_api(query)
         
         if artist_names:
-            # 검색 결과 리스트를 multiselect로 출력
-            selected_artists = st.multiselect("Search Results", artist_names)
+            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
+            selected_artist_name = st.selectbox("Search Results", artist_names)
             
-            # 선택된 아티스트 이름들 표시
-            if selected_artists:
-                st.write("Selected Artists:")
-                st.write(", ".join(selected_artists))
-            else:
-                st.write("선택된 아티스트가 없습니다.")
+            if selected_artist_name:
+                # 선택한 아티스트의 ID 찾기
+                selected_artist_index = artist_names.index(selected_artist_name)
+                selected_artist_id = artist_ids[selected_artist_index]
+                
+                # 선택된 아티스트 ID 표시
+                st.write(f"Selected Artist ID: {selected_artist_id}")
         else:
             st.write("No results found.")
 
 search_ui()
+
 
 st.set_page_config(layout="wide",)
 
