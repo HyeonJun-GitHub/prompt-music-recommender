@@ -9,82 +9,6 @@ import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
 
-import requests
-import streamlit as st
-
-# 아티스트 검색 API 호출 함수
-def search_artist_api(query):
-    """
-    주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
-    """
-    url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
-    
-    # 요청에 사용할 헤더
-    headers = {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-    }
-    
-    try:
-        # API 호출 시 헤더 추가
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
-        
-        try:
-            data = response.json()  # JSON 형식으로 변환 시도
-        except ValueError:
-            st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
-            return [], []
-        
-        # 아티스트 이름과 ID 추출
-        artist_list = [
-            {
-                "name": artist["artist_name"].get("original", "Unknown Artist"),
-                "id": artist["artist_id"]
-            }
-            for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
-        ]
-        
-        # 이름과 ID 리스트로 분리하여 반환
-        artist_names = [artist["name"] for artist in artist_list]
-        artist_ids = [artist["id"] for artist in artist_list]
-        
-        return artist_names, artist_ids
-
-    except requests.exceptions.RequestException as e:
-        st.error(f"API 요청 중 오류 발생: {e}")
-        return [], []
-
-# Streamlit을 통해 검색 UI 및 결과 출력
-def search_ui():
-    """
-    Streamlit UI로 검색어 입력, 결과 리스트에서 한 명만 선택 가능하게 구현.
-    """
-    st.title("Artist Search")
-
-    # 검색 입력 필드
-    query = st.text_input("아티스트 이름")
-
-    # 검색어가 있을 경우
-    if query:
-        artist_names, artist_ids = search_artist_api(query)
-        
-        if artist_names:
-            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
-            selected_artist_name = st.selectbox("Search Results", artist_names)
-            
-            if selected_artist_name:
-                # 선택한 아티스트의 ID 찾기
-                selected_artist_index = artist_names.index(selected_artist_name)
-                selected_artist_id = artist_ids[selected_artist_index]
-                
-                # 선택된 아티스트 ID 표시
-                st.write(f"Selected Artist ID: {selected_artist_id}")
-        else:
-            st.write("No results found.")
-
-search_ui()
-
-
 st.set_page_config(layout="wide",)
 
 # CSS를 사용하여 배경 색상을 설정
@@ -260,7 +184,6 @@ def yyyymm_to_last_date(yyyymm):
     # 말일로 datetime 객체 생성
     return datetime(year, month, last_day)
 
-
 # 선택된 값을 날짜로 변환
 start_date = yyyymm_to_date(selected_date[0])
 end_date = yyyymm_to_date(selected_date[1])
@@ -343,7 +266,6 @@ def search(prompt):
     else:
         st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
     
-
 def info(res_json):
     info = res_json["songs"]
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/song-info"
@@ -411,6 +333,49 @@ def get_downloadurl(song_id):
         st.write("다운로드 URL을 가져오지 못했습니다.")  # 실패 시 출력
         return None
     
+
+# 아티스트 검색 API 호출 함수
+def search_artist_api(query):
+    """
+    주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
+    """
+    url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
+    
+    # 요청에 사용할 헤더
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    
+    try:
+        # API 호출 시 헤더 추가
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
+        
+        try:
+            data = response.json()  # JSON 형식으로 변환 시도
+        except ValueError:
+            st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
+            return [], []
+        
+        # 아티스트 이름과 ID 추출
+        artist_list = [
+            {
+                "name": artist["artist_name"].get("original", "Unknown Artist"),
+                "id": artist["artist_id"]
+            }
+            for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
+        ]
+        
+        # 이름과 ID 리스트로 분리하여 반환
+        artist_names = [artist["name"] for artist in artist_list]
+        artist_ids = [artist["id"] for artist in artist_list]
+        
+        return artist_names, artist_ids
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"API 요청 중 오류 발생: {e}")
+        return [], []
+
 # -------------------------------------------------------------
 
 spacer_height = "<div style='height: 28px;'></div>"
@@ -427,19 +392,71 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
+
 st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
 
 with st.expander("유사 곡 검색"):
-    song_ids_prompt = st.text_input("곡 ID를 입력하세요 ( 예: 87443133 [아이유 - 가을 아침] )")
+    # song_ids_prompt = st.text_input("곡 ID를 입력하세요 ( 예: 87443133 [아이유 - 가을 아침] )")
+    query = st.text_input("아티스트 이름")
     
+    # 검색어가 있을 경우
+    if query:
+        artist_names, artist_ids = search_artist_api(query)
+        
+        if artist_names:
+            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
+            selected_artist_name = st.selectbox("Search Results", artist_names)
+            
+            if selected_artist_name:
+                # 선택한 아티스트의 ID 찾기
+                selected_artist_index = artist_names.index(selected_artist_name)
+                selected_artist_id = artist_ids[selected_artist_index]
+                
+                # 선택된 아티스트 ID 표시
+                st.write(f"Selected Artist ID: {selected_artist_id}")
+
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
         song_search_button_clicked = st.button("곡 검색", use_container_width=True)
     
     if song_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
-            search_by_song_id(song_ids_prompt)
+            search_by_song_id(selected_artist_id)
+
+
+
+# Streamlit을 통해 검색 UI 및 결과 출력
+def search_ui():
+    """
+    Streamlit UI로 검색어 입력, 결과 리스트에서 한 명만 선택 가능하게 구현.
+    """
+    st.title("Artist Search")
+
+    # 검색 입력 필드
+    query = st.text_input("아티스트 이름")
+
+    # 검색어가 있을 경우
+    if query:
+        artist_names, artist_ids = search_artist_api(query)
+        
+        if artist_names:
+            # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
+            selected_artist_name = st.selectbox("Search Results", artist_names)
+            
+            if selected_artist_name:
+                # 선택한 아티스트의 ID 찾기
+                selected_artist_index = artist_names.index(selected_artist_name)
+                selected_artist_id = artist_ids[selected_artist_index]
+                
+                # 선택된 아티스트 ID 표시
+                st.write(f"Selected Artist ID: {selected_artist_id}")
+        else:
+            st.write("No results found.")
+
+
+
+
 
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
