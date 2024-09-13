@@ -423,7 +423,7 @@ with st.expander("유사 곡 검색"):
         if selected_song_name and selected_song_id:
             song_search_button_clicked = st.button(f'유사 곡 검색 : \'{selected_song_name}\'', use_container_width=True)
         else:
-            song_search_button_clicked = st.button("곡 조회", use_container_width=True)
+            song_search_button_clicked = st.button("곡 찾아보기", use_container_width=True)
     
     if song_search_button_clicked and selected_song_id:
         with st.spinner(f'AI가 동작 중입니다..'):
@@ -456,7 +456,7 @@ with st.expander("유사 아티스트 검색"):
         if selected_artist_name and selected_artist_id:
             artist_search_button_clicked = st.button(f'유사 아티스트 검색 : \'{selected_artist_name}\'', use_container_width=True)
         else:
-            artist_search_button_clicked = st.button("아티스트 조회", use_container_width=True)
+            artist_search_button_clicked = st.button("아티스트 찾아보기", use_container_width=True)
     
     if artist_search_button_clicked and selected_artist_id:
         with st.spinner(f'AI가 동작 중입니다..'):
