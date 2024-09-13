@@ -335,7 +335,7 @@ def get_downloadurl(song_id):
     
 
 # 아티스트 검색 API 호출 함수
-def search_api(query, mode):
+def search_api(query, mode="songs"):
     """
     주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
     """
@@ -357,20 +357,21 @@ def search_api(query, mode):
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
             return [], []
         
-        # 아티스트 이름과 ID 추출
-        artist_list = [
+        item_name_key = f"{mode}_name"
+        item_id_key = f"{song}_id"
+        item_list = [
             {
-                "name": artist[f"{mode}_name"].get("original", "Unknown Artist"),
-                "id": artist[f"{song}_id"]
+                "name": item[item_name_key].get("original", "Unknown Artist"),
+                "id": item[item_id_key]
             }
-            for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
+            for item in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
         ]
         
         # 이름과 ID 리스트로 분리하여 반환
-        artist_names = [artist["name"] for artist in artist_list]
-        artist_ids = [artist["id"] for artist in artist_list]
+        item_names = [item["name"] for item in item_list]
+        item_ids = [item["id"] for item in item_list]
         
-        return artist_names, artist_ids
+        return item_names, item_ids
 
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
