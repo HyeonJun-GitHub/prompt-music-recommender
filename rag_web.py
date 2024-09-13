@@ -335,7 +335,7 @@ def get_downloadurl(song_id):
     
 
 # 아티스트 검색 API 호출 함수
-def search_artist_api(query):
+def search_api(query, mode="songs"):
     """
     주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
     """
@@ -363,7 +363,7 @@ def search_artist_api(query):
                 "name": artist["artist_name"].get("original", "Unknown Artist"),
                 "id": artist["artist_id"]
             }
-            for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
+            for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
         ]
         
         # 이름과 ID 리스트로 분리하여 반환
@@ -397,12 +397,11 @@ st.image(title_02_img, caption='', use_column_width=True)
 # 곡 ID 검색 (st.expander 사용)
 
 with st.expander("유사 곡 검색"):
-    # song_ids_prompt = st.text_input("곡 ID를 입력하세요 ( 예: 87443133 [아이유 - 가을 아침] )")
-    query = st.text_input("곡 이름")
+    query = st.text_input("곡 이름을 입력하세요")
     
     # 검색어가 있을 경우
     if query:
-        artist_names, artist_ids = search_artist_api(query)
+        song_names, song_ids = search_api(query, 'songs')
         
         if artist_names:
             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
@@ -424,44 +423,13 @@ with st.expander("유사 곡 검색"):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search_by_song_id(selected_artist_id)
 
-
-
-# Streamlit을 통해 검색 UI 및 결과 출력
-# def search_ui():
-#     """
-#     Streamlit UI로 검색어 입력, 결과 리스트에서 한 명만 선택 가능하게 구현.
-#     """
-#     st.title("Artist Search")
-
-#     # 검색 입력 필드
-#     query = st.text_input("아티스트 이름")
-
-#     # 검색어가 있을 경우
-#     if query:
-#         artist_names, artist_ids = search_artist_api(query)
-        
-#         if artist_names:
-#             # 검색 결과 리스트를 selectbox로 출력 (한 명만 선택 가능)
-#             selected_artist_name = st.selectbox("Search Results", artist_names)
-            
-#             if selected_artist_name:
-#                 # 선택한 아티스트의 ID 찾기
-#                 selected_artist_index = artist_names.index(selected_artist_name)
-#                 selected_artist_id = artist_ids[selected_artist_index]
-                
-#                 # 선택된 아티스트 ID 표시
-#                 st.write(f"Selected Artist ID: {selected_artist_id}")
-#         else:
-#             st.write("No results found.")
-
-
 st.image(title_03_img, caption='', use_column_width=True)
 # 아티스트 ID 검색 (st.expander 사용)
 with st.expander("유사 아티스트 검색"):
-    query = st.text_input("곡 또는 아티스트 이름을 입력하세요")
+    query = st.text_input("아티스트 이름을 입력하세요")
     
     if query:
-        artist_names, artist_ids = search_artist_api(query)
+        artist_names, artist_ids = search_api(query, 'artists')
         
         if artist_names:
             # 검색 결과에서 한 명만 선택할 수 있도록 selectbox 사용
