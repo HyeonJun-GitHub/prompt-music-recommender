@@ -50,25 +50,17 @@ def search_ui():
         else:
             st.write("No results found.")
 
-# 테스트 함수
-def test_search():
-    """
-    검색 기능을 테스트하기 위한 함수.
-    """
-    # 예시로 검색할 쿼리
-    test_query = "아이유"
-    results = search_artist_api(test_query)
-
-    if results:
-        print("검색된 아티스트 목록:")
-        for artist in results:
-            print(f"- {artist}")
-    else:
-        print("결과가 없습니다.")
-
-
 search_ui()
-test_search()
+# 예시로 검색할 쿼리
+test_query = "아이유"
+results = search_artist_api(test_query)
+
+if results:
+print("검색된 아티스트 목록:")
+for artist in results:
+    print(f"- {artist}")
+else:
+print("결과가 없습니다.")
 
 
 
