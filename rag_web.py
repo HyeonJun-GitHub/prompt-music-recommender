@@ -27,10 +27,12 @@ def search_artist_api(query):
     try:
         # API 호출 시 헤더 추가
         response = requests.get(url, headers=headers)
+        st.write(f"Response Status Code: {response.status_code}")  # 상태 코드 출력
         response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
         
         try:
             data = response.json()  # JSON 형식으로 변환 시도
+            st.write(data)  # JSON 응답 데이터 출력
         except ValueError:
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
             return []
@@ -42,7 +44,7 @@ def search_artist_api(query):
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
         return []
-
+        
 # Streamlit을 통해 검색 UI 및 결과 출력
 def search_ui():
     """
