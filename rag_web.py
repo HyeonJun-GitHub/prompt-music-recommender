@@ -358,7 +358,7 @@ def search_api(query, mode="songs"):
             return [], []
         
         item_name_key = f"{mode}_name"
-        item_id_key = f"{song}_id"
+        item_id_key = f"{mode}_id"
         item_list = [
             {
                 "name": item[item_name_key].get("original", "Unknown Artist"),
