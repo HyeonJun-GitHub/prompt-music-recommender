@@ -81,12 +81,8 @@ def test_search():
     else:
         print("결과가 없습니다.")
 
-# Streamlit UI 실행
-if __name__ == '__main__':
-    search_ui()
-
-    # Streamlit 외부에서 테스트용으로 검색 함수 호출
-    test_search()
+search_ui()
+test_search()
 
 
 # 국내/해외 세그먼트 선택
