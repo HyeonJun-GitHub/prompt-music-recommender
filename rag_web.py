@@ -335,7 +335,7 @@ def get_downloadurl(song_id):
     
 
 # 아티스트 검색 API 호출 함수
-def search_api(query, mode="songs"):
+def search_api(query, mode):
     """
     주어진 query로 API를 호출하여 artist_name 리스트와 artist_id 리스트를 반환.
     """
