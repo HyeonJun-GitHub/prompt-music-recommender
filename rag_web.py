@@ -434,7 +434,7 @@ with st.expander("유사 곡 검색"):
 
     # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
     with st.container():
-        song_search_button_clicked = st.button(f"{selected_artist_name} : 곡 검색", use_container_width=True)
+        song_search_button_clicked = st.button(f"{selected_song_name} : 곡 검색", use_container_width=True)
     
     if song_search_button_clicked:
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
