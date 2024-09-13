@@ -12,18 +12,23 @@ from io import BytesIO
 import streamlit as st
 import requests
 
-import streamlit as st
-import requests
-
 # 아티스트 검색 API 호출 함수
 def search_artist_api(query):
     """
     주어진 query로 API를 호출하여 artist_name 리스트를 반환.
     """
     url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
+    
+    # 요청에 사용할 헤더
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    
     try:
-        response = requests.get(url)
+        # API 호출 시 헤더 추가
+        response = requests.get(url, headers=headers)
         response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
+        
         try:
             data = response.json()  # JSON 형식으로 변환 시도
         except ValueError:
@@ -85,7 +90,8 @@ search_ui()
 test_search()
 
 
-# 국내/해외 세그먼트 선택
+
+
 st.set_page_config(layout="wide",)
 
 # CSS를 사용하여 배경 색상을 설정
