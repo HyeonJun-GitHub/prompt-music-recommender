@@ -412,7 +412,7 @@ with st.expander("유사 곡 검색"):
         song_names, song_ids = search_api(query, 'songs')
         
         if song_names:
-            selected_song_name = st.selectbox("조회결과 곡", song_names)
+            selected_song_name = st.selectbox("조회된 곡", song_names)
             
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
@@ -445,7 +445,7 @@ with st.expander("유사 아티스트 검색"):
         artist_names, artist_ids = search_api(query, 'artists')
         
         if artist_names:
-            selected_artist_name = st.selectbox("조회결과 아티스트", artist_names)
+            selected_artist_name = st.selectbox("조회된 아티스트", artist_names)
             
             if selected_artist_name:
                 selected_artist_index = artist_names.index(selected_artist_name)
@@ -463,4 +463,35 @@ with st.expander("유사 아티스트 검색"):
             search_by_artist_id(selected_artist_id)
     elif artist_search_button_clicked:
         st.error("선택된 아티스트가 없습니다.")
+
+# Streamlit 앱
+st.title("Streamlit 재생 버튼 예제")
+
+# 재생 버튼 HTML과 CSS
+st.markdown("""
+<style>
+.play-button {
+  background-color: #4CAF50; /* 버튼 색상 */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.play-button:before {
+  content: '\\25B6'; /* 재생 버튼 아이콘 (유니코드) */
+  font-size: 24px;
+}
+</style>
+<a class="play-button" href="#"></a>
+""", unsafe_allow_html=True)
+
+# 버튼 클릭 시의 동작
+if st.markdown("<a class='play-button' href='#'></a>", unsafe_allow_html=True):
+    st.write("재생 버튼이 클릭되었습니다!")
 
