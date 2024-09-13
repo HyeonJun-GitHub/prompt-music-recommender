@@ -221,8 +221,6 @@ def search_by_artist_id(artist_ids_prompt):
         st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
 
 def search_by_song_id(song_ids_prompt):
-    st.warning(f'{song_ids_prompt}')
-
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
         "song_id": song_ids_prompt,
@@ -429,7 +427,7 @@ with st.expander("유사 곡 검색"):
     
     if song_search_button_clicked and selected_song_id:
         with st.spinner(f'{selected_song_name} : AI가 플레이리스트를 만드는 중입니다...'):
-            search_by_song_id(selected_song_id)
+            search_by_song_id(str(selected_song_id))
     elif song_search_button_clicked:
         st.error("선택된 곡이 없습니다.")
 
