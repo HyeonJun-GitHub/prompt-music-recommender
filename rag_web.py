@@ -357,21 +357,20 @@ def search_api(query, mode="songs"):
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
             return [], []
         
-        # item_name_key = "songs_name" #f"{mode}_name"
-        # item_id_key = "songs_id" #f"{mode}_id"
-        item_list = [
+        # 아티스트 이름과 ID 추출
+        artist_list = [
             {
-                "name": item["songs_name"].get("original", "Unknown Artist"),
-                "id": item["songs_id"]
+                "name": artist["artist_name"].get("original", "Unknown Artist"),
+                "id": artist["artist_id"]
             }
-            for item in data.get('searchResult', {}).get('result', {}).get("songs", {}).get('items', [])
+            for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
         ]
         
         # 이름과 ID 리스트로 분리하여 반환
-        item_names = [item["name"] for item in item_list]
-        item_ids = [item["id"] for item in item_list]
+        artist_names = [artist["name"] for artist in artist_list]
+        artist_ids = [artist["id"] for artist in artist_list]
         
-        return item_names, item_ids
+        return artist_names, artist_ids
 
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
