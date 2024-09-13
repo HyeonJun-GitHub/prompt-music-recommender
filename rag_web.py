@@ -360,7 +360,7 @@ def search_api(query, mode="songs"):
             # 곡 이름과 ID 추출
             song_list = [
                 {
-                    "name": song.get("song_name", "Unknown Song"),
+                    "name": song["song_name"].get("original", "Unknown Song"),
                     "id": song.get("song_id", None)
                 }
                 for song in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
@@ -374,7 +374,7 @@ def search_api(query, mode="songs"):
             artist_list = [
                 {
                     "name": artist["artist_name"].get("original", "Unknown Artist"),
-                    "id": artist["artist_id"]
+                    "id": song.get("artist_id", None)
                 }
                 for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
             ]
