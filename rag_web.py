@@ -9,8 +9,40 @@ import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
 
-# 국내/해외 세그먼트 선택
+# API 호출 함수
+def search_artist(query):
+    url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        # artist_name 추출 (예시: json 구조에 따라 변환해야 함)
+        artist_list = [artist["artist_name"] for artist in data.get('search_result', {}).get('artist', [])]
+        return artist_list
+    else:
+        return []
 
+# Streamlit UI 구성
+st.title("Artist Search")
+
+# 검색 입력 필드
+query = st.text_input("Enter artist name")
+
+# 검색 버튼 클릭 시 API 호출
+if query:
+    artist_names = search_artist(query)
+    
+    if artist_names:
+        # 검색 결과 리스트
+        selected_artist = st.selectbox("Search Results", artist_names)
+        
+        # 선택된 아티스트 이름 표시
+        st.write(f"Selected Artist: {selected_artist}")
+    else:
+        st.write("No results found.")
+
+
+
+# 국내/해외 세그먼트 선택
 st.set_page_config(layout="wide",)
 
 # CSS를 사용하여 배경 색상을 설정
