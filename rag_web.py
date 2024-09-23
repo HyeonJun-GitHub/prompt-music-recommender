@@ -383,8 +383,8 @@ st.image(title_02_img, caption='', use_column_width=True)
 
 # 유사 곡 검색
 with st.expander("유사 곡 검색"):
-    # 곡 이름 입력과 동시에 검색 및 선택 가능한 통합 입력창
-    query = st.text_input("곡 이름을 입력하세요", help="곡 이름을 입력하고 검색 결과에서 선택하세요")
+    # 곡 이름 입력
+    query = st.text_input("곡 이름을 입력하거나 선택하세요", help="곡 이름을 입력한 후 결과에서 선택할 수 있습니다.")
 
     # 초기값으로 None 할당
     selected_song_name = None
@@ -392,18 +392,28 @@ with st.expander("유사 곡 검색"):
 
     if query:
         song_names, song_ids = search_api(query, 'songs')  # API 호출을 통해 곡 이름과 ID 검색
-        
+
         if song_names:
-            # 선택 창을 통해 입력한 이름과 검색 결과를 모두 표시
+            # 사용자가 직접 입력한 내용이 목록에 있을 경우는 자동으로 선택되도록 함
             selected_song_name = st.selectbox("조회된 곡 선택", song_names, index=0)
+            selected_song_name = selected_song_name if selected_song_name else query  # 선택하지 않으면 입력한 값을 그대로 사용
 
             if selected_song_name:
-                selected_song_index = song_names.index(selected_song_name)
-                selected_song_id = str(song_ids[selected_song_index])
+                selected_song_index = song_names.index(selected_song_name) if selected_song_name in song_names else None
+                selected_song_id = str(song_ids[selected_song_index]) if selected_song_index is not None else None
+        else:
+            # 검색 결과가 없을 경우 사용자가 입력한 곡 이름을 그대로 사용
+            selected_song_name = query
 
-    if selected_song_name and selected_song_id:
-        with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
-            search_by_song_id(selected_song_id)
+    # 곡 선택 또는 입력이 완료된 경우 처리
+    if selected_song_name:
+        st.write(f"선택한 곡: '{selected_song_name}'")
+        if selected_song_id:
+            with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
+                search_by_song_id(selected_song_id)
+        else:
+            st.warning("해당 곡에 대한 ID를 찾지 못했습니다.")
+
 
 
 st.image(title_03_img, caption='', use_column_width=True)
