@@ -125,6 +125,7 @@ textarea, input {
 """
 
 # 배경 이미지 적용
+st.markdown(background_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
 
