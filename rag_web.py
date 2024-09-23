@@ -383,12 +383,27 @@ st.image(title_02_img, caption='', use_column_width=True)
 
 st.markdown("""
     <style>
+    .input-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .input-container input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #d3d3d3;
+        outline-color: #FE6B8B;
+        margin-right: 10px;  /* 버튼과의 간격 */
+    }
+
     .search-button {
-        background-color: #1E90FF !important;
-        color: white !important;
+        background-color: #1E90FF;
+        color: white;
         border: none;
         border-radius: 5px;
-        padding: 8px 20px;
+        padding: 10px 20px;
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
@@ -398,23 +413,26 @@ st.markdown("""
 
 # 유사 곡 검색
 with st.expander("유사 곡 검색"):
-    query_col1, query_col2 = st.columns([4, 1])  # 입력 박스와 버튼의 비율 설정
+     # 텍스트 입력과 버튼을 flex로 배치
+    search_form = st.empty()
+    search_button_clicked = False
+    with search_form:
+        st.markdown("""
+            <div class="input-container">
+                <input type="text" id="song_input" placeholder="곡 이름을 입력하세요">
+                <button class="search-button" onclick="window.searchClicked()">검색</button>
+            </div>
+            <script>
+            window.searchClicked = function() {
+                const query = document.getElementById('song_input').value;
+                if (query) {
+                    window.streamlitApi.setComponentValue('query', query);
+                }
+            }
+            </script>
+        """, unsafe_allow_html=True)
 
-    with query_col1:
-        query = st.text_input("곡 이름을 입력하세요")
-    
-    with query_col2:
-        # 버튼을 추가하고, 버튼을 클릭하면 검색이 실행되도록 설정
-        search_button_clicked = st.button("검색", key="search_button", help="곡 검색 버튼")
-
-# # 유사 곡 검색
-# with st.expander("유사 곡 검색"):
-#     # 곡 이름 입력과 동시에 검색 및 선택 가능한 통합 입력창
-#     query = st.text_input("곡 이름을 입력하세요", help="곡 이름을 입력하고 검색 결과에서 선택하세요")
-
-    # 초기값으로 None 할당
-    selected_song_name = None
-    selected_song_id = None
+    query = st.experimental_get_query_params().get('query', [None])[0]
 
     if query:
         song_names, song_ids = search_api(query, 'songs')  # API 호출을 통해 곡 이름과 ID 검색
