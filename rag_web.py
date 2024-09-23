@@ -201,7 +201,7 @@ st.write("---")
 def search_by_artist_id(artist_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
-        "artist_id": artist_ids_prompt,
+        "artist_id": str(artist_ids_prompt),
         "album_release_country": album_release_country,
         "limit": 200,
         "voice_yn": "Y",
@@ -224,7 +224,7 @@ def search_by_artist_id(artist_ids_prompt):
 def search_by_song_id(song_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
-        "song_id": song_ids_prompt,
+        "song_id": str(song_ids_prompt),
         "album_release_country": album_release_country,
         "limit": 200,
         "voice_yn": "Y",
@@ -444,22 +444,3 @@ with st.expander("유사 아티스트 검색"):
             search_by_artist_id(selected_artist_id)
     elif artist_search_button_clicked:
         st.error("선택된 아티스트가 없습니다.")
-
-# 간단한 앱 상태 (예: 카운터)
-if 'counter' not in st.session_state:
-    st.session_state['counter'] = 0
-
-st.write(f"현재 카운터 값: {st.session_state['counter']}")
-
-# 카운터 증가 버튼
-if st.button('카운터 증가'):
-    st.session_state['counter'] += 1
-
-# 초기화 및 다시 실행 버튼
-if st.button('초기화하고 다시 실행'):
-    # 세션 상태 초기화
-    st.session_state.clear()
-    # 캐시 초기화
-    st.cache_data.clear()
-    # 앱을 새로 실행
-    st.experimental_rerun()
