@@ -402,7 +402,6 @@ with st.expander("유사 곡 검색"):
                 selected_song_id = str(song_ids[selected_song_index])
 
     if selected_song_name and selected_song_id:
-        st.write(f"선택한 곡: '{selected_song_name}'")
         with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
             search_by_song_id(selected_song_id)
 
