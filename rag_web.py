@@ -221,7 +221,7 @@ def search_by_artist_id(artist_ids_prompt):
         display_sample_results(data_info)
         display_score_result(score_info)
     else:
-        st.warning(json_data)
+        st.warning(param_json)
         # st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
 
 def search_by_song_id(song_ids_prompt):
