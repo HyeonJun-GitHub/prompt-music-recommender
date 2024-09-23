@@ -381,6 +381,7 @@ with st.expander("프롬프트 입력", expanded=True):
 
 st.image(title_02_img, caption='', use_column_width=True)
 
+# 곡 이름 입력과 버튼을 한 줄에 배치하기 위한 layout
 st.markdown("""
     <style>
     .input-container {
@@ -413,42 +414,39 @@ st.markdown("""
 
 # 유사 곡 검색
 with st.expander("유사 곡 검색"):
-     # 텍스트 입력과 버튼을 flex로 배치
-    search_form = st.empty()
-    search_button_clicked = False
-    with search_form:
-        st.markdown("""
-            <div class="input-container">
-                <input type="text" id="song_input" placeholder="곡 이름을 입력하세요">
-                <button class="search-button" onclick="window.searchClicked()">검색</button>
-            </div>
-            <script>
-            window.searchClicked = function() {
-                const query = document.getElementById('song_input').value;
-                if (query) {
-                    window.streamlitApi.setComponentValue('query', query);
-                }
-            }
-            </script>
-        """, unsafe_allow_html=True)
+    # 텍스트 입력과 버튼을 flex로 배치
+    query_col1, query_col2 = st.columns([4, 1])  # 입력 박스와 버튼의 비율 설정
 
-    query = st.experimental_get_query_params().get('query', [None])[0]
+    with query_col1:
+        query = st.text_input("곡 이름을 입력하세요")
+    
+    with query_col2:
+        # 버튼을 추가하고, 버튼을 클릭하면 검색이 실행되도록 설정
+        search_button_clicked = st.button("검색", key="search_button", help="곡 검색 버튼")
 
-        # 검색 로직
-    if query:
-        st.write(f"검색어: {query}")
+    # 초기값으로 None 할당
+    selected_song_name = None
+    selected_song_id = None
+    
+    if search_button_clicked and query:
         song_names, song_ids = search_api(query, 'songs')
-        
+
         if song_names:
             selected_song_name = st.selectbox("조회된 곡", song_names)
+            
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
                 selected_song_id = str(song_ids[selected_song_index])
 
-                # 곡 선택 후 바로 리스트 조회
-                st.write(f"선택한 곡: '{selected_song_name}'")
-                with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
-                    search_by_song_id(selected_song_id)
+    # selected_song_name과 selected_song_id가 None이 아닌지 확인
+    if selected_song_name and selected_song_id:
+        # 곡 선택 후 바로 리스트 조회
+        st.write(f"선택한 곡: '{selected_song_name}'")
+        with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
+            search_by_song_id(selected_song_id)
+    elif search_button_clicked and not query:
+        st.error("곡 이름을 입력하세요.")
+
 
 
 st.image(title_03_img, caption='', use_column_width=True)
