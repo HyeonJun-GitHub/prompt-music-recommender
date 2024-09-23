@@ -201,7 +201,7 @@ st.write("---")
 def search_by_artist_id(artist_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
-        "artist_id": artist_ids_prompt,
+        "artist_id": str(artist_ids_prompt),
         "album_release_country": album_release_country,
         "limit": 200,
         "voice_yn": "Y",
@@ -227,7 +227,7 @@ def search_by_artist_id(artist_ids_prompt):
 def search_by_song_id(song_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
     param = {
-        "song_id": song_ids_prompt,
+        "song_id": str(song_ids_prompt),
         "album_release_country": album_release_country,
         "limit": 200,
         "voice_yn": "Y",
