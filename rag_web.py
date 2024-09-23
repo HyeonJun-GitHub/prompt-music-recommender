@@ -60,6 +60,18 @@ hide_streamlit_style = """
             footer {visibility: hidden !important;}
             </style>
             """
+html_string='''
+<script>
+// To break out of iframe and access the parent window
+const streamlitDoc = window.parent.document;
+
+// Make the replacement
+document.addEventListener("DOMContentLoaded", function(event){
+        streamlitDoc.getElementsByTagName("footer")[0].innerHTML = "Provided by <a href='https://yourwebsite.com' target='_blank' class='css-z3au9t egzxvld2'>Your Link Display Text Here</a>";
+    });
+</script>
+'''
+components.html(html_string)
 
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
