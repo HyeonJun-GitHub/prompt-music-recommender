@@ -434,20 +434,21 @@ with st.expander("유사 곡 검색"):
 
     query = st.experimental_get_query_params().get('query', [None])[0]
 
+        # 검색 로직
     if query:
-        song_names, song_ids = search_api(query, 'songs')  # API 호출을 통해 곡 이름과 ID 검색
+        st.write(f"검색어: {query}")
+        song_names, song_ids = search_api(query, 'songs')
         
         if song_names:
-            # 선택 창을 통해 입력한 이름과 검색 결과를 모두 표시
-            selected_song_name = st.selectbox("조회된 곡 선택", song_names, index=0)
-
+            selected_song_name = st.selectbox("조회된 곡", song_names)
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
                 selected_song_id = str(song_ids[selected_song_index])
 
-    if selected_song_name and selected_song_id:
-        with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
-            search_by_song_id(selected_song_id)
+                # 곡 선택 후 바로 리스트 조회
+                st.write(f"선택한 곡: '{selected_song_name}'")
+                with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
+                    search_by_song_id(selected_song_id)
 
 
 st.image(title_03_img, caption='', use_column_width=True)
