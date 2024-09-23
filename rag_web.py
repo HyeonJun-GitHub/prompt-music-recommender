@@ -383,26 +383,34 @@ st.image(title_02_img, caption='', use_column_width=True)
 
 st.markdown("""
     <style>
-    .stSelectbox > div:first-child {
-        background-color: #1E90FF !important;  /* 파란색 배경 */
-        color: white !important;  /* 흰색 텍스트 */
-        border: 2px solid #1E90FF !important;  /* 파란색 테두리 */
-        padding: 5px 10px;
-        border-radius: 10px;
+    .search-button {
+        background-color: #1E90FF !important;
+        color: white !important;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 20px;
         font-size: 16px;
         font-weight: bold;
-    }
-    .stSelectbox:hover > div:first-child {
-        background-color: #4169E1 !important;  /* Hover 시 더 진한 파란색 */
-        border-color: #4169E1 !important;
+        cursor: pointer;
     }
     </style>
 """, unsafe_allow_html=True)
 
 # 유사 곡 검색
 with st.expander("유사 곡 검색"):
-    # 곡 이름 입력과 동시에 검색 및 선택 가능한 통합 입력창
-    query = st.text_input("곡 이름을 입력하세요", help="곡 이름을 입력하고 검색 결과에서 선택하세요")
+    query_col1, query_col2 = st.columns([4, 1])  # 입력 박스와 버튼의 비율 설정
+
+    with query_col1:
+        query = st.text_input("곡 이름을 입력하세요")
+    
+    with query_col2:
+        # 버튼을 추가하고, 버튼을 클릭하면 검색이 실행되도록 설정
+        search_button_clicked = st.button("검색", key="search_button", help="곡 검색 버튼")
+
+# # 유사 곡 검색
+# with st.expander("유사 곡 검색"):
+#     # 곡 이름 입력과 동시에 검색 및 선택 가능한 통합 입력창
+#     query = st.text_input("곡 이름을 입력하세요", help="곡 이름을 입력하고 검색 결과에서 선택하세요")
 
     # 초기값으로 None 할당
     selected_song_name = None
