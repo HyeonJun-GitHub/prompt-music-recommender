@@ -55,6 +55,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+
 # 로컬 이미지 경로 설정
 # 리소스 디렉토리 경로 설정
 title_00_path = os.path.join(os.getcwd(), "title_00.png")
@@ -125,6 +132,7 @@ textarea, input {
 """
 
 # 배경 이미지 적용
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
