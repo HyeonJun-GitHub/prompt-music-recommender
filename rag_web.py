@@ -135,7 +135,7 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 st.image(logo_img, caption='', use_column_width=True)
 st.image(title_00_img, caption='', use_column_width=True)
 # 레이아웃 시작
-st.write("---")
+# st.write("---")
 st.title("검색 설정")
 segment = st.radio("국가 선택", ("전체", "국내", "해외"))
 
