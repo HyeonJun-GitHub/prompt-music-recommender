@@ -463,5 +463,3 @@ if st.button('초기화하고 다시 실행'):
     st.cache_data.clear()
     # 앱을 새로 실행
     st.experimental_rerun()
-
-main()
