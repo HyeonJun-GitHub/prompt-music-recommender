@@ -381,7 +381,6 @@ with st.expander("프롬프트 입력", expanded=True):
 
 st.image(title_02_img, caption='', use_column_width=True)
 
-# 곡 이름 입력과 버튼을 한 줄에 배치하기 위한 layout
 st.markdown("""
     <style>
     .input-container {
@@ -446,7 +445,6 @@ with st.expander("유사 곡 검색"):
             search_by_song_id(selected_song_id)
     elif search_button_clicked and not query:
         st.error("곡 이름을 입력하세요.")
-
 
 
 st.image(title_03_img, caption='', use_column_width=True)
