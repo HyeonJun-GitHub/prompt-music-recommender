@@ -211,6 +211,8 @@ def search_by_artist_id(artist_ids_prompt):
         "cnt": 50
     }
     param_json = json.dumps(param)
+    st.success(f"url : {url}")
+    st.success(f"param : {param}")
     res = requests.post(url, data=param_json, headers={'Content-Type': 'application/json'})
     json_data = res.json()
     if len(json_data.get('songs',[])) >= 1:
