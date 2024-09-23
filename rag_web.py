@@ -383,42 +383,29 @@ st.image(title_02_img, caption='', use_column_width=True)
 
 # 유사 곡 검색
 with st.expander("유사 곡 검색"):
-    query = st.text_input("곡 이름을 입력하세요")
-    
+    # 곡 이름 입력과 동시에 검색 및 선택 가능한 통합 입력창
+    query = st.text_input("곡 이름을 입력하세요", help="곡 이름을 입력하고 검색 결과에서 선택하세요")
+
     # 초기값으로 None 할당
     selected_song_name = None
     selected_song_id = None
-    
+
     if query:
-        song_names, song_ids = search_api(query, 'songs')
+        song_names, song_ids = search_api(query, 'songs')  # API 호출을 통해 곡 이름과 ID 검색
         
         if song_names:
-            selected_song_name = st.selectbox("조회된 곡", song_names)
-            
+            # 선택 창을 통해 입력한 이름과 검색 결과를 모두 표시
+            selected_song_name = st.selectbox("조회된 곡 선택", song_names, index=0)
+
             if selected_song_name:
                 selected_song_index = song_names.index(selected_song_name)
                 selected_song_id = str(song_ids[selected_song_index])
-    
-    # 텍스트 입력창과 버튼을 같은 너비로 하기 위해 컨테이너 사용
-    # with st.container():
-    #     if selected_song_name and selected_song_id:
-    #         song_search_button_clicked = st.button(f'유사 곡 검색 : \'{selected_song_name}\'', use_container_width=True)
-    #     else:
-    #         song_search_button_clicked = st.button("곡 찾아보기", use_container_width=True)
-    
+
     if selected_song_name and selected_song_id:
-        # 곡 선택 시 바로 해당 곡의 리스트를 가져오도록 수정
         st.write(f"선택한 곡: '{selected_song_name}'")
         with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
             search_by_song_id(selected_song_id)
-    else:
-        st.error("선택된 곡이 없습니다.")
 
-    # if song_search_button_clicked and selected_song_id:
-    #     with st.spinner(f'AI가 동작 중입니다..'):
-    #         search_by_song_id(selected_song_id)
-    # elif song_search_button_clicked:
-    #     st.error("선택된 곡이 없습니다.")
 
 st.image(title_03_img, caption='', use_column_width=True)
 
