@@ -298,7 +298,7 @@ def display_image(base64_str):
     img = Image.open(BytesIO(img_data))
     cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
     with cols[1]:  # 중간 열에 이미지를 배치
-        st.image(img, width=500, caption="", use_column_width=False)
+        st.image(img, width=800, caption="", use_column_width=False)
         st.write("데이터 일관성")
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
@@ -380,7 +380,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-st.image(title_02_img, width=500, caption='', use_column_width=False)
+st.image(title_02_img, width=800, caption='', use_column_width=False)
 
 st.markdown("""
     <style>
@@ -425,7 +425,7 @@ with st.expander("유사 곡 검색"):
             search_by_song_id(selected_song_id)
 
 
-st.image(title_03_img, width=500, caption='', use_column_width=False)
+st.image(title_03_img, width=800, caption='', use_column_width=False)
 
 # 유사 아티스트 검색
 with st.expander("유사 아티스트 검색"):
