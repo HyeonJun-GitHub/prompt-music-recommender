@@ -280,6 +280,15 @@ def display_score_result(score_info):
     image_data = info['radial_image']
     display_image(image_data)
 
+st.markdown(
+    """
+    <div style="text-align: center;">
+        데이터 일관성
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 # 이미지 디코딩 및 표시
 def display_image(base64_str):
     st.write("")
