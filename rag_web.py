@@ -380,7 +380,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-st.image(title_02_img, width=800, caption='', use_column_width=False)
+st.image(title_02_img, width=800, caption='', use_column_width=True)
 
 st.markdown("""
     <style>
