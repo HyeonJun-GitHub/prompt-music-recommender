@@ -131,7 +131,7 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 # -------------------------------------------------------------
 
-st.image(title_00_img, caption='', use_column_width=True)
+st.image(title_00_img, caption='', use_column_width=False)
 # 레이아웃 시작
 st.write("---")
 st.title("검색 설정")
@@ -367,7 +367,7 @@ def search_api(query, mode="songs"):
 
 # -------------------------------------------------------------
 
-st.image(title_01_img, caption='', use_column_width=True)
+st.image(title_01_img, caption='', use_column_width=False)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
@@ -380,7 +380,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-st.image(title_02_img, caption='', use_column_width=True)
+st.image(title_02_img, caption='', use_column_width=False)
 
 st.markdown("""
     <style>
