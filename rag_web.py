@@ -70,32 +70,6 @@ title_02_img = Image.open(title_02_path)
 title_03_img = Image.open(title_03_path)
 background_img = Image.open(background_img_path)
 
-
-# CSS를 사용하여 이미지의 최소, 최대 크기와 중앙 정렬 설정
-st.markdown(
-    f"""
-    <style>
-    .center-image {{
-        display: flex;
-        justify-content: center;
-    }}
-    .center-image img {{
-        min-width: 600px;
-        max-width: 800px;
-        width: 100%;
-        height: auto;
-    }}
-    </style>
-    <div class="center-image">
-        <img src="{title_00_img}" alt="image">
-        <img src="{title_01_img}" alt="image">
-        <img src="{title_02_img}" alt="image">
-        <img src="{title_03_img}" alt="image">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
 # Base64로 로컬 이미지 인코딩
 with open(box_img_path, "rb") as img_file:
     box_img_base64 = base64.b64encode(img_file.read()).decode()
