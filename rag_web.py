@@ -104,16 +104,6 @@ with open(box_img_path, "rb") as img_file:
 with open(background_img_path, "rb") as img_file:
     background_img_base64 = base64.b64encode(img_file.read()).decode()
 
-# 상태 저장을 위한 session_state 사용
-if 'playing_song_id' not in st.session_state:
-    st.session_state.playing_song_id = None
-if 'playing_song_name' not in st.session_state:
-    st.session_state.playing_song_name = None
-if 'playing_artist_name' not in st.session_state:
-    st.session_state.playing_artist_name = None
-if 'playing_song_url' not in st.session_state:
-    st.session_state.playing_song_url = None
-
 # 상단과 하단의 Streamlit 기본 UI 제거를 위한 CSS
 hide_streamlit_style = """
     <style>
