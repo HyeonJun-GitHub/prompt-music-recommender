@@ -219,7 +219,7 @@ def search_by_artist_id(artist_ids_prompt):
         display_sample_results(data_info)
         display_score_result(score_info)
     else:
-        st.warning("음악을 못 찾았습니다. 다시 입력해주세요.")
+        st.warning("찾으시는 아티스트가 없습니다. 다시 입력해주세요.")
 
 def search_by_song_id(song_ids_prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/similarity"
@@ -242,7 +242,7 @@ def search_by_song_id(song_ids_prompt):
         display_sample_results(data_info)
         display_score_result(score_info)
     else:
-        st.warning("아티스트가 없습니다. 다시 입력해주세요.")
+        st.warning("찾으시는 음악이 없습니다. 다시 입력해주세요.")
 
 def search(prompt):
     url = "https://hpc1ux4epg.execute-api.ap-northeast-2.amazonaws.com/api/v1/rag/search/songs"
@@ -325,40 +325,41 @@ def search_api(query, mode="songs"):
     
     try:
         # API 호출 시 헤더 추가
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
-        
-        try:
-            data = response.json()  # JSON 형식으로 변환 시도
-        except ValueError:
-            st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
-            return [], []
-        
-        if mode == "songs":
-            # 곡 이름과 ID 추출
-            song_list = [
-                {
-                    "name": f"{song["song_name"].get("original", "Unknown Song")} - {song["artist_name"].get("original", "Unknown Song"),}",
-                    "id": song.get("song_id", None)
-                }
-                for song in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
-            ]
-            song_names = [song["name"].replace('(\'', '').replace('\',)', '') for song in song_list]
-            song_ids = [song["id"] for song in song_list]
-            return song_names, song_ids
+        with st.spinner(f'검색 중입니다..'):
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
+            
+            try:
+                data = response.json()  # JSON 형식으로 변환 시도
+            except ValueError:
+                st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
+                return [], []
+            
+            if mode == "songs":
+                # 곡 이름과 ID 추출
+                song_list = [
+                    {
+                        "name": f"{song["song_name"].get("original", "Unknown Song")} - {song["artist_name"].get("original", "Unknown Song"),}",
+                        "id": song.get("song_id", None)
+                    }
+                    for song in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
+                ]
+                song_names = [song["name"].replace('(\'', '').replace('\',)', '') for song in song_list]
+                song_ids = [song["id"] for song in song_list]
+                return song_names, song_ids
 
-        else:
-            # 아티스트 이름과 ID 추출
-            artist_list = [
-                {
-                    "name": artist["artist_name"].get("original", "Unknown Artist"),
-                    "id": artist.get("artist_id", None)
-                }
-                for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
-            ]
-            artist_names = [artist["name"] for artist in artist_list]
-            artist_ids = [artist["id"] for artist in artist_list]
-            return artist_names, artist_ids
+            else:
+                # 아티스트 이름과 ID 추출
+                artist_list = [
+                    {
+                        "name": artist["artist_name"].get("original", "Unknown Artist"),
+                        "id": artist.get("artist_id", None)
+                    }
+                    for artist in data.get('searchResult', {}).get('result', {}).get(mode, {}).get('items', [])
+                ]
+                artist_names = [artist["name"] for artist in artist_list]
+                artist_ids = [artist["id"] for artist in artist_list]
+                return artist_names, artist_ids
 
     except requests.exceptions.RequestException as e:
         st.error(f"API 요청 중 오류 발생: {e}")
@@ -420,7 +421,7 @@ with st.expander("유사 곡 검색"):
                 selected_song_id = str(song_ids[selected_song_index])
 
     if selected_song_name and selected_song_id:
-        with st.spinner(f'\'{selected_song_name}\'의 곡 정보를 가져오는 중입니다...'):
+        with st.spinner(f'AI가 동작 중입니다..'):
             search_by_song_id(selected_song_id)
 
 
