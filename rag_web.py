@@ -298,7 +298,7 @@ def display_image(base64_str):
     cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
     with cols[1]:  # 중간 열에 이미지를 배치
         st.image(img, caption="", use_column_width=True)
-        st.write("데이터 일관성")
+        st.markdown("""<div style="text-align: center;">데이터 일관성</div>""",unsafe_allow_html=True)
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
 def display_sample_results(data_info):
