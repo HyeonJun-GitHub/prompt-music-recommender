@@ -409,16 +409,15 @@ with st.expander("유사 곡 검색"):
     selected_song_id = None
 
     if query:
-        with st.spinner(f'검색 중입니다..'):
-            song_names, song_ids = search_api(query, 'songs')  # API 호출을 통해 곡 이름과 ID 검색
-            
-            if song_names:
-                # 선택 창을 통해 입력한 이름과 검색 결과를 모두 표시
-                selected_song_name = st.selectbox("조회된 곡 선택", song_names, index=0)
+        song_names, song_ids = search_api(query, 'songs')  # API 호출을 통해 곡 이름과 ID 검색
+        
+        if song_names:
+            # 선택 창을 통해 입력한 이름과 검색 결과를 모두 표시
+            selected_song_name = st.selectbox("조회된 곡 선택", song_names, index=0)
 
-                if selected_song_name:
-                    selected_song_index = song_names.index(selected_song_name)
-                    selected_song_id = str(song_ids[selected_song_index])
+            if selected_song_name:
+                selected_song_index = song_names.index(selected_song_name)
+                selected_song_id = str(song_ids[selected_song_index])
 
     if selected_song_name and selected_song_id:
         with st.spinner(f'AI가 동작 중입니다..'):
@@ -436,15 +435,14 @@ with st.expander("유사 아티스트 검색"):
     selected_artist_id = None
     
     if query:
-        with st.spinner(f'검색 중입니다..'):
-            artist_names, artist_ids = search_api(query, 'artists')
+        artist_names, artist_ids = search_api(query, 'artists')
+        
+        if artist_names:
+            selected_artist_name = st.selectbox("조회된 아티스트", artist_names)
             
-            if artist_names:
-                selected_artist_name = st.selectbox("조회된 아티스트", artist_names)
-                
-                if selected_artist_name:
-                    selected_artist_index = artist_names.index(selected_artist_name)
-                    selected_artist_id = artist_ids[selected_artist_index]
+            if selected_artist_name:
+                selected_artist_index = artist_names.index(selected_artist_name)
+                selected_artist_id = artist_ids[selected_artist_index]
     
     if selected_artist_name and selected_artist_id:
         with st.spinner(f'AI가 동작 중입니다..'):
