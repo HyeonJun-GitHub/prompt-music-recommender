@@ -424,7 +424,7 @@ with st.expander("유사 곡 검색"):
             search_by_song_id(selected_song_id)
 
 
-st.image(title_03_img, caption='', use_column_width=True)
+st.image(title_03_img, caption='', use_column_width=False)
 
 # 유사 아티스트 검색
 with st.expander("유사 아티스트 검색"):
