@@ -70,6 +70,32 @@ title_02_img = Image.open(title_02_path)
 title_03_img = Image.open(title_03_path)
 background_img = Image.open(background_img_path)
 
+
+# CSS를 사용하여 이미지의 최소, 최대 크기와 중앙 정렬 설정
+st.markdown(
+    f"""
+    <style>
+    .center-image {{
+        display: flex;
+        justify-content: center;
+    }}
+    .center-image img {{
+        min-width: 600px;
+        max-width: 800px;
+        width: 100%;
+        height: auto;
+    }}
+    </style>
+    <div class="center-image">
+        <img src="{title_00_img}" alt="image">
+        <img src="{title_01_img}" alt="image">
+        <img src="{title_02_img}" alt="image">
+        <img src="{title_03_img}" alt="image">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 # Base64로 로컬 이미지 인코딩
 with open(box_img_path, "rb") as img_file:
     box_img_base64 = base64.b64encode(img_file.read()).decode()
@@ -298,7 +324,7 @@ def display_image(base64_str):
     img = Image.open(BytesIO(img_data))
     cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
     with cols[1]:  # 중간 열에 이미지를 배치
-        st.image(img, width=800, caption="", use_column_width=False)
+        st.image(img, caption="", use_column_width=True)
         st.write("데이터 일관성")
 
 # 곡 리스트에서 샘플을 보여주는 함수 (로컬 이미지 추가)
@@ -380,7 +406,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-st.image(title_02_img, width=800, caption='', use_column_width=True)
+st.image(title_02_img, caption='', use_column_width=True)
 
 st.markdown("""
     <style>
@@ -425,7 +451,7 @@ with st.expander("유사 곡 검색"):
             search_by_song_id(selected_song_id)
 
 
-st.image(title_03_img, width=800, caption='', use_column_width=False)
+st.image(title_03_img, caption='', use_column_width=True)
 
 # 유사 아티스트 검색
 with st.expander("유사 아티스트 검색"):
