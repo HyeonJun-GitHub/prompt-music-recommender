@@ -136,7 +136,7 @@ elif segment == "해외":
     album_release_country = "POPULAR"
 
 # 현재 날짜와 과거 날짜 설정
-day_number = 365 * 4
+day_number = 365 * 5
 current_date = datetime.now()  # 최대값 (오늘)
 past_date = current_date - timedelta(days=day_number)  # 최소값
 date_range = [(past_date + timedelta(days=x)).strftime('%Y%m') for x in range(0, day_number+1, 30)]  # 매월 1회씩
@@ -157,7 +157,7 @@ st.markdown("""
 selected_date = st.select_slider(
     '발매 기간 범위',
     options=date_range,
-    value=(date_range[-28], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
+    value=(date_range[-48], date_range[-1])  # 기본값 설정: 4개월 전부터 현재까지
 )
 
 def yyyymm_to_date(yyyymm):
