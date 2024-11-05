@@ -192,8 +192,7 @@ def search_by_artist_id(artist_ids_prompt):
     param = {
         "artist_id": str(artist_ids_prompt),
         "album_release_country": album_release_country,
-        "limit": 200,
-        "voice_yn": "Y",
+        "limit": 1000,
         "sort": "SCORE",
         "album_release_start_date": f'{start_last_format}',
         "album_release_end_date": f'{end_last_format}',
@@ -215,8 +214,7 @@ def search_by_song_id(song_ids_prompt):
     param = {
         "song_id": str(song_ids_prompt),
         "album_release_country": album_release_country,
-        "limit": 200,
-        "voice_yn": "Y",
+        "limit": 1000,
         "sort": "SCORE",
         "album_release_start_date": f'{start_last_format}',
         "album_release_end_date": f'{end_last_format}',
@@ -238,8 +236,7 @@ def search(prompt):
     param = {
         "prompt": prompt,
         "album_release_country": album_release_country,
-        "limit": 200,
-        "voice_yn": "Y",
+        "limit": 1000,
         "sort": "POPULAR",
         "album_release_start_date": f'{start_last_format}',
         "album_release_end_date": f'{end_last_format}',
