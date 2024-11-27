@@ -116,8 +116,6 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
 
-st.title("GENIE AI")
-
 # -------------------------------------------------------------
 pages = [
     st.Page("pages/AI_Agent.py", title="AI Agent"),
@@ -126,6 +124,8 @@ pages = [
 
 pg = st.navigation(pages)
 pg.run()
+
+st.title("GENIE AI")
 
 # st.image(title_00_img, caption='', use_column_width=True)
 # # 레이아웃 시작
