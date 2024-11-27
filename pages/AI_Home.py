@@ -115,16 +115,8 @@ textarea, input {
 st.markdown(page_bg_img, unsafe_allow_html=True)
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
-
+st.title("AI 연구소")
 # -------------------------------------------------------------
-pages = [
-    st.Page("pages/AI_Home.py", title="Home"),
-    st.Page("pages/AI_Agent.py", title="AI Agent"),
-    st.Page("pages/AI_Curation.py", title="AI Curation"),
-]
-
-pg = st.navigation(pages)
-pg.run()
 
 # st.image(title_00_img, caption='', use_column_width=True)
 # # 레이아웃 시작
