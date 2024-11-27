@@ -16,9 +16,10 @@ from io import BytesIO
 st.markdown(
     """
     <style>
-    .stChatMessage { 
-        color: white; 
+    .st-chat-message-content { 
+        color: white !important;  /* 텍스트 색상 하얀색으로 변경 */
     }
+
 
     .stApp {
         background-color: #000000;
