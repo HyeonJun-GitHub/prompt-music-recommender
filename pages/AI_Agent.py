@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_chat import message
 import json
 import requests
 from datetime import datetime, timedelta
@@ -9,9 +8,9 @@ from PIL import Image
 import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
-from streamlit_extras.colored_header import colored_header
-import vertexai
-from vertexai.preview.language_models import ChatModel
+
+from openai import OpenAI
+import streamlit as st
 
 # CSS를 사용하여 배경 색상을 설정
 st.markdown(
@@ -122,47 +121,32 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 # -------------------------------------------------------------
 
-#Streamlit UI Parameters
-st.title(":violet[Chat Bot via Streamlit]")
-colored_header(label='', description='', color_name='gray-30')
+with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
+    "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
+    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
 
-# Initializing Vertex AI
-vertexai.init(project="projectname", location="us-central1")
+st.title("💬 Chatbot")
+st.caption("🚀 A Streamlit chatbot powered by OpenAI")
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
-def generate_response(prompt):
-    """Predict using a Large Language Model."""
-    model = ChatModel.from_pretrained("chat-bison@001")
-    chat = model.start_chat(examples=[])
-    response = chat.send_message(prompt)
-    output = response.text
-    return output
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).write(msg["content"])
 
-# Initialize session state variables
-if 'user_responses' not in st.session_state:
-    st.session_state['user_responses'] = ["Hey"]
-if 'bot_responses' not in st.session_state:
-    st.session_state['bot_responses'] = ["Hey there! How may I help you today?"]
+if prompt := st.chat_input():
+    if not openai_api_key:
+        st.info("Please add your OpenAI API key to continue.")
+        st.stop()
 
-input_container = st.container()
-response_container = st.container()
-
-# Capture user input and display bot responses
-user_input = st.text_input("You: ", "", key="input")
-
-with response_container:
-    if user_input:
-        response = generate_response(user_input)
-        st.session_state.user_responses.append(user_input)
-        st.session_state.bot_responses.append(response)
-        
-    if st.session_state['bot_responses']:
-        for i in range(len(st.session_state['bot_responses'])):
-            message(st.session_state['user_responses'][i], is_user=True, key=str(i) + '_user', avatar_style="initials", seed="Kavita")
-            message(st.session_state['bot_responses'][i], key=str(i), avatar_style="initials", seed="AI",)
-
-with input_container:
-    display_input = user_input
-
+    client = OpenAI(api_key=openai_api_key)
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.chat_message("user").write(prompt)
+    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    msg = response.choices[0].message.content
+    st.session_state.messages.append({"role": "assistant", "content": msg})
+    st.chat_message("assistant").write(msg)
 
 # st.image(title_00_img, caption='', use_column_width=True)
 # # 레이아웃 시작
