@@ -8,9 +8,7 @@ from PIL import Image
 import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
-
 from openai import OpenAI
-import streamlit as st
 
 # CSS를 사용하여 배경 색상을 설정
 st.markdown(
