@@ -16,6 +16,10 @@ from io import BytesIO
 st.markdown(
     """
     <style>
+    .stChatMessage { 
+        color: white; 
+    }
+
     .stApp {
         background-color: #000000;
         color: white;
