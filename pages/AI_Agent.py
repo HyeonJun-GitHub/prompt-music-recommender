@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_chat import message
 import json
 import requests
 from datetime import datetime, timedelta
@@ -8,8 +9,6 @@ from PIL import Image
 import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
-
-from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
 import vertexai
 from vertexai.preview.language_models import ChatModel
