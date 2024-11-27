@@ -9,21 +9,6 @@ import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
 
-st.set_page_config(layout="wide",)
-page = st.sidebar.radio("Go To", ["Home", "About", "Contact"])
-if page== 'Home':
-    st.subheader ("Welcome to Home Page")
-    st.write("You can design your home page")
-    with st.expander("click me to learn more"):
-        st.write("Streamlit is an open-source Python library that")
-    with st.popover("Open popover"):
-        st.markdown("Hello World smile:")
-        name = st.text_input ("Whats your name: ")
-    st.write( "Your name is : ")
-elif page== "About":
-    st. subheader ("Welcome to About Page")
-    st.write("You can provide any information here")
-
 # CSS를 사용하여 배경 색상을 설정
 st.markdown(
     """
@@ -132,13 +117,6 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스타일 적용
 
 # -------------------------------------------------------------
-pages = [
-    st.Page("pages/AI_Agent.py", title="AI Agent"),
-    st.Page("pages/AI_Curation.py", title="AI Curation"),
-]
-
-pg = st.navigation(pages)
-pg.run()
 
 # st.image(title_00_img, caption='', use_column_width=True)
 # # 레이아웃 시작
