@@ -229,37 +229,22 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
 
 st.title("💬 AI Curation Chatbot")
+
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
 if st.button("대화 삭제"):
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
-# for msg in st.session_state.messages:
-#     st.chat_message(msg["role"]).write(msg["content"])
-
-# if prompt := st.chat_input():
-
-#     st.session_state.messages.append({"role": "user", "content": prompt})
-#     st.chat_message("user").write(prompt)
-#     msg = "Hi (Debug)" 
-#     st.session_state.messages.append({"role": "assistant", "content": msg})
-#     st.chat_message("assistant").write(msg)
-# 메시지를 HTML로 출력
 for msg in st.session_state.messages:
-    role = msg["role"]
-    content = msg["content"]
-    if role == "assistant":
-        st.markdown(f'<p style="color:white; background-color:#2E2E2E; padding:10px; border-radius:5px;">{content}</p>', unsafe_allow_html=True)
-    elif role == "user":
-        st.markdown(f'<p style="color:black; background-color:#1A1A1A; padding:10px; border-radius:5px; text-align:right;">{content}</p>', unsafe_allow_html=True)
+    st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input():
     # 유저 메시지 추가
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.markdown(f'<p style="color:black; background-color:#1A1A1A; padding:10px; border-radius:5px; text-align:right;">{prompt}</p>', unsafe_allow_html=True)
+    st.chat_message("user").write(prompt)
 
     # 어시스턴트 응답 추가
-    msg = "Hi (Debug)" 
+    msg = "Hi (Debug)"
     st.session_state.messages.append({"role": "assistant", "content": msg})
-    st.markdown(f'<p style="color:white; background-color:#2E2E2E; padding:10px; border-radius:5px;">{msg}</p>', unsafe_allow_html=True)
+    st.chat_message("assistant").write(msg)
