@@ -606,8 +606,8 @@ def on_input_change():
         client = OpenAI(api_key=openai_api_key)
         response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
         msg = response.choices[0].message.content
-        st.session_state.messages.append({"role": "assistant", "content": msg})
-        st.chat_message("assistant").write(msg)
+        # st.session_state.messages.append({"role": "assistant", "content": msg})
+        # st.chat_message("assistant").write(msg)
         st.session_state.generated.append(msg)
 
 # 메시지 초기화 버튼 클릭 시 호출되는 함수
