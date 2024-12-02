@@ -278,6 +278,7 @@ def process_message():
     if user_input.strip():
         # 사용자 입력을 ChatBot에 전달
         result = chat_bot(user_input)
+        openai.api_key = openai_api_key
 
         # 액션 처리
         actions = [action_re.match(a) for a in result.split('\n') if action_re.match(a)]
