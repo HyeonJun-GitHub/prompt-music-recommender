@@ -227,8 +227,18 @@ class ChatBot:
         return result
 
     def execute(self):
-        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=self.messages)
-        return completion.choices[0].message.content
+        try:
+            # Use the latest syntax
+            completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=self.messages
+            )
+            # Extract and return the response
+            return completion["choices"][0]["message"]["content"]
+        except openai.error.OpenAIError as e:
+            # Gracefully handle OpenAI API errors
+            return f"Error with OpenAI API: {str(e)}"
+
 
 # Action 처리 함수 정의
 def wikipedia(q):
