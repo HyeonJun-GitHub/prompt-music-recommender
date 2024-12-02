@@ -376,9 +376,31 @@
 #     st.session_state["messages"].append({"role": "assistant", "content": msg})
 #     st.chat_message("assistant").write(msg)
 
+import os
+import base64
 import streamlit as st
 from streamlit_chat import message
 from streamlit.components.v1 import html
+
+# 배경 이미지 경로 설정
+background_img_path = os.path.join(os.getcwd(), "background.jpg")
+with open(background_img_path, "rb") as img_file:
+    background_img_base64 = base64.b64encode(img_file.read()).decode()
+
+# 배경 이미지 적용
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{background_img_base64}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # 초기 상태 설정
 st.session_state.setdefault('past', [])
