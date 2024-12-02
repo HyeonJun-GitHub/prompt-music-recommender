@@ -376,31 +376,110 @@
 #     st.session_state["messages"].append({"role": "assistant", "content": msg})
 #     st.chat_message("assistant").write(msg)
 
+
+
+
+
+
+
+
+# import os
+# import base64
+# import streamlit as st
+# from streamlit_chat import message
+# from streamlit.components.v1 import html
+
+# # 배경 이미지 경로 설정
+# background_img_path = os.path.join(os.getcwd(), "background.jpg")
+# with open(background_img_path, "rb") as img_file:
+#     background_img_base64 = base64.b64encode(img_file.read()).decode()
+
+# # 배경 이미지 적용
+# st.markdown(
+#     f"""
+#     <style>
+#     .stApp {{
+#         background-image: url("data:image/jpg;base64,{background_img_base64}");
+#         background-size: cover;
+#         background-position: center;
+#         background-repeat: no-repeat;
+#     }}
+#     </style>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+# # 초기 상태 설정
+# st.session_state.setdefault('past', [])
+# st.session_state.setdefault('generated', [])
+
+# # 입력 필드에서 텍스트가 변경되었을 때 호출되는 함수
+# def on_input_change():
+#     user_input = st.session_state.user_input
+#     if user_input.strip():
+#         st.session_state.past.append(user_input)
+#         # OpenAI API 응답을 대신하는 더미 데이터
+#         bot_response = f"Bot: {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
+#         st.session_state.generated.append(bot_response)
+
+# # 메시지 초기화 버튼 클릭 시 호출되는 함수
+# def on_btn_click():
+#     st.session_state.past.clear()
+#     st.session_state.generated.clear()
+
+# # 기본 UI 설정
+# st.title("💬 Chat with AI")
+
+# # 채팅 메시지 출력
+# chat_placeholder = st.empty()
+# with chat_placeholder.container():
+#     for i in range(len(st.session_state['past'])):
+#         # 사용자 메시지 출력
+#         message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
+#         # 봇 응답 메시지 출력
+#         message(st.session_state['generated'][i], key=f"{i}_bot")
+
+# # 메시지 초기화 버튼
+# st.button("Clear Messages", on_click=on_btn_click)
+
+# # 사용자 입력 필드
+# with st.container():
+#     st.text_input("Your Message:", on_change=on_input_change, key="user_input")
+
+# # 추가 기능 예제 (오디오, 이미지, 유튜브 삽입 등)
+# # st.markdown("### Additional Features")
+# # audio_path = "https://docs.google.com/uc?export=open&id=16QSvoLWNxeqco_Wb2JvzaReSAw5ow6Cl"
+# # img_path = "https://www.groundzeroweb.com/wp-content/uploads/2017/05/Funny-Cat-Memes-11.jpg"
+# # youtube_embed = '''
+# # <iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
+# # '''
+
+# # st.audio(audio_path)
+# # st.image(img_path, caption="Funny Cat Meme")
+# # st.markdown(youtube_embed, unsafe_allow_html=True)
 import os
 import base64
 import streamlit as st
 from streamlit_chat import message
-from streamlit.components.v1 import html
 
 # 배경 이미지 경로 설정
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
-with open(background_img_path, "rb") as img_file:
-    background_img_base64 = base64.b64encode(img_file.read()).decode()
-
-# 배경 이미지 적용
-st.markdown(
-    f"""
-    <style>
-    .stApp {{
-        background-image: url("data:image/jpg;base64,{background_img_base64}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+if os.path.exists(background_img_path):
+    with open(background_img_path, "rb") as img_file:
+        background_img_base64 = base64.b64encode(img_file.read()).decode()
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{background_img_base64}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 # 초기 상태 설정
 st.session_state.setdefault('past', [])
@@ -412,7 +491,7 @@ def on_input_change():
     if user_input.strip():
         st.session_state.past.append(user_input)
         # OpenAI API 응답을 대신하는 더미 데이터
-        bot_response = f"Bot: {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
+        bot_response = f"🤖 Bot: {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
         st.session_state.generated.append(bot_response)
 
 # 메시지 초기화 버튼 클릭 시 호출되는 함수
@@ -427,9 +506,9 @@ st.title("💬 Chat with AI")
 chat_placeholder = st.empty()
 with chat_placeholder.container():
     for i in range(len(st.session_state['past'])):
-        # 사용자 메시지 출력
+        # 사용자 메시지 출력: 파란색 말풍선
         message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
-        # 봇 응답 메시지 출력
+        # 봇 응답 메시지 출력: 회색 말풍선
         message(st.session_state['generated'][i], key=f"{i}_bot")
 
 # 메시지 초기화 버튼
@@ -438,15 +517,3 @@ st.button("Clear Messages", on_click=on_btn_click)
 # 사용자 입력 필드
 with st.container():
     st.text_input("Your Message:", on_change=on_input_change, key="user_input")
-
-# 추가 기능 예제 (오디오, 이미지, 유튜브 삽입 등)
-st.markdown("### Additional Features")
-audio_path = "https://docs.google.com/uc?export=open&id=16QSvoLWNxeqco_Wb2JvzaReSAw5ow6Cl"
-img_path = "https://www.groundzeroweb.com/wp-content/uploads/2017/05/Funny-Cat-Memes-11.jpg"
-youtube_embed = '''
-<iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
-'''
-
-st.audio(audio_path)
-st.image(img_path, caption="Funny Cat Meme")
-st.markdown(youtube_embed, unsafe_allow_html=True)
