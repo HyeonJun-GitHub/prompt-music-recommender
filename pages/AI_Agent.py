@@ -8,6 +8,7 @@ from PIL import Image
 import streamlit.components.v1 as components
 import calendar
 from io import BytesIO
+from openai import OpenAI
 
 # from openai import OpenAI
 # import streamlit as st
@@ -238,11 +239,19 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input():
+
+    if not openai_api_key:
+        st.info("openai key를 입력해주세요.")
+        st.stop()
+
     # 유저 메시지 추가
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    # 어시스턴트 응답 추가
-    msg = "Hi (Debug)"
+    client = OpenAI(api_key=openai_api_key)
+    # st.session_state.messages.append({"role": "user", "content": prompt})
+    # st.chat_message("user").write(prompt)
+    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    msg = response.choices[0].message.content
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
