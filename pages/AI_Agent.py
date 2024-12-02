@@ -587,7 +587,6 @@ st.markdown(
         text-align: left;
         margin-right: auto;
         font-size: 16px;
-        width: 66%; /* AI 말풍선 기본 크기 유지 */
     }
     </style>
     """,
