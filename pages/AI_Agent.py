@@ -281,9 +281,6 @@ st.markdown(
         border-radius: 5px;
         padding: 10px;
     }
-    label {
-        color: rgb(155, 155, 155) !important;
-    }
     textarea, input {
         background-color: white !important;
         color: black !important;
@@ -353,27 +350,28 @@ if "messages" not in st.session_state:
 if st.button("대화 삭제"):
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
-# 메시지 표시
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
+# 채팅 UI
+chat_placeholder = st.empty()
+with chat_placeholder.container():
+    for msg in st.session_state["messages"]:
+        st.chat_message(msg["role"]).write(msg["content"])
 
 # 사용자 입력 처리
 if prompt := st.chat_input():
-
     if not openai_api_key:
         st.info("OpenAI API Key를 입력해주세요.")
         st.stop()
 
     # 유저 메시지 추가
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state["messages"].append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
     # OpenAI API 호출
     client = OpenAI(api_key=openai_api_key)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=st.session_state.messages
+        messages=st.session_state["messages"]
     )
     msg = response.choices[0].message.content
-    st.session_state.messages.append({"role": "assistant", "content": msg})
+    st.session_state["messages"].append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
