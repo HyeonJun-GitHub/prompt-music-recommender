@@ -204,12 +204,12 @@ import requests
 import json
 import re
 import streamlit as st
-# from openai import OpenAI
 import openai
 import httpx
 
 # OpenAI API Key 설정
 openai_api_key = st.sidebar.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+openai.api_key = openai_api_key
 os.environ["OPENAI_API_KEY"] = openai_api_key
 
 # ChatBot 클래스 정의
@@ -277,6 +277,7 @@ Use Action to run one of the actions available to you - then return PAUSE.
 Observation will be the result of running those actions.
 """.strip()
 chat_bot = ChatBot(system=bot_prompt)
+openai.api_key = openai_api_key
 
 # 메시지 입력 처리
 def process_message():
@@ -288,7 +289,6 @@ def process_message():
     if user_input.strip():
         # 사용자 입력을 ChatBot에 전달
         result = chat_bot(user_input)
-        openai.api_key = openai_api_key
 
         # 액션 처리
         actions = [action_re.match(a) for a in result.split('\n') if action_re.match(a)]
