@@ -75,7 +75,7 @@ if "generated" not in st.session_state:
 def on_input_change():
 
     if not openai_api_key.strip():
-        st.warning("Please enter a valid OpenAI API key.")
+        st.warning("OpenAI API key를 입력해주세요.")
         return
 
     user_input = st.session_state.user_input
