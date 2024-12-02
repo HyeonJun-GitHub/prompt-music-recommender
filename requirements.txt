@@ -2,4 +2,4 @@ streamlit
 streamlit-chat
 pandas
 numpy
-openai
+openai==0.28
