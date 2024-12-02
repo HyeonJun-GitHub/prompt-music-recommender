@@ -457,12 +457,81 @@
 # # st.audio(audio_path)
 # # st.image(img_path, caption="Funny Cat Meme")
 # # st.markdown(youtube_embed, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
+# import os
+# import base64
+# import streamlit as st
+# from streamlit_chat import message
+
+# # 배경 이미지 경로 설정
+# background_img_path = os.path.join(os.getcwd(), "background.jpg")
+# if os.path.exists(background_img_path):
+#     with open(background_img_path, "rb") as img_file:
+#         background_img_base64 = base64.b64encode(img_file.read()).decode()
+#     st.markdown(
+#         f"""
+#         <style>
+#         .stApp {{
+#             background-image: url("data:image/jpg;base64,{background_img_base64}");
+#             background-size: cover;
+#             background-position: center;
+#             background-repeat: no-repeat;
+#         }}
+#         </style>
+#         """,
+#         unsafe_allow_html=True
+#     )
+
+# # 초기 상태 설정
+# st.session_state.setdefault('past', [])
+# st.session_state.setdefault('generated', [])
+
+# # 입력 필드에서 텍스트가 변경되었을 때 호출되는 함수
+# def on_input_change():
+#     user_input = st.session_state.user_input
+#     if user_input.strip():
+#         st.session_state.past.append(user_input)
+#         # OpenAI API 응답을 대신하는 더미 데이터
+#         bot_response = f"🤖 Bot: {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
+#         st.session_state.generated.append(bot_response)
+
+# # 메시지 초기화 버튼 클릭 시 호출되는 함수
+# def on_btn_click():
+#     st.session_state.past.clear()
+#     st.session_state.generated.clear()
+
+# # 기본 UI 설정
+# st.title("💬 Chat with AI")
+
+# # 채팅 메시지 출력
+# chat_placeholder = st.empty()
+# with chat_placeholder.container():
+#     for i in range(len(st.session_state['past'])):
+#         # 사용자 메시지 출력: 파란색 말풍선
+#         message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
+#         # 봇 응답 메시지 출력: 회색 말풍선
+#         message(st.session_state['generated'][i], key=f"{i}_bot")
+
+# # 메시지 초기화 버튼
+# st.button("Clear Messages", on_click=on_btn_click)
+
+# # 사용자 입력 필드
+# with st.container():
+#     st.text_input("Your Message:", on_change=on_input_change, key="user_input")
 import os
 import base64
 import streamlit as st
-from streamlit_chat import message
 
-# 배경 이미지 경로 설정
+# 배경 이미지 경로 설정 (옵션)
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 if os.path.exists(background_img_path):
     with open(background_img_path, "rb") as img_file:
@@ -481,6 +550,44 @@ if os.path.exists(background_img_path):
         unsafe_allow_html=True
     )
 
+# CSS 스타일 정의
+st.markdown(
+    """
+    <style>
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .chat-bubble {
+        width: 66%;
+        padding: 10px 15px;
+        margin: 10px 0;
+        font-size: 16px;
+        word-wrap: break-word;
+    }
+    .user-message {
+        background-color: #d0f0fd;
+        color: black;
+        text-align: right;
+        margin-left: auto;
+        border: 2px solid #ccc;
+        border-radius: 15px;
+        border-top-right-radius: 0px;
+    }
+    .ai-message {
+        color: white;
+        text-align: left;
+        margin-right: auto;
+        width: 66%;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # 초기 상태 설정
 st.session_state.setdefault('past', [])
 st.session_state.setdefault('generated', [])
@@ -491,7 +598,7 @@ def on_input_change():
     if user_input.strip():
         st.session_state.past.append(user_input)
         # OpenAI API 응답을 대신하는 더미 데이터
-        bot_response = f"🤖 Bot: {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
+        bot_response = f"🤖 {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
         st.session_state.generated.append(bot_response)
 
 # 메시지 초기화 버튼 클릭 시 호출되는 함수
@@ -505,11 +612,19 @@ st.title("💬 Chat with AI")
 # 채팅 메시지 출력
 chat_placeholder = st.empty()
 with chat_placeholder.container():
+    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
     for i in range(len(st.session_state['past'])):
-        # 사용자 메시지 출력: 파란색 말풍선
-        message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
-        # 봇 응답 메시지 출력: 회색 말풍선
-        message(st.session_state['generated'][i], key=f"{i}_bot")
+        # 사용자 메시지 출력 (오른쪽)
+        st.markdown(
+            f'<div class="chat-bubble user-message">{st.session_state["past"][i]}</div>',
+            unsafe_allow_html=True
+        )
+        # 봇 응답 메시지 출력 (왼쪽, 하얀색 텍스트)
+        st.markdown(
+            f'<div class="ai-message">{st.session_state["generated"][i]}</div>',
+            unsafe_allow_html=True
+        )
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # 메시지 초기화 버튼
 st.button("Clear Messages", on_click=on_btn_click)
