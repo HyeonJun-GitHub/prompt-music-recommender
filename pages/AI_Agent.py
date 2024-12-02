@@ -5,6 +5,7 @@ import json
 import httpx
 import streamlit as st
 from openai import OpenAI
+import openai
 import re
 
 # 사이드바에서 OpenAI API 키 입력
@@ -217,6 +218,7 @@ def on_input_change():
         # OpenAI API 호출
         if openai_api_key.strip():
             try:
+                openai.api_key = openai_api_key
                 # client = OpenAI(api_key=openai_api_key)
                 # response = client.chat.completions.create(
                 #     model="gpt-3.5-turbo",
