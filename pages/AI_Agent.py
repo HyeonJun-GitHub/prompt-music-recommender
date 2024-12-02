@@ -277,7 +277,6 @@ Use Action to run one of the actions available to you - then return PAUSE.
 Observation will be the result of running those actions.
 """.strip()
 chat_bot = ChatBot(system=bot_prompt)
-openai.api_key = openai_api_key
 
 # 메시지 입력 처리
 def process_message():
