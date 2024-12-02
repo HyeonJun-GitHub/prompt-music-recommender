@@ -44,13 +44,11 @@ st.markdown(
     }
     .user-message {
         background-color: rgb(8, 40, 70);
-        color: black;
         text-align: right;
         margin-left: auto;
         border: 2px solid #ccc;
         border-radius: 15px;
         border-top-right-radius: 0px;
-        width: 50%; /* 사용자의 말풍선 너비를 50%로 제한 */
     }
     .ai-message {
         color: white;
