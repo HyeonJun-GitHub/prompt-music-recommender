@@ -43,7 +43,7 @@ st.markdown(
         word-wrap: break-word;
     }
     .user-message {
-        background-color: #D3D3D3;
+        background-color: rgb(8, 40, 70);
         color: black;
         text-align: right;
         margin-left: auto;
