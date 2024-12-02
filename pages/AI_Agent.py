@@ -527,15 +527,17 @@
 # # 사용자 입력 필드
 # with st.container():
 #     st.text_input("Your Message:", on_change=on_input_change, key="user_input")
+
 import os
 import base64
 import streamlit as st
 from openai import OpenAI
 
+# 사이드바에서 OpenAI API 키 입력
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
 
-# 배경 이미지 경로 설정 (옵션)
+# 배경 이미지 설정 (옵션)
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
 if os.path.exists(background_img_path):
     with open(background_img_path, "rb") as img_file:
@@ -592,64 +594,70 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 초기 상태 설정
-st.session_state.setdefault('past', [])
-st.session_state.setdefault('generated', [])
+# 상태 초기화
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "assistant", "content": "Hello! How can I assist you?"}]
+if "past" not in st.session_state:
+    st.session_state.past = []
+if "generated" not in st.session_state:
+    st.session_state.generated = []
 
-# 입력 필드에서 텍스트가 변경되었을 때 호출되는 함수
+# 메시지 입력 처리
 def on_input_change():
     user_input = st.session_state.user_input
 
     if user_input.strip():
-        # 사용자 입력 추가
+        # 사용자 메시지 저장
         st.session_state.past.append(user_input)
         st.session_state.messages.append({"role": "user", "content": user_input})
 
         # OpenAI API 호출
-        try:
-            client = OpenAI(api_key=st.session_state.openai_api_key)  # OpenAI API 키 사용
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo", 
-                messages=st.session_state.messages
-            )
-            msg = response.choices[0].message.content
+        if openai_api_key.strip():
+            try:
+                client = OpenAI(api_key=openai_api_key)
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=st.session_state.messages
+                )
+                msg = response.choices[0].message.content
 
-            # OpenAI 응답 추가
-            st.session_state.generated.append(msg)
-            st.session_state.messages.append({"role": "assistant", "content": msg})
+                # 응답 메시지 저장
+                st.session_state.generated.append(msg)
+                st.session_state.messages.append({"role": "assistant", "content": msg})
 
-        except Exception as e:
-            st.error(f"OpenAI API 호출 중 오류 발생: {e}")
+            except Exception as e:
+                st.error(f"OpenAI API 호출 중 오류 발생: {e}")
+        else:
+            st.warning("Please enter a valid OpenAI API key.")
 
-
-# 메시지 초기화 버튼 클릭 시 호출되는 함수
+# 메시지 초기화
 def on_btn_click():
     st.session_state.past.clear()
     st.session_state.generated.clear()
+    st.session_state.messages = [{"role": "assistant", "content": "Hello! How can I assist you?"}]
 
-# 기본 UI 설정
+# 제목 표시
 st.title("💬 Chat with AI")
 
-# 채팅 메시지 출력
+# 채팅 UI
 chat_placeholder = st.empty()
 with chat_placeholder.container():
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    for i in range(len(st.session_state['past'])):
-        # 사용자 메시지 출력 (오른쪽)
+    for i in range(len(st.session_state["past"])):
+        # 사용자 메시지 출력
         st.markdown(
             f'<div class="chat-bubble user-message">{st.session_state["past"][i]}</div>',
             unsafe_allow_html=True
         )
-        # 봇 응답 메시지 출력 (왼쪽, 하얀색 텍스트)
+        # AI 응답 메시지 출력
         st.markdown(
             f'<div class="ai-message">{st.session_state["generated"][i]}</div>',
             unsafe_allow_html=True
         )
     st.markdown('</div>', unsafe_allow_html=True)
 
-# 메시지 초기화 버튼
+# 초기화 버튼
 st.button("Clear Messages", on_click=on_btn_click)
 
 # 사용자 입력 필드
-with st.container():
-    st.text_input("Your Message:", on_change=on_input_change, key="user_input")
+st.text_input("Your Message:", on_change=on_input_change, key="user_input")
