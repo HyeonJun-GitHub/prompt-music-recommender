@@ -196,11 +196,11 @@ Runs a calculation and returns the number - uses Python so be sure to use floati
 syntax if necessary
 
 wikipedia:
-e.g. wikipedia: Django
+e.g. wikipedia: Oasis
 Returns a summary from searching Wikipedia
 
-simon_blog_search:
-e.g. simon_blog_search: Django
+search_api:
+e.g. search_api: Oasis
 Search Simon's blog for that term
 
 Example session:
