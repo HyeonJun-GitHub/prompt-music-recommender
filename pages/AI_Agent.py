@@ -123,6 +123,7 @@ with chat_placeholder.container():
             f'<div class="chat-bubble ai-message">{st.session_state["generated"][i]}</div>',
             unsafe_allow_html=True
         )
+        st.markdown("---")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # 초기화 버튼
