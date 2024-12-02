@@ -224,8 +224,8 @@
 
 # # # -------------------------------------------------------------
 
-# # with st.sidebar:
-# #     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+# with st.sidebar:
+#     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
 
 # # st.title("💬 AI Curation Chatbot")
 
@@ -240,19 +240,19 @@
 
 # # if prompt := st.chat_input():
 
-# #     if not openai_api_key:
-# #         st.info("openai key를 입력해주세요.")
-# #         st.stop()
+    # if not openai_api_key:
+    #     st.info("openai key를 입력해주세요.")
+    #     st.stop()
 
 # #     # 유저 메시지 추가
 # #     st.session_state.messages.append({"role": "user", "content": prompt})
 # #     st.chat_message("user").write(prompt)
 
-# #     client = OpenAI(api_key=openai_api_key)
-# #     response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-# #     msg = response.choices[0].message.content
-# #     st.session_state.messages.append({"role": "assistant", "content": msg})
-# #     st.chat_message("assistant").write(msg)
+#     client = OpenAI(api_key=openai_api_key)
+#     response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+#     msg = response.choices[0].message.content
+#     st.session_state.messages.append({"role": "assistant", "content": msg})
+#     st.chat_message("assistant").write(msg)
 
 # import streamlit as st
 # import base64
@@ -530,6 +530,10 @@
 import os
 import base64
 import streamlit as st
+from openai import OpenAI
+
+with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
 
 # 배경 이미지 경로 설정 (옵션)
 background_img_path = os.path.join(os.getcwd(), "background.jpg")
@@ -598,8 +602,13 @@ def on_input_change():
     if user_input.strip():
         st.session_state.past.append(user_input)
         # OpenAI API 응답을 대신하는 더미 데이터
-        bot_response = f"🤖 {user_input[::-1]}"  # 입력 텍스트를 뒤집어서 반환
-        st.session_state.generated.append(bot_response)
+        
+        client = OpenAI(api_key=openai_api_key)
+        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+        msg = response.choices[0].message.content
+        st.session_state.messages.append({"role": "assistant", "content": msg})
+        st.chat_message("assistant").write(msg)
+        st.session_state.generated.append(msg)
 
 # 메시지 초기화 버튼 클릭 시 호출되는 함수
 def on_btn_click():
