@@ -530,7 +530,6 @@
 import os
 import base64
 import streamlit as st
-from openai import OpenAI
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
@@ -599,16 +598,28 @@ st.session_state.setdefault('generated', [])
 # 입력 필드에서 텍스트가 변경되었을 때 호출되는 함수
 def on_input_change():
     user_input = st.session_state.user_input
+
     if user_input.strip():
+        # 사용자 입력 추가
         st.session_state.past.append(user_input)
-        # OpenAI API 응답을 대신하는 더미 데이터
-        
-        client = OpenAI(api_key=openai_api_key)
-        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-        msg = response.choices[0].message.content
-        st.session_state.messages.append({"role": "assistant", "content": msg})
-        # st.chat_message("assistant").write(msg)
-        st.session_state.generated.append(msg)
+        st.session_state.messages.append({"role": "user", "content": user_input})
+
+        # OpenAI API 호출
+        try:
+            client = OpenAI(api_key=st.session_state.openai_api_key)  # OpenAI API 키 사용
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo", 
+                messages=st.session_state.messages
+            )
+            msg = response.choices[0].message.content
+
+            # OpenAI 응답 추가
+            st.session_state.generated.append(msg)
+            st.session_state.messages.append({"role": "assistant", "content": msg})
+
+        except Exception as e:
+            st.error(f"OpenAI API 호출 중 오류 발생: {e}")
+
 
 # 메시지 초기화 버튼 클릭 시 호출되는 함수
 def on_btn_click():
