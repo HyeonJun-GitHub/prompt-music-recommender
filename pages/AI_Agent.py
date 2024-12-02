@@ -126,8 +126,15 @@ with chat_placeholder.container():
         st.write("")
     st.markdown('</div>', unsafe_allow_html=True)
 
+st.markdown(
+    """
+    <hr style="border: 1px solid white; margin: 20px 0;">
+    """,
+    unsafe_allow_html=True
+)
+
 # 초기화 버튼
-st.button("Clear Messages", on_click=on_btn_click)
+st.button("대화 삭제", on_click=on_btn_click)
 
 # 사용자 입력 필드
-st.text_input("Your Message:", on_change=on_input_change, key="user_input")
+st.text_input("메세지:", on_change=on_input_change, key="user_input")
