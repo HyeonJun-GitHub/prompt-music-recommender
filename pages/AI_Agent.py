@@ -557,6 +557,7 @@ if os.path.exists(background_img_path):
     )
 
 # CSS 스타일 정의
+# CSS 스타일 정의
 st.markdown(
     """
     <style>
@@ -566,28 +567,27 @@ st.markdown(
         gap: 10px;
     }
     .chat-bubble {
-        width: 66%;
         padding: 10px 15px;
         margin: 10px 0;
         font-size: 16px;
         word-wrap: break-word;
     }
     .user-message {
-        background-color: #d0f0fd;
+        background-color: #D3D3D3;
         color: black;
         text-align: right;
         margin-left: auto;
         border: 2px solid #ccc;
         border-radius: 15px;
         border-top-right-radius: 0px;
+        width: 50%; /* 사용자의 말풍선 너비를 50%로 제한 */
     }
     .ai-message {
         color: white;
         text-align: left;
         margin-right: auto;
-        width: 66%;
         font-size: 16px;
-        font-weight: bold;
+        width: 66%; /* AI 말풍선 기본 크기 유지 */
     }
     </style>
     """,
