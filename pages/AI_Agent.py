@@ -205,6 +205,7 @@ import json
 import re
 import streamlit as st
 from openai import OpenAI
+import openai
 import httpx
 
 # OpenAI API Key 설정
