@@ -27,12 +27,14 @@ if os.path.exists(background_img_path):
     )
 
 # CSS 스타일 정의
+# CSS 스타일 정의
 st.markdown(
     """
     <style>
     .chat-container {
         display: flex;
         flex-direction: column;
+        gap: 10px;
     }
     .chat-bubble {
         padding: 10px 15px;
@@ -48,22 +50,13 @@ st.markdown(
         border: 2px solid #ccc;
         border-radius: 15px;
         border-top-right-radius: 0px;
-        width: 50%;
+        width: 50%; /* 사용자의 말풍선 너비를 50%로 제한 */
     }
     .ai-message {
-        background-color: #4169E1; /* AI 말풍선의 배경색 추가 */
         color: white;
         text-align: left;
         margin-right: auto;
         font-size: 16px;
-        border: 2px solid #4169E1;
-        border-radius: 15px;
-        border-top-left-radius: 0px;
-        padding: 10px 15px;
-        width: 50%;
-    }
-    .ai-message:last-of-type {
-        margin-bottom: 20px; /* AI의 마지막 메시지 아래 간격 추가 */
     }
     </style>
     """,
@@ -127,7 +120,7 @@ with chat_placeholder.container():
         )
         # AI 응답 메시지 출력
         st.markdown(
-            f'<div class="ai-message">{st.session_state["generated"][i]}</div>',
+            f'<div class="chat-bubble ai-message">{st.session_state["generated"][i]}</div>',
             unsafe_allow_html=True
         )
     st.markdown('</div>', unsafe_allow_html=True)
