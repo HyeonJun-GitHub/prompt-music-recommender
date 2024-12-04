@@ -263,11 +263,14 @@ def on_input_change():
                 msg = query(user_input)
 
                 # 응답 메시지 저장
-                st.session_state.generated.append(msg)
-                st.session_state.messages.append({"role": "assistant", "content": msg})
+                # st.session_state.generated.append(msg)
+                # st.session_state.messages.append({"role": "assistant", "content": msg})
 
             except Exception as e:
+                msg = "찾은 내용이 없습니다."
                 st.error(f"OpenAI API 호출 중 오류 발생: {e}")
+
+            st.session_state.generated.append(msg or "No response available.")
         else:
             st.warning("Please enter a valid OpenAI API key.")
             
@@ -314,10 +317,7 @@ if st.session_state.messages:
 def on_btn_click():
     st.session_state.past.clear()
     st.session_state.generated.clear()
-    st.session_state.messages = [{"role": "assistant", "content": "Hello! How can I assist you?"}]
-
-# 제목 표시
-st.title("💬 Genie 에이전트")
+    st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
 
 # 채팅 UI
 chat_placeholder = st.empty()
