@@ -217,14 +217,14 @@ Answer: The capital of France is Paris
 """.strip()
 # chat_bot = ChatBot(system=bot_prompt)
 
-def query(question, max_turns=1):
+def query(question, max_turns=3):
     i = 0
     bot = ChatBot(bot_prompt)
     next_prompt = question
     while i < max_turns:
         i += 1
         result = bot(next_prompt)
-        print(result)
+        st.text(result)
         actions = [action_re.match(a) for a in result.split('\n') if action_re.match(a)]
         if actions:
             action, action_input = actions[0].groups()
