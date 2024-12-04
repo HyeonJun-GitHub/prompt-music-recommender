@@ -171,6 +171,8 @@ st.markdown(
         margin: 10px 0;
         font-size: 16px;
         word-wrap: break-word;
+        display: inline-block;
+        max-width: 80%;
     }
     .user-message {
         background-color: #D3D3D3;
@@ -180,7 +182,6 @@ st.markdown(
         border: 2px solid #ccc;
         border-radius: 15px;
         border-top-right-radius: 0px;
-        width: 50%; /* 사용자의 말풍선 너비를 50%로 제한 */
     }
     .ai-message {
         color: white;
