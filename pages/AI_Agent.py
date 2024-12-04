@@ -175,7 +175,7 @@ st.markdown(
         max-width: 80%; /* 말풍선의 최대 너비를 80%로 제한 */
     }
     .user-message {
-        background-color: #D3D3D3;
+        background-color: #ffffff; /*#D3D3D3;*/
         color: black;
         text-align: left; /* 말풍선 내부 텍스트는 왼쪽 정렬 */
         float: right; /* 말풍선을 오른쪽으로 정렬 */
