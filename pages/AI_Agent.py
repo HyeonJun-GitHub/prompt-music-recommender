@@ -125,6 +125,8 @@ known_actions = {
     "wikipedia": wikipedia,
     "calculate": calculate,
     "search_api": search_api,
+    "save_to_history": save_to_history,
+    "search_history": search_history,
     "analyze_data": analyze_data,
 }
 
