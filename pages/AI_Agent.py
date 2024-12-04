@@ -172,22 +172,25 @@ st.markdown(
         font-size: 16px;
         word-wrap: break-word;
         display: inline-block;
-        max-width: 80%;
+        max-width: 80%; /* 말풍선의 최대 너비를 80%로 제한 */
     }
     .user-message {
         background-color: #D3D3D3;
         color: black;
-        text-align: right;
-        margin-left: auto;
+        text-align: left; /* 말풍선 안의 텍스트 정렬 */
+        margin-left: auto; /* 말풍선을 오른쪽으로 정렬 */
         border: 2px solid #ccc;
         border-radius: 15px;
         border-top-right-radius: 0px;
     }
     .ai-message {
-        color: white;
-        text-align: left;
-        margin-right: auto;
-        font-size: 16px;
+        background-color: #FFD700;
+        color: black;
+        text-align: left; /* 말풍선 안의 텍스트 정렬 */
+        margin-right: auto; /* 말풍선을 왼쪽으로 정렬 */
+        border: 2px solid #ccc;
+        border-radius: 15px;
+        border-top-left-radius: 0px;
     }
     </style>
     """,
