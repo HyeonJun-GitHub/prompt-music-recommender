@@ -185,36 +185,37 @@ if "messages" not in st.session_state:
 # ChatBot 인스턴스 생성
 bot_prompt = """
 You run in a loop of Thought, Action, PAUSE, Observation.
-At the end of the loop you output an Answer.
+At the end of the loop, you output an Answer.
 Use Thought to describe your thoughts about the question you have been asked.
 Use Action to run one of the actions available to you - then return PAUSE.
 Observation will be the result of running those actions.
                   
 calculate:
 e.g. calculate: 4 * 7 / 3
-Runs a calculation and returns the number - uses Python so be sure to use floating point
-syntax if necessary
+Runs a calculation and returns the number - uses Python, so be sure to use floating point
+syntax if necessary.
 
 wikipedia:
-e.g. wikipedia: Oasis
-Returns a summary from searching Wikipedia
+e.g. wikipedia: Seoul
+Returns a summary from searching Wikipedia.
 
 search_api:
-e.g. search_api: Oasis
-Search Simon's blog for that term
+e.g. search_api: 성시경 - 거리에서
+Search Simon's blog for information about both artists and song titles. If the name or title is in Korean, use the Korean characters.
 
 Example session:
-Question: What is the capital of France?
-Thought: I should look up France on Wikipedia
-Action: wikipedia: France
+Question: Who is Sung Si-Kyung, and what is the song "On the Street" about?
+Thought: I should look up Sung Si-Kyung and his song "On the Street" using the search_api.
+Action: search_api: 성시경 - 거리에서
 PAUSE
 
 You will be called again with this:
-Observation: France is a country. The capital is Paris.
+Observation: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 
 You then output:
-Answer: The capital of France is Paris
+Answer: Sung Si-Kyung is a South Korean ballad singer, and "On the Street" is one of his iconic songs that deals with the sorrow of parting.
 """.strip()
+
 # chat_bot = ChatBot(system=bot_prompt)
 
 def query(question, max_turns=3):
