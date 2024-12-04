@@ -307,7 +307,7 @@ PAUSE
 Observation: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 Action: save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
 Answer: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
-[링크: https://genie.co.kr/detail/songInfo?xgnm={song_id}]
+(https://genie.co.kr/detail/songInfo?xgnm={song_id})
 """.strip()
 
 # chat_bot = ChatBot(system=bot_prompt)
