@@ -142,7 +142,7 @@ def search_api(query):
         except ValueError:
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
             return [], []
-        
+        st.text(data)
         # 곡 이름과 ID 추출
         song_list = [
             {
