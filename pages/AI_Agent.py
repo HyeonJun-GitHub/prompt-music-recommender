@@ -327,7 +327,7 @@ with chat_placeholder.container():
         )
         # AI 응답 메시지 출력
         st.markdown(
-            f'<div class="chat-bubble ai-message">{st.session_state}</div>',
+            f'<div class="chat-bubble ai-message">{st.session_state["generated"][i]}</div>',
             unsafe_allow_html=True
         )
         st.write("")
