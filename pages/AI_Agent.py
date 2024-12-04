@@ -298,9 +298,7 @@ Example session:
 https://genie.co.kr/detail/songInfo?xgnm={song_id}
 """.strip()
 
-# chat_bot = ChatBot(system=bot_prompt)
-
-def query(question, max_turns=3):
+def query(question, max_turns=1):
     i = 0
     bot = ChatBot(bot_prompt)
     next_prompt = question
