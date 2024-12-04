@@ -299,10 +299,6 @@ def on_input_change():
 #         st.session_state.messages.append({"role": "user", "content": user_input})
 #         st.session_state.messages.append({"role": "assistant", "content": result})
 
-# 초기화 버튼
-if st.button("대화 초기화"):
-    st.session_state.messages = []
-
 # 채팅 기록 표시
 if st.session_state.messages:
     for message in st.session_state.messages:
