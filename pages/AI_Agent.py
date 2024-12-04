@@ -300,9 +300,6 @@ def on_input_change():
 if st.button("대화 초기화"):
     st.session_state.messages = []
 
-# 사용자 입력 필드
-st.text_input("메세지:", on_change=on_input_change, key="user_input")
-
 # 채팅 기록 표시
 if st.session_state.messages:
     for message in st.session_state.messages:
