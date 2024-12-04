@@ -303,14 +303,14 @@ def on_input_change():
 #         st.session_state.messages.append({"role": "assistant", "content": result})
 
 # 채팅 기록 표시
-if st.session_state.messages:
-    for message in st.session_state.messages:
-        role = message["role"]
-        content = message["content"]
-        if role == "user":
-            st.markdown(f"<div style='text-align: right; background-color: #D3D3D3; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
-        else:
-            st.markdown(f"<div style='text-align: left; background-color: #FFD700; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
+# if st.session_state.messages:
+#     for message in st.session_state.messages:
+#         role = message["role"]
+#         content = message["content"]
+#         if role == "user":
+#             st.markdown(f"<div style='text-align: right; background-color: #D3D3D3; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
+#         else:
+#             st.markdown(f"<div style='text-align: left; background-color: #FFD700; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
 
 # 메시지 초기화
 def on_btn_click():
