@@ -201,7 +201,7 @@ st.markdown(
 
 # 상태 초기화
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "Hello! How can I assist you?"}]
+    st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
 if "past" not in st.session_state:
     st.session_state.past = []
 if "generated" not in st.session_state:
