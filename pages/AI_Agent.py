@@ -293,16 +293,9 @@ When `analyze_data` is called:
 3. If not found, perform a new computation or analysis, then save the query and response using `save_to_history`.
 
 Example session:
-Question: 성시경의 노래 "거리에서"에 대해 알려줘.
-Thought: 성시경과 그의 노래 "거리에서"에 대해 검색해봐야겠어.
-Action: search_api: 성시경 - 거리에서
-PAUSE
-
-Observation: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
-
-Action: save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
-
-Answer: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
+성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
+들어보시려면 아래 링크로 들어보세요.
+https://genie.co.kr/detail/songInfo?xgnm={song_id}
 """.strip()
 
 # chat_bot = ChatBot(system=bot_prompt)
