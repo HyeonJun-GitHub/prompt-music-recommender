@@ -67,7 +67,7 @@ def search_api(query):
         except ValueError:
             st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
             return [], []
-        st.text(data)
+        
         # 곡 이름과 ID 추출
         song_list = [
             {
@@ -274,7 +274,6 @@ def query(question, max_turns=3):
     while i < max_turns:
         i += 1
         result = bot(next_prompt)
-        st.text(result)
         actions = [action_re.match(a) for a in result.split('\n') if action_re.match(a)]
         if actions:
             action, action_input = actions[0].groups()
