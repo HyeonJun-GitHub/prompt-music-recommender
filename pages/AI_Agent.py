@@ -34,6 +34,19 @@ class ChatBot:
             # Gracefully handle OpenAI API errors
             return f"Error with OpenAI API: {str(e)}"
 
+# 히스토리 저장 및 검색
+history = []
+
+def save_to_history(data):
+    """히스토리에 데이터를 저장합니다."""
+    history.append(data)
+
+def search_history(query):
+    """히스토리에서 쿼리에 해당하는 데이터를 검색합니다."""
+    for item in history:
+        if item.get("query") == query:
+            return item.get("response")
+    return None
 
 # Action 처리 함수 정의
 def wikipedia(q):
@@ -101,10 +114,18 @@ def search_api(query):
     #     st.error(f"API 요청 중 오류 발생: {e}")
     #     return [], []
 
+def analyze_data(query):
+    """데이터를 분석하거나 히스토리에서 검색"""
+    cached_response = search_history(query)
+    if cached_response:
+        return cached_response
+    return "No cached data. Please run a search first."
+
 known_actions = {
     "wikipedia": wikipedia,
     "calculate": calculate,
     "search_api": search_api,
+    "analyze_data": analyze_data,
 }
 
 action_re = re.compile(r'^Action: (\w+): (.*)')
@@ -196,8 +217,7 @@ Observation will be the result of running those actions.
 Available Actions:
 1. calculate:
 e.g. calculate: 4 * 7 / 3
-Runs a calculation and returns the number - uses Python, so be sure to use floating point
-syntax if necessary.
+Runs a calculation and returns the number - uses Python, so be sure to use floating point syntax if necessary.
 
 2. wikipedia:
 e.g. wikipedia: 서울
@@ -207,10 +227,26 @@ Returns a summary from searching Wikipedia.
 e.g. search_api: 성시경 - 거리에서
 Search Simon's blog for information about both artists and song titles. If the name or title is in Korean, use the Korean characters.
 
-4. analyze_data:
-Analyze and interpret the following dataset structure:
+4. save_to_history:
+e.g. save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
+Saves a query and its corresponding response into the history.
+
+5. search_history:
+e.g. search_history: "성시경 - 거리에서"
+Searches the history for a query and returns the saved response, if available.
+
+6. analyze_data:
+e.g. analyze_data: { "query": "Playlists with over 10,000 views" }
+Analyzes data by either searching the history for a matching query or performing new computations based on the dataset structure provided below.
+
+**History Management**:
+- Every query and its result are stored using the `save_to_history` action.
+- The `search_history` action retrieves a previously saved response based on a matching query.
+- `analyze_data` automatically checks the history using `search_history` before performing new computations.
 
 **Dataset Structure**:
+The dataset contains the following variables:
+
 **1. 전체 데이터 관련 변수**:
 - `total`: 데이터의 총 개수입니다. (예: 전체 데이터가 120개인 경우 `total: 120`).
 - `size`: 데이터의 크기입니다. 단위는 MB 또는 KB입니다. (예: `size: 10.5`는 10.5MB).
@@ -250,7 +286,11 @@ Analyze and interpret the following dataset structure:
 - `main.end_dt`: 데이터가 비활성화되거나 만료되는 날짜입니다. (예: `"2025-01-01"`).
 - `main.reg_dt`: 데이터가 처음 등록된 날짜입니다. (예: `"2024-11-01"`).
 
-Use this dataset structure to analyze, transform, or summarize data as needed.
+**History Usage in `analyze_data`**:
+When `analyze_data` is called:
+1. Check the history using `search_history` to see if the query has been answered before.
+2. If found, return the saved response.
+3. If not found, perform a new computation or analysis, then save the query and response using `save_to_history`.
 
 Example session:
 Question: 성시경의 노래 "거리에서"에 대해 알려줘.
@@ -258,10 +298,10 @@ Thought: 성시경과 그의 노래 "거리에서"에 대해 검색해봐야겠�
 Action: search_api: 성시경 - 거리에서
 PAUSE
 
-You will be called again with this:
 Observation: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 
-You then output:
+Action: save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
+
 Answer: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 """.strip()
 
