@@ -185,7 +185,7 @@ st.markdown(
         border-top-right-radius: 0px;
     }
     .ai-message {
-        background-color: #082846;
+        background-color: #3e95f8;
         color: white;
         text-align: left; /* 말풍선 내부 텍스트는 왼쪽 정렬 */
         float: left; /* 말풍선을 왼쪽으로 정렬 */
