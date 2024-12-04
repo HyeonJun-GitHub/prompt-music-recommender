@@ -189,6 +189,8 @@ At the end of the loop, you output an Answer.
 Use Thought to describe your thoughts about the question you have been asked.
 Use Action to run one of the actions available to you - then return PAUSE.
 Observation will be the result of running those actions.
+
+**Important:** Always provide the final Answer in Korean, regardless of the input language.
                   
 calculate:
 e.g. calculate: 4 * 7 / 3
@@ -196,7 +198,7 @@ Runs a calculation and returns the number - uses Python, so be sure to use float
 syntax if necessary.
 
 wikipedia:
-e.g. wikipedia: Seoul
+e.g. wikipedia: 서울
 Returns a summary from searching Wikipedia.
 
 search_api:
@@ -204,8 +206,8 @@ e.g. search_api: 성시경 - 거리에서
 Search Simon's blog for information about both artists and song titles. If the name or title is in Korean, use the Korean characters.
 
 Example session:
-Question: Who is Sung Si-Kyung, and what is the song "On the Street" about?
-Thought: I should look up Sung Si-Kyung and his song "On the Street" using the search_api.
+Question: 성시경의 노래 "거리에서"에 대해 알려줘.
+Thought: 성시경과 그의 노래 "거리에서"에 대해 검색해봐야겠어.
 Action: search_api: 성시경 - 거리에서
 PAUSE
 
@@ -213,7 +215,7 @@ You will be called again with this:
 Observation: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 
 You then output:
-Answer: Sung Si-Kyung is a South Korean ballad singer, and "On the Street" is one of his iconic songs that deals with the sorrow of parting.
+Answer: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 """.strip()
 
 # chat_bot = ChatBot(system=bot_prompt)
