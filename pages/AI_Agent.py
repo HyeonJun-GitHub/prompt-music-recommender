@@ -48,9 +48,63 @@ def wikipedia(q):
 def calculate(what):
     return eval(what)
 
+
+# 아티스트 검색 API 호출 함수
+def search_api(query):
+    url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+    }
+    
+    try:
+        # API 호출 시 헤더 추가
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
+        
+        try:
+            data = response.json()  # JSON 형식으로 변환 시도
+        except ValueError:
+            st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
+            return [], []
+        st.text(data)
+        # 곡 이름과 ID 추출
+        song_list = [
+            {
+                "name": f"{song["song_name"].get("original", "Unknown Song")} - {song["artist_name"].get("original", "Unknown Song"),}",
+                "id": song.get("song_id", None)
+            }
+            for song in data.get('searchResult', {}).get('result', {}).get('songs', {}).get('items', [])
+        ]
+        
+        # 아티스트 이름과 ID 추출
+        artist_list = [
+            {
+                "name": artist["artist_name"].get("original", "Unknown Artist"),
+                "id": artist.get("artist_id", None)
+            }
+            for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
+        ]
+        
+        result = {
+            "song": song_list if song_list else "null",
+            "artist": artist_list if artist_list else "null"
+        }
+        
+        # JSON 문자열로 반환
+        return json.dumps(result, ensure_ascii=False, indent=2)
+
+    except requests.exceptions.RequestException as e:
+        return json.dumps({"song": "null", "artist": "null"}, ensure_ascii=False)
+
+    # except requests.exceptions.RequestException as e:
+    #     st.error(f"API 요청 중 오류 발생: {e}")
+    #     return [], []
+
 known_actions = {
     "wikipedia": wikipedia,
     "calculate": calculate,
+    "search_api": search_api,
 }
 
 action_re = re.compile(r'^Action: (\w+): (.*)')
@@ -123,59 +177,6 @@ if "past" not in st.session_state:
     st.session_state.past = []
 if "generated" not in st.session_state:
     st.session_state.generated = []
-
-# 아티스트 검색 API 호출 함수
-def search_api(query):
-    url = f"http://app.genie.co.kr/search/main/search.json?query={query}"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-    }
-    
-    try:
-        # API 호출 시 헤더 추가
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
-        
-        try:
-            data = response.json()  # JSON 형식으로 변환 시도
-        except ValueError:
-            st.error("API 응답이 JSON 형식이 아닙니다. 응답 내용: " + response.text)
-            return [], []
-        st.text(data)
-        # 곡 이름과 ID 추출
-        song_list = [
-            {
-                "name": f"{song["song_name"].get("original", "Unknown Song")} - {song["artist_name"].get("original", "Unknown Song"),}",
-                "id": song.get("song_id", None)
-            }
-            for song in data.get('searchResult', {}).get('result', {}).get('songs', {}).get('items', [])
-        ]
-        
-        # 아티스트 이름과 ID 추출
-        artist_list = [
-            {
-                "name": artist["artist_name"].get("original", "Unknown Artist"),
-                "id": artist.get("artist_id", None)
-            }
-            for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
-        ]
-        
-        result = {
-            "song": song_list if song_list else "null",
-            "artist": artist_list if artist_list else "null"
-        }
-        
-        # JSON 문자열로 반환
-        return json.dumps(result, ensure_ascii=False, indent=2)
-
-    except requests.exceptions.RequestException as e:
-        return json.dumps({"song": "null", "artist": "null"}, ensure_ascii=False)
-
-    # except requests.exceptions.RequestException as e:
-    #     st.error(f"API 요청 중 오류 발생: {e}")
-    #     return [], []
-
 
 
 # 상태 초기화
