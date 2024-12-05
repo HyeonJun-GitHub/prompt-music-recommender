@@ -6,6 +6,7 @@ import re
 import streamlit as st
 import openai
 import httpx
+from bs4 import BeautifulSoup
 
 # ChatBot 클래스 정의
 class ChatBot:
@@ -49,8 +50,33 @@ def search_history(query):
     return None
 
 # Action 처리 함수 정의
-def wikipedia(q):
-    response = httpx.get(f"https://namu.wiki/w/{q}")
+def wikipedia(query):
+    base_url = f"https://namu.wiki/w/{query}"
+
+    try:
+        # 나무위키 페이지 요청
+        response = httpx.get(base_url)
+        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
+        
+        # BeautifulSoup을 사용하여 HTML 파싱
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # 나무위키에서 요약 정보 추출
+        # 주로 문서의 첫 번째 단락(요약) 정보를 가져옴
+        content_div = soup.find('div', {'class': 'wiki-paragraph'})
+        
+        if not content_div:
+            return f"'{query}'에 대한 정보를 찾을 수 없습니다."
+
+        # 첫 번째 단락 텍스트를 반환
+        summary = content_div.get_text(strip=True)
+        return summary
+
+    except httpx.RequestError as e:
+        return f"HTTP 요청 중 오류가 발생했습니다: {str(e)}"
+    except Exception as e:
+        return f"데이터 처리 중 오류가 발생했습니다: {str(e)}"
+
     # response = httpx.get("https://en.wikipedia.org/w/api.php", params={
     #     "action": "query",
     #     "list": "search",
@@ -58,8 +84,6 @@ def wikipedia(q):
     #     "format": "json"
     # })
     # return response.json()["query"]["search"][0]["snippet"]
-    st.text(response.json())
-    return response.json()
 
 def calculate(what):
     return eval(what)
