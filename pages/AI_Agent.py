@@ -166,55 +166,33 @@ def web_search(query, source="google"):
 
 
 def search_youtube_shorts(query):
+    url = "https://www.youtube.com/results"
+    params = {"search_query": query}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
 
-    def fetch_youtube_html(query):
-        """
-        YouTube 검색 페이지의 HTML을 가져옵니다.
-        """
-        url = "https://www.youtube.com/results"
-        params = {"search_query": query}
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        }
+    response = httpx.get(url, params=params, headers=headers)
+    response.raise_for_status()
 
-        response = httpx.get(url, params=params, headers=headers)
-        response.raise_for_status()  # 요청 실패 시 예외 발생
-        return response.text  # HTML 소스 반환
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    def parse_html_with_openai(html):
-        """
-        OpenAI를 사용해 HTML에서 유의미한 정보를 추출합니다.
-        """
-        import openai
+    # YouTube의 다양한 태그 구조에서 데이터 추출
+    video_elements = soup.find_all('a', href=True)
+    results = []
+    for video in video_elements:
+        # 제목과 링크가 존재하는 태그만 추출
+        title = video.get('title', '').strip()
+        href = video['href']
+        if title and 'watch' in href:
+            full_link = f"https://www.youtube.com{href}"
+            results.append({"title": title, "link": full_link})
 
-        openai.api_key = "your-openai-api-key"
-
-        # OpenAI에게 전달할 프롬프트 생성
-        prompt = f"""
-        다음은 YouTube 검색 페이지의 HTML 소스입니다. 이 HTML에서 동영상 제목과 링크를 추출하여 JSON 형태로 반환해 주세요.
-        HTML:
-        {html[:2000]}  # OpenAI 토큰 제한으로 일부만 포함
-
-        결과는 다음과 같은 형식이어야 합니다:
-        [
-        {{"title": "동영상 제목1", "link": "동영상 링크1"}},
-        {{"title": "동영상 제목2", "link": "동영상 링크2"}}
-        ]
-        """
-
-        # OpenAI API 호출
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}]
-        )
-
-        return response.choices[0].message.content
-
-    html = fetch_youtube_html(query)
-    # results = parse_html_with_openai(html)
-    return html
-
-
+    # 문자열 형식으로 변환
+    results_string = "\n".join(
+        [f"제목: {result['title']}, 링크: {result['link']}" for result in results]
+    )
+    return results_string
 
 def search_google(query):
     sources = ["google"]
