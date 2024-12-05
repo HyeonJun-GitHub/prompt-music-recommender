@@ -446,7 +446,7 @@ Answer:
 
 # chat_bot = ChatBot(system=bot_prompt)
 
-def query(question, max_turns=5):
+def query(question, max_turns=3):
     i = 0
     bot = ChatBot(bot_prompt)
     next_prompt = question
