@@ -251,7 +251,6 @@ def analyze_data(query):
 known_actions = {
     "namu_wiki": namu_wiki,
     "multi_web_search_with_date": multi_web_search_with_date,
-    "calculate": calculate,
     "search_api": search_api,
     "save_to_history": save_to_history,
     "search_history": search_history,
