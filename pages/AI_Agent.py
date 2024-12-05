@@ -126,6 +126,7 @@ def web_search(query, source="google"):
         url = "https://search.naver.com/search.naver"
         params = {"query": query}
     else:
+        st.text(f"지원하지 않는 소스입니다: {source}")
         return f"지원하지 않는 소스입니다: {source}"
     
     headers = {
@@ -133,8 +134,10 @@ def web_search(query, source="google"):
     }
     
     try:
+        st.text(f"웹 요청 실행: {url}, params={params}")
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
+        st.text(f"요청 성공: {response.status_code}, URL: {response.url}")
 
         # BeautifulSoup으로 HTML 파싱
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -142,38 +145,59 @@ def web_search(query, source="google"):
         # 각 소스에 맞는 데이터 추출 방식 적용
         if source == "google":
             links = re.findall(r'<a href="(https://www.google.com/url\?q=[^"]+)', response.text)
-            return [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]
+            parsed_links = [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]
+            st.text(f"Google 링크 결과: {parsed_links}")
+            return parsed_links
+
         elif source == "youtube":
             video_links = soup.find_all("a", href=True)
             filtered_links = [f"https://www.youtube.com{link['href']}" for link in video_links if "/watch?" in link["href"]]
+            st.text(f"YouTube 링크 결과: {filtered_links}")
             return filtered_links[:5]
+
         elif source == "naver":
             summaries = soup.find_all('div', {'class': 'api_txt_lines'})
-            return [summary.get_text(strip=True) for summary in summaries[:5]]  # 수정: `get_text(strip=True)` 추가
+            parsed_summaries = [summary.get_text(strip=True) for summary in summaries[:5]]
+            st.text(f"Naver 요약 결과: {parsed_summaries}")
+            return parsed_summaries
+
         else:
+            st.text("알 수 없는 소스입니다.")
             return "알 수 없는 소스입니다."
+
+    except httpx.RequestError as re:
+        st.error(f"HTTP 요청 중 오류 발생: {re}")
+        return f"HTTP 요청 중 오류 발생: {str(re)}"
     except Exception as e:
-        return f"웹 검색 중 오류 발생: {str(e)}"
+        st.error(f"웹 검색 중 알 수 없는 오류 발생: {e}")
+        return f"웹 검색 중 알 수 없는 오류 발생: {str(e)}"
 
 def multi_web_search_with_date(query):
     sources = ["google", "youtube", "naver"]
     all_results = {}
 
     for source in sources:
+        st.text(f"소스 '{source}'에 대해 검색 시작: {query}")
         search_result = web_search(query, source=source)
+        
+        # 반환 값 디버깅
+        st.text(f"'{source}' 검색 결과: {search_result}")
 
-        # 반환 값이 문자열인지 확인 후 처리
         if isinstance(search_result, str):
+            st.text(f"'{source}' 결과가 문자열 형식: {search_result}")
             try:
-                search_result = json.loads(search_result)  # JSON 파싱 시도
+                search_result = json.loads(search_result)
             except json.JSONDecodeError:
-                search_result = None  # JSON 형식이 아닐 경우 무시
+                st.text(f"'{source}' 결과가 JSON 형식이 아닙니다.")
+                search_result = None
 
-        # 리스트 형태의 결과를 처리
         if isinstance(search_result, list):
-            recent_result = select_most_recent(search_result)  # 날짜 기반으로 선택
+            st.text(f"'{source}' 결과가 리스트 형식. 날짜 기반으로 가장 최신 데이터 선택 중...")
+            recent_result = select_most_recent(search_result)
+            st.text(f"'{source}' 최신 데이터: {recent_result}")
             all_results[source] = recent_result
         else:
+            st.text(f"'{source}' 결과가 비어있거나 처리되지 않았습니다.")
             all_results[source] = search_result  # 원본 저장 (None 포함 가능)
 
     # 결과 반환
@@ -181,12 +205,11 @@ def multi_web_search_with_date(query):
     for source, result in all_results.items():
         if result:
             combined_results.append(f"**{source.capitalize()}**: {result}")
-    
+            st.text(f"최종 결과 추가: {result}")
+        else:
+            st.text(f"'{source}'에서 결과 없음.")
+
     return "\n".join(combined_results)
-
-
-def calculate(what):
-    return eval(what)
 
 
 # 아티스트 검색 API 호출 함수
