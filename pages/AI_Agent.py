@@ -159,9 +159,20 @@ def web_search(query, source="google"):
         return f"웹 검색 중 알 수 없는 오류 발생: {e}"
 
 def search_youtube_shorts(query):
+
+    def parsing_youtube_data(data):
+        videos = data.get("videos", [])
+        result = [
+            f"{video['title']} - https://www.youtube.com{video['url_suffix']}"
+            for video in videos
+            if "title" in video and "url_suffix" in video
+        ]
+        return result
+
     results = YoutubeSearch(query, max_results=10).to_json()
-    st.text(results)
-    return results
+    data = parsing_youtube_data(results)
+    st.text(data)
+    return data
     # url = "https://www.youtube.com/results"
     # params = {"search_query": query, "sp":"CAI%253D"}
     # headers = {
