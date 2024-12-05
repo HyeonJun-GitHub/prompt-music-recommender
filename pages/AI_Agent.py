@@ -25,16 +25,18 @@ class ChatBot:
 
     def execute(self):
         try:
-            # Use the latest syntax
             completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=self.messages
             )
-            print(f'Execute : {completion}')
-            return completion["choices"][0]["message"]["content"]
+            # 반환 데이터 안전하게 처리
+            choices = completion.get("choices", [])
+            if choices:
+                return choices[0].get("message", {}).get("content", "응답이 없습니다.")
+            else:
+                return "OpenAI 응답이 비어 있습니다."
         except openai.error.OpenAIError as e:
-            # Gracefully handle OpenAI API errors
-            return f"Error with OpenAI API: {str(e)}"
+            return f"OpenAI API 호출 중 오류 발생: {str(e)}"
 
 # 히스토리 저장 및 검색
 history = []
