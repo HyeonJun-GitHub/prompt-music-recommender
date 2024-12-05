@@ -50,13 +50,16 @@ def search_history(query):
 
 # Action 처리 함수 정의
 def wikipedia(q):
-    response = httpx.get("https://en.wikipedia.org/w/api.php", params={
-        "action": "query",
-        "list": "search",
-        "srsearch": q,
-        "format": "json"
-    })
-    return response.json()["query"]["search"][0]["snippet"]
+    response = httpx.get(f"https://namu.wiki/w/{q}")
+    # response = httpx.get("https://en.wikipedia.org/w/api.php", params={
+    #     "action": "query",
+    #     "list": "search",
+    #     "srsearch": q,
+    #     "format": "json"
+    # })
+    # return response.json()["query"]["search"][0]["snippet"]
+    st.text(response.json())
+    return response.json()
 
 def calculate(what):
     return eval(what)
@@ -445,17 +448,3 @@ st.button("대화 삭제", on_click=on_btn_click)
 
 # 사용자 입력 필드
 st.text_input("메세지:", on_change=on_input_change, key="user_input")
-
-
-
-
-
-
-
-
-
-
-
-# # ChatBot과 Streamlit 통합
-# st.title("💬 AI ChatBot")
-# st.markdown("Chat with AI using custom prompts and dynamic actions.")
