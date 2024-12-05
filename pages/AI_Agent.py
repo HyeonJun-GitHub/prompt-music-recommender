@@ -138,8 +138,8 @@ def web_search(query, source="google"):
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
 
-        st.text("Response Type:", type(response.text))  # 문자열인지 확인
-        st.text("Response Content:", response.text[:500])  # 응답 내용 일부 출력
+        print("Response Type:", type(response.text))  # 문자열인지 확인
+        print("Response Content:", response.text[:500])  # 응답 내용 일부 출력
         
         # 간단히 결과를 요약하거나 HTML을 파싱하여 링크 추출
         if source == "google":
