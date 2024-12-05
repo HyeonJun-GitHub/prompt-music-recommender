@@ -1,14 +1,8 @@
-git+https://github.com/openai/whisper.git
-# openai
-langchain
-youtube_search
-yt-dlp
-whisper
-pytube
 streamlit
 streamlit-chat
 pandas
 numpy
 httpx
 beautifulsoup4
+youtube-search
 openai==0.28
