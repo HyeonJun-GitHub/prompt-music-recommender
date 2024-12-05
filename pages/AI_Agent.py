@@ -8,6 +8,14 @@ import openai
 import httpx
 from bs4 import BeautifulSoup
 from datetime import datetime
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 # ChatBot 클래스 정의
 class ChatBot:
@@ -119,9 +127,9 @@ def web_search(query, source="google"):
     if source == "google":
         url = "https://www.google.com/search"
         params = {"q": query}
-    elif source == "youtube":
-        url = "https://www.youtube.com/results"
-        params = {"search_query": query}
+    # elif source == "youtube":
+    #     url = "https://www.youtube.com/results"
+        # params = {"search_query": query}
     elif source == "naver":
         url = "https://search.naver.com/search.naver"
         params = {"query": query}
@@ -149,11 +157,11 @@ def web_search(query, source="google"):
             st.text(f"Google 링크 결과: {parsed_links}")
             return parsed_links
 
-        elif source == "youtube":
-            video_links = soup.find_all("a", href=True)
-            filtered_links = [f"https://www.youtube.com{link['href']}" for link in video_links if "/watch?" in link["href"]]
-            st.text(f"YouTube 링크 결과: {filtered_links}")
-            return filtered_links[:5]
+        # elif source == "youtube":
+        #     video_links = soup.find_all("a", href=True)
+        #     filtered_links = [f"https://www.youtube.com{link['href']}" for link in video_links if "/watch?" in link["href"]]
+        #     st.text(f"YouTube 링크 결과: {filtered_links}")
+        #     return filtered_links[:5]
 
         elif source == "naver":
             summaries = soup.find_all('div', {'class': 'api_txt_lines'})
@@ -172,8 +180,51 @@ def web_search(query, source="google"):
         st.error(f"웹 검색 중 알 수 없는 오류 발생: {e}")
         return f"웹 검색 중 알 수 없는 오류 발생: {str(e)}"
 
-def multi_web_search_with_date(query):
-    sources = ["google", "youtube", "naver"]
+def search_youtube_shorts(query):
+    """
+    Fetch YouTube Shorts videos using Selenium and WebDriver Manager.
+    Args:
+        query (str): Search query.
+    Returns:
+        list[dict]: List of Shorts video data with title and link.
+    """
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+
+    # WebDriver Manager 사용
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
+
+    url = f"https://www.youtube.com/results?search_query={query}&sp=EgQIBRAB"
+    driver.get(url)
+
+    try:
+        # Shorts 동영상 요소 로드 대기
+        shorts_elements = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.XPATH, "//ytd-video-renderer"))
+        )
+        shorts_data = []
+        for element in shorts_elements:
+            title = element.find_element(By.XPATH, ".//*[@id='video-title']").text
+            link = element.find_element(By.XPATH, ".//*[@id='video-title']").get_attribute("href")
+            shorts_data.append({"title": title, "link": link})
+        return shorts_data
+    finally:
+        driver.quit()
+
+# # Test integration
+# if __name__ == "__main__":
+#     query = "성시경"
+#     results = fetch_youtube_shorts(query)
+#     print("YouTube Shorts Results:")
+#     for idx, short in enumerate(results, start=1):
+#         print(f"{idx}. {short['title']}\n   {short['link']}")
+
+
+def search_google(query):
+    sources = ["google"]
     all_results = {}
 
     for source in sources:
@@ -273,7 +324,8 @@ def analyze_data(query):
 
 known_actions = {
     "namu_wiki": namu_wiki,
-    "multi_web_search_with_date": multi_web_search_with_date,
+    "search_google": search_google,
+    "search_youtube_shorts": search_youtube_shorts,
     "search_api": search_api,
     "save_to_history": save_to_history,
     "search_history": search_history,
@@ -376,24 +428,29 @@ Available Actions:
 e.g. namu_wiki: 성시경 - 거리에서
 Returns a summary from searching namu_wiki.
 
-2. multi_web_search_with_date:
-e.g. multi_web_search_with_date: 다비치 최근 방송
-Searches for the most recent information about the given query from multiple sources (Google, YouTube, Naver).
+2. search_google:
+e.g. search_google: 다비치가 부른 최근 방송
+Searches for the most recent information about the given query from Google.
 Returns a summary of the most recent and relevant information from all sources, sorted by date.
 
-3. search_api:
+3. search_youtube_shorts:
+e.g. search_youtube_shorts: 다비치가 부른 최근 방송
+Searches for the most recent information about the given query from YouTube.
+Returns a summary of the most recent and relevant information from all sources, sorted by date.
+
+4. search_api:
 e.g. search_api: 성시경 - 거리에서
 Search Simon's blog for information about both artists and song titles. If the name or title is in Korean, use the Korean characters.
 
-4. save_to_history:
+5. save_to_history:
 e.g. save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
 Saves a query and its corresponding response into the history.
 
-5. search_history:
+6. search_history:
 e.g. search_history: "성시경 - 거리에서"
 Searches the history for a query and returns the saved response, if available.
 
-6. analyze_data:
+7. analyze_data:
 e.g. analyze_data: { "query": "Playlists with over 10,000 views" }
 Analyzes data by either searching the history for a matching query or performing new computations based on the dataset structure provided below.
 
@@ -467,13 +524,12 @@ When `analyze_data` is called:
 Example session:
 Question: 성시경의 노래 "거리에서"에 대해 알려줘.
 Thought: 성시경과 그의 노래 "거리에서"에 대해 검색해봐야겠어.
-Action: multi_web_search_with_date: 다비치 최근 방송
+Action: search_google: 다비치 최근 방송
 PAUSE
 
 Observation: 
 search_api: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 Google: 다비치가 최근 '유희열의 스케치북'에서 '그대는 나의 봄이다'를 공연했습니다 (2024-12-01).
-YouTube: 다비치가 지난주 업로드된 방송에서 '사랑해서 그래'를 라이브로 선보였습니다 (2024-11-30).
 Naver: 다비치가 '음악중심'에서 '시간을 멈춰라'를 불렀습니다 (2024-12-02).
 
 Action: 

@@ -4,4 +4,6 @@ pandas
 numpy
 httpx
 beautifulsoup4
+selenium
+webdriver-manager
 openai==0.28
