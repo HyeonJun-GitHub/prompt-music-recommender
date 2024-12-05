@@ -485,9 +485,9 @@ def query(question, max_turns=1):
             action, action_input = actions[0].groups()
             if action not in known_actions:
                 raise Exception(f"Unknown action: {action}: {action_input}")
-            print(" -- running {} {}".format(action, action_input))
+            st.text(" -- running {} {}".format(action, action_input))
             observation = known_actions[action](action_input)
-            print("Observation:", observation)
+            st.text("Observation:", observation)
             next_prompt = f"Observation: {observation}"
         else:
             return result
