@@ -159,7 +159,7 @@ def web_search(query, source="google"):
         return f"웹 검색 중 알 수 없는 오류 발생: {e}"
 
 def search_youtube_shorts(query):
-    results = YoutubeSearch(query, max_results=1).to_json()
+    results = YoutubeSearch(query, max_results=5).to_json()
     if isinstance(results, str):
         results = json.loads(results)
 
@@ -171,33 +171,6 @@ def search_youtube_shorts(query):
         if "title" in video and "url_suffix" in video
     ]
     return '\n'.join(result)
-    # url = "https://www.youtube.com/results"
-    # params = {"search_query": query, "sp":"CAI%253D"}
-    # headers = {
-    #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    # }
-
-    # response = httpx.get(url, params=params, headers=headers)
-    # response.raise_for_status()
-
-    # soup = BeautifulSoup(response.text, 'html.parser')
-
-    # # YouTube의 다양한 태그 구조에서 데이터 추출
-    # video_elements = soup.find_all('a', href=True)
-    # results = []
-    # for video in video_elements:
-    #     # 제목과 링크가 존재하는 태그만 추출
-    #     title = video.get('title', '').strip()
-    #     href = video['href']
-    #     if title and 'watch' in href:
-    #         full_link = f"https://www.youtube.com{href}"
-    #         results.append({"title": title, "link": full_link})
-
-    # # 문자열 형식으로 변환
-    # results_string = "\n".join(
-    #     [f"제목: {result['title']}, 링크: {result['link']}" for result in results]
-    # )
-    # return results_string
 
 def search_google(query):
     sources = ["google"]
