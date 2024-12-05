@@ -93,14 +93,20 @@ def extract_date(text):
     return None
 
 def select_most_recent(results):
+    if not isinstance(results, list):
+        return None  # 리스트가 아닌 경우 처리하지 않음
+
     recent_date = None
     recent_result = None
 
     for result in results:
+        # 결과가 딕셔너리인지 확인
+        if not isinstance(result, dict) or "snippet" not in result:
+            continue
+
         date_text = extract_date(result["snippet"])  # 결과의 텍스트에서 날짜 추출
         if date_text:
             try:
-                # 날짜를 파싱하여 비교
                 date_obj = datetime.strptime(date_text, "%Y-%m-%d")
                 if not recent_date or date_obj > recent_date:
                     recent_date = date_obj
@@ -130,13 +136,12 @@ def web_search(query, source="google"):
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
 
-        print("Response Type:", type(response.text))  # 문자열인지 확인
+        # 결과 텍스트 출력 및 디버깅
         print("Response Content:", response.text[:500])  # 응답 내용 일부 출력
-        
-        # 간단히 결과를 요약하거나 HTML을 파싱하여 링크 추출
+
         if source == "google":
             links = re.findall(r'<a href="(https://www.google.com/url\?q=[^"]+)', response.text)
-            return [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]  # 상위 5개 링크 반환
+            return [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]
         elif source == "youtube":
             video_links = re.findall(r'watch\?v=([\w-]+)', response.text)
             return [f"https://www.youtube.com/watch?v={v}" for v in video_links[:5]]
@@ -154,12 +159,12 @@ def multi_web_search_with_date(query):
     for source in sources:
         search_result = web_search(query, source=source)
 
-        # 반환 값이 문자열인 경우 JSON 파싱 시도
+        # 반환 값이 문자열인지 확인 후 처리
         if isinstance(search_result, str):
             try:
-                search_result = json.loads(search_result)
+                search_result = json.loads(search_result)  # JSON 파싱 시도
             except json.JSONDecodeError:
-                search_result = None  # JSON 형식이 아닌 경우 무시
+                search_result = None  # JSON 형식이 아닐 경우 무시
 
         # 리스트 형태의 결과를 처리
         if isinstance(search_result, list):
@@ -175,6 +180,7 @@ def multi_web_search_with_date(query):
             combined_results.append(f"**{source.capitalize()}**: {result}")
     
     return "\n".join(combined_results)
+
 
 def calculate(what):
     return eval(what)
