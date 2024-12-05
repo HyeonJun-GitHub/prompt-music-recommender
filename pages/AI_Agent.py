@@ -167,7 +167,7 @@ def web_search(query, source="google"):
 
 def search_youtube_shorts(query):
     url = "https://www.youtube.com/results"
-    params = {"search_query": query}
+    params = {"search_query": query, "sp":"CAI%253D"}
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
