@@ -30,7 +30,7 @@ class ChatBot:
                 model="gpt-3.5-turbo",
                 messages=self.messages
             )
-            # Extract and return the response
+            print(f'Execute : {completion}')
             return completion["choices"][0]["message"]["content"]
         except openai.error.OpenAIError as e:
             # Gracefully handle OpenAI API errors
