@@ -164,7 +164,6 @@ def web_search(query, source="google"):
     except Exception as e:
         return f"웹 검색 중 알 수 없는 오류 발생: {e}"
 
-
 def search_youtube_shorts(query):
     url = "https://www.youtube.com/results"
     params = {"search_query": query, "sp":"CAI%253D"}
