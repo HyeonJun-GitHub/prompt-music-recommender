@@ -161,22 +161,20 @@ def multi_web_search_with_date(query):
 
     for source in sources:
         search_result = web_search(query, source=source)
-        print(f"Search Result for {source}:", search_result)  # 결과 확인
-        try:
-            # JSON 파싱 시도
-            if isinstance(search_result, str):
-                search_result = json.loads(search_result)
-        except json.JSONDecodeError as e:
-            print(f"JSON Parsing Error for {source}: {e}")
-            search_result = {"error": "Invalid JSON format"}
 
-        # 이후 로직 처리
+        # 반환 값이 문자열인 경우 JSON 파싱 시도
+        if isinstance(search_result, str):
+            try:
+                search_result = json.loads(search_result)
+            except json.JSONDecodeError:
+                search_result = None  # JSON 형식이 아닌 경우 무시
+
+        # 리스트 형태의 결과를 처리
         if isinstance(search_result, list):
-            # 리스트 형태의 결과라면 날짜 기반으로 선택
-            recent_result = select_most_recent(search_result)
+            recent_result = select_most_recent(search_result)  # 날짜 기반으로 선택
             all_results[source] = recent_result
         else:
-            all_results[source] = search_result
+            all_results[source] = search_result  # 원본 저장 (None 포함 가능)
 
     # 결과 반환
     combined_results = []
