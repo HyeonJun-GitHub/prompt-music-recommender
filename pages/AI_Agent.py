@@ -60,10 +60,10 @@ def namu_wiki(query):
         # 나무위키 페이지 요청
         response = httpx.get(base_url)
         response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
-        
+
         # BeautifulSoup을 사용하여 HTML 파싱
         soup = BeautifulSoup(response.text, 'html.parser')
-        
+
         # 나무위키에서 요약 정보 추출
         # 주로 문서의 첫 번째 단락(요약) 정보를 가져옴
         content_div = soup.find('div', {'class': 'wiki-paragraph'})
@@ -72,21 +72,13 @@ def namu_wiki(query):
             return f"'{query}'에 대한 정보를 찾을 수 없습니다."
 
         # 첫 번째 단락 텍스트를 반환
-        summary = content_div.get_text(strip=True)
+        summary = content_div.get_text(strip=True)  # 수정: .get_text() 사용
         return summary
 
     except httpx.RequestError as e:
         return f"HTTP 요청 중 오류가 발생했습니다: {str(e)}"
     except Exception as e:
         return f"데이터 처리 중 오류가 발생했습니다: {str(e)}"
-
-    # response = httpx.get("https://en.wikipedia.org/w/api.php", params={
-    #     "action": "query",
-    #     "list": "search",
-    #     "srsearch": q,
-    #     "format": "json"
-    # })
-    # return response.json()["query"]["search"][0]["snippet"]
 
 def extract_date(text):
     date_patterns = [
