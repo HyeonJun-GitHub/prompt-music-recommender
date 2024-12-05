@@ -343,7 +343,8 @@ Returns a summary from searching namu_wiki.
 
 2. multi_web_search_with_date:
 e.g. multi_web_search_with_date: 다비치 최근 방송
-Returns a summary from searching multi_web_search_with_date.
+Searches for the most recent information about the given query from multiple sources (Google, YouTube, Naver).
+Returns a summary of the most recent and relevant information from all sources, sorted by date.
 
 3. search_api:
 e.g. search_api: 성시경 - 거리에서
@@ -421,12 +422,25 @@ When `analyze_data` is called:
 Example session:
 Question: 성시경의 노래 "거리에서"에 대해 알려줘.
 Thought: 성시경과 그의 노래 "거리에서"에 대해 검색해봐야겠어.
-Action: search_api: 성시경 - 거리에서
+Action: multi_web_search_with_date: 다비치 최근 방송
 PAUSE
 
-Observation: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
-Action: save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
-Answer: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
+Observation: 
+search_api: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
+Google: 다비치가 최근 '유희열의 스케치북'에서 '그대는 나의 봄이다'를 공연했습니다 (2024-12-01).
+YouTube: 다비치가 지난주 업로드된 방송에서 '사랑해서 그래'를 라이브로 선보였습니다 (2024-11-30).
+Naver: 다비치가 '음악중심'에서 '시간을 멈춰라'를 불렀습니다 (2024-12-02).
+
+Action: 
+save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
+
+Answer: 
+다비치는 대한민국의 발라드 가수로, "그대는 나의 봄이다"는 사랑을 다룬 다비치의 대표곡 중 하나입니다.
+다비치는 최근 다양한 방송에서 다음 곡들을 선보였습니다:
+1. 유희열의 스케치북: '그대는 나의 봄이다' (2024-12-01)
+2. 유튜브 라이브: '사랑해서 그래' (2024-11-30)
+3. 음악중심: '시간을 멈춰라' (2024-12-02)
+
 (https://genie.co.kr/detail/songInfo?xgnm=43212134)
 """.strip()
 
