@@ -275,7 +275,7 @@ Analyzes data by either searching the history for a matching query or performing
 - The `search_history` action retrieves a previously saved response based on a matching query.
 - `analyze_data` automatically checks the history using `search_history` before performing new computations.
 
-**Dataset Structure**:
+**`search_api(json format)` Dataset Structure**:
 The dataset contains the following variables:
 
 **1. 전체 데이터 관련 변수**:
