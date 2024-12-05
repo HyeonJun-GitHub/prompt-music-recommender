@@ -7,6 +7,7 @@ import streamlit as st
 import openai
 import httpx
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 # ChatBot 클래스 정의
 class ChatBot:
@@ -84,6 +85,91 @@ def namu_wiki(query):
     #     "format": "json"
     # })
     # return response.json()["query"]["search"][0]["snippet"]
+
+def extract_date(text):
+    date_patterns = [
+        r"(\d{4}[-/.]\d{1,2}[-/.]\d{1,2})",  # YYYY-MM-DD
+        r"(\d{1,2}월 \d{1,2}일)",             # MM월 DD일
+        r"(\d{4}년 \d{1,2}월 \d{1,2}일)"      # YYYY년 MM월 DD일
+    ]
+    for pattern in date_patterns:
+        match = re.search(pattern, text)
+        if match:
+            return match.group(0)
+    return None
+
+def select_most_recent(results):
+    recent_date = None
+    recent_result = None
+
+    for result in results:
+        date_text = extract_date(result["snippet"])  # 결과의 텍스트에서 날짜 추출
+        if date_text:
+            try:
+                # 날짜를 파싱하여 비교
+                date_obj = datetime.strptime(date_text, "%Y-%m-%d")
+                if not recent_date or date_obj > recent_date:
+                    recent_date = date_obj
+                    recent_result = result
+            except ValueError:
+                pass  # 날짜 형식이 맞지 않으면 무시
+    return recent_result
+
+def web_search(query, source="google"):
+    if source == "google":
+        url = "https://www.google.com/search"
+        params = {"q": query}
+    elif source == "youtube":
+        url = "https://www.youtube.com/results"
+        params = {"search_query": query}
+    elif source == "naver":
+        url = "https://search.naver.com/search.naver"
+        params = {"query": query}
+    else:
+        return f"지원하지 않는 소스입니다: {source}"
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+    
+    try:
+        response = httpx.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        
+        # 간단히 결과를 요약하거나 HTML을 파싱하여 링크 추출
+        if source == "google":
+            links = re.findall(r'<a href="(https://www.google.com/url\?q=[^"]+)', response.text)
+            return [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]  # 상위 5개 링크 반환
+        elif source == "youtube":
+            video_links = re.findall(r'watch\?v=([\w-]+)', response.text)
+            return [f"https://www.youtube.com/watch?v={v}" for v in video_links[:5]]
+        elif source == "naver":
+            return "네이버 검색 결과를 파싱하려면 BeautifulSoup 또는 HTML 파서가 필요합니다."
+        else:
+            return "알 수 없는 소스입니다."
+    except Exception as e:
+        return f"웹 검색 중 오류 발생: {str(e)}"
+
+def multi_web_search_with_date(query):
+    sources = ["google", "youtube", "naver"]
+    all_results = {}
+
+    for source in sources:
+        search_result = web_search(query, source=source)
+        if isinstance(search_result, list):
+            # 날짜 기반으로 가장 최근 데이터 선택
+            recent_result = select_most_recent(search_result)
+            all_results[source] = recent_result
+        else:
+            all_results[source] = search_result
+
+    # 통합된 결과 반환
+    combined_results = []
+    for source, result in all_results.items():
+        if result:
+            combined_results.append(f"**{source.capitalize()}**: {result}")
+    
+    return "\n".join(combined_results)
 
 def calculate(what):
     return eval(what)
