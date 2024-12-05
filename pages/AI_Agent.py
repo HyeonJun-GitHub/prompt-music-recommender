@@ -142,43 +142,30 @@ def web_search(query, source="google"):
     }
     
     try:
-        st.text(f"웹 요청 실행: {url}, params={params}")
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
-        st.text(f"요청 성공: {response.status_code}, URL: {response.url}")
 
-        # BeautifulSoup으로 HTML 파싱
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # 각 소스에 맞는 데이터 추출 방식 적용
         if source == "google":
             links = re.findall(r'<a href="(https://www.google.com/url\?q=[^"]+)', response.text)
-            parsed_links = [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]
-            st.text(f"Google 링크 결과: {parsed_links}")
+            parsed_links = [
+                link.split('&')[0].replace('https://www.google.com/url?q=', '')
+                for link in links[:5]
+            ] if links else []
             return parsed_links
-
-        # elif source == "youtube":
-        #     video_links = soup.find_all("a", href=True)
-        #     filtered_links = [f"https://www.youtube.com{link['href']}" for link in video_links if "/watch?" in link["href"]]
-        #     st.text(f"YouTube 링크 결과: {filtered_links}")
-        #     return filtered_links[:5]
-
         elif source == "naver":
             summaries = soup.find_all('div', {'class': 'api_txt_lines'})
             parsed_summaries = [summary.get_text(strip=True) for summary in summaries[:5]]
-            st.text(f"Naver 요약 결과: {parsed_summaries}")
             return parsed_summaries
-
         else:
-            st.text("알 수 없는 소스입니다.")
             return "알 수 없는 소스입니다."
 
     except httpx.RequestError as re:
-        st.error(f"HTTP 요청 중 오류 발생: {re}")
-        return f"HTTP 요청 중 오류 발생: {str(re)}"
+        return f"HTTP 요청 중 오류 발생: {re}"
     except Exception as e:
-        st.error(f"웹 검색 중 알 수 없는 오류 발생: {e}")
-        return f"웹 검색 중 알 수 없는 오류 발생: {str(e)}"
+        return f"웹 검색 중 알 수 없는 오류 발생: {e}"
+
 
 def search_youtube_shorts(query):
     """
@@ -561,7 +548,7 @@ def query(question, max_turns=3):
                 raise Exception(f"Unknown action: {action}: {action_input}")
             st.text(" -- running {} {}".format(action, action_input))
             observation = known_actions[action](action_input)
-            st.text("Observation:", observation)
+            st.text(f"Observation: {observation}")
             next_prompt = f"Observation: {observation}"
         else:
             return result
