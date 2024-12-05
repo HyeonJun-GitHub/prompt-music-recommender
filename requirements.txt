@@ -3,4 +3,5 @@ streamlit-chat
 pandas
 numpy
 httpx
+beautifulsoup4
 openai==0.28
