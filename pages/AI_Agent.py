@@ -160,7 +160,6 @@ def web_search(query, source="google"):
 
 def search_youtube_shorts(query):
 
-    st.text(query)
     def parsing_youtube_data(data):
         videos = data.get("videos", [])
         result = [
@@ -171,6 +170,7 @@ def search_youtube_shorts(query):
         return result
 
     results = YoutubeSearch(query, max_results=10).to_json()
+    st.text(results)
     data = parsing_youtube_data(results)
     st.text(data)
     return data
