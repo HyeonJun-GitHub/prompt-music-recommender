@@ -137,6 +137,9 @@ def web_search(query, source="google"):
     try:
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
+
+        st.text("Response Type:", type(response.text))  # 문자열인지 확인
+        st.text("Response Content:", response.text[:500])  # 응답 내용 일부 출력
         
         # 간단히 결과를 요약하거나 HTML을 파싱하여 링크 추출
         if source == "google":
@@ -158,14 +161,24 @@ def multi_web_search_with_date(query):
 
     for source in sources:
         search_result = web_search(query, source=source)
+        print(f"Search Result for {source}:", search_result)  # 결과 확인
+        try:
+            # JSON 파싱 시도
+            if isinstance(search_result, str):
+                search_result = json.loads(search_result)
+        except json.JSONDecodeError as e:
+            print(f"JSON Parsing Error for {source}: {e}")
+            search_result = {"error": "Invalid JSON format"}
+
+        # 이후 로직 처리
         if isinstance(search_result, list):
-            # 날짜 기반으로 가장 최근 데이터 선택
+            # 리스트 형태의 결과라면 날짜 기반으로 선택
             recent_result = select_most_recent(search_result)
             all_results[source] = recent_result
         else:
             all_results[source] = search_result
 
-    # 통합된 결과 반환
+    # 결과 반환
     combined_results = []
     for source, result in all_results.items():
         if result:
