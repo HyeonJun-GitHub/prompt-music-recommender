@@ -127,20 +127,16 @@ def web_search(query, source="google"):
     if source == "google":
         url = "https://www.google.com/search"
         params = {"q": query}
-    # elif source == "youtube":
-    #     url = "https://www.youtube.com/results"
-        # params = {"search_query": query}
     elif source == "naver":
         url = "https://search.naver.com/search.naver"
         params = {"query": query}
     else:
-        st.text(f"지원하지 않는 소스입니다: {source}")
         return f"지원하지 않는 소스입니다: {source}"
-    
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
-    
+
     try:
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
@@ -148,11 +144,13 @@ def web_search(query, source="google"):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         if source == "google":
-            links = re.findall(r'<a href="(https://www.google.com/url\?q=[^"]+)', response.text)
+            # re 모듈을 안전하게 제거한 방식으로 링크 처리
+            links = soup.find_all("a", href=True)
             parsed_links = [
-                link.split('&')[0].replace('https://www.google.com/url?q=', '')
-                for link in links[:5]
-            ] if links else []
+                link["href"].split('&')[0].replace('/url?q=', '')
+                for link in links
+                if '/url?q=' in link["href"]
+            ][:5]
             return parsed_links
         elif source == "naver":
             summaries = soup.find_all('div', {'class': 'api_txt_lines'})
