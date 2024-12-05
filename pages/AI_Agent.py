@@ -166,46 +166,54 @@ def web_search(query, source="google"):
 
 
 def search_youtube_shorts(query):
-    """
-    Fetch YouTube Shorts videos using Selenium and WebDriver Manager.
-    Args:
-        query (str): Search query.
-    Returns:
-        list[dict]: List of Shorts video data with title and link.
-    """
-    options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
 
-    # WebDriver Manager 사용
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+    def fetch_youtube_html(query):
+        """
+        YouTube 검색 페이지의 HTML을 가져옵니다.
+        """
+        url = "https://www.youtube.com/results"
+        params = {"search_query": query}
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
 
-    url = f"https://www.youtube.com/results?search_query={query}&sp=EgQIBRAB"
-    driver.get(url)
+        response = httpx.get(url, params=params, headers=headers)
+        response.raise_for_status()  # 요청 실패 시 예외 발생
+        return response.text  # HTML 소스 반환
 
-    try:
-        # Shorts 동영상 요소 로드 대기
-        shorts_elements = WebDriverWait(driver, 10).until(
-            EC.presence_of_all_elements_located((By.XPATH, "//ytd-video-renderer"))
+    def parse_html_with_openai(html):
+        """
+        OpenAI를 사용해 HTML에서 유의미한 정보를 추출합니다.
+        """
+        import openai
+
+        openai.api_key = "your-openai-api-key"
+
+        # OpenAI에게 전달할 프롬프트 생성
+        prompt = f"""
+        다음은 YouTube 검색 페이지의 HTML 소스입니다. 이 HTML에서 동영상 제목과 링크를 추출하여 JSON 형태로 반환해 주세요.
+        HTML:
+        {html[:2000]}  # OpenAI 토큰 제한으로 일부만 포함
+
+        결과는 다음과 같은 형식이어야 합니다:
+        [
+        {{"title": "동영상 제목1", "link": "동영상 링크1"}},
+        {{"title": "동영상 제목2", "link": "동영상 링크2"}}
+        ]
+        """
+
+        # OpenAI API 호출
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}]
         )
-        shorts_data = []
-        for element in shorts_elements:
-            title = element.find_element(By.XPATH, ".//*[@id='video-title']").text
-            link = element.find_element(By.XPATH, ".//*[@id='video-title']").get_attribute("href")
-            shorts_data.append({"title": title, "link": link})
-        return shorts_data
-    finally:
-        driver.quit()
 
-# # Test integration
-# if __name__ == "__main__":
-#     query = "성시경"
-#     results = fetch_youtube_shorts(query)
-#     print("YouTube Shorts Results:")
-#     for idx, short in enumerate(results, start=1):
-#         print(f"{idx}. {short['title']}\n   {short['link']}")
+        return response.choices[0].message.content
+
+    html = fetch_youtube_html(query)
+    # results = parse_html_with_openai(html)
+    return html
+
 
 
 def search_google(query):
