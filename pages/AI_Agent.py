@@ -236,6 +236,7 @@ def analyze_data(query):
 
 known_actions = {
     "namu_wiki": namu_wiki,
+    "multi_web_search_with_date": multi_web_search_with_date,
     "calculate": calculate,
     "search_api": search_api,
     "save_to_history": save_to_history,
@@ -340,19 +341,23 @@ Available Actions:
 e.g. namu_wiki: 성시경 - 거리에서
 Returns a summary from searching namu_wiki.
 
-2. search_api:
+2. multi_web_search_with_date:
+e.g. multi_web_search_with_date: 다비치 최근 방송
+Returns a summary from searching multi_web_search_with_date.
+
+3. search_api:
 e.g. search_api: 성시경 - 거리에서
 Search Simon's blog for information about both artists and song titles. If the name or title is in Korean, use the Korean characters.
 
-3. save_to_history:
+4. save_to_history:
 e.g. save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
 Saves a query and its corresponding response into the history.
 
-4. search_history:
+5. search_history:
 e.g. search_history: "성시경 - 거리에서"
 Searches the history for a query and returns the saved response, if available.
 
-5. analyze_data:
+6. analyze_data:
 e.g. analyze_data: { "query": "Playlists with over 10,000 views" }
 Analyzes data by either searching the history for a matching query or performing new computations based on the dataset structure provided below.
 
