@@ -160,6 +160,9 @@ def web_search(query, source="google"):
 
 def search_youtube_shorts(query):
     results = YoutubeSearch(query, max_results=1).to_json()
+    if isinstance(results, str):
+        results = json.loads(results)
+
     st.text(results)
     videos = results.get("videos", [])
     result = [
