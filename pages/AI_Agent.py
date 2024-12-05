@@ -149,7 +149,7 @@ def web_search(query, source="google"):
             return filtered_links[:5]
         elif source == "naver":
             summaries = soup.find_all('div', {'class': 'api_txt_lines'})
-            return [summary.get_text(strip=True) for summary in summaries[:5]]
+            return [summary.get_text(strip=True) for summary in summaries[:5]]  # 수정: `get_text(strip=True)` 추가
         else:
             return "알 수 없는 소스입니다."
     except Exception as e:
