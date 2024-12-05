@@ -136,17 +136,20 @@ def web_search(query, source="google"):
         response = httpx.get(url, params=params, headers=headers)
         response.raise_for_status()
 
-        # 결과 텍스트 출력 및 디버깅
-        print("Response Content:", response.text[:500])  # 응답 내용 일부 출력
+        # BeautifulSoup으로 HTML 파싱
+        soup = BeautifulSoup(response.text, 'html.parser')
 
+        # 각 소스에 맞는 데이터 추출 방식 적용
         if source == "google":
             links = re.findall(r'<a href="(https://www.google.com/url\?q=[^"]+)', response.text)
             return [re.sub(r'https://www.google.com/url\?q=|&.*', '', link) for link in links[:5]]
         elif source == "youtube":
-            video_links = re.findall(r'watch\?v=([\w-]+)', response.text)
-            return [f"https://www.youtube.com/watch?v={v}" for v in video_links[:5]]
+            video_links = soup.find_all("a", href=True)
+            filtered_links = [f"https://www.youtube.com{link['href']}" for link in video_links if "/watch?" in link["href"]]
+            return filtered_links[:5]
         elif source == "naver":
-            return "네이버 검색 결과를 파싱하려면 BeautifulSoup 또는 HTML 파서가 필요합니다."
+            summaries = soup.find_all('div', {'class': 'api_txt_lines'})
+            return [summary.get_text(strip=True) for summary in summaries[:5]]
         else:
             return "알 수 없는 소스입니다."
     except Exception as e:
@@ -331,11 +334,6 @@ if "past" not in st.session_state:
     st.session_state.past = []
 if "generated" not in st.session_state:
     st.session_state.generated = []
-
-
-# 상태 초기화
-if "messages" not in st.session_state:
-    st.session_state.messages = []
 
 # ChatBot 인스턴스 생성
 bot_prompt = """
