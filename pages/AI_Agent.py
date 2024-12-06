@@ -160,17 +160,15 @@ def search_youtube_shorts(query):
     if isinstance(results, str):
         results = json.loads(results)
 
-    st.text(results)
-    st.text("---")
+    # st.text(results)
+    # st.text("---")
 
     videos = results.get("videos", [])
-    # url = '<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix']}" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>'
     result = [
         f'\n{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>\n'
         for video in videos
         if "title" in video and "url_suffix" in video
     ]
-    st.text(result)
     return '\n'.join(result)
 
 def extract_parameter_value(url, parameter):
