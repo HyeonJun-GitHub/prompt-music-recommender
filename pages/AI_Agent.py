@@ -636,6 +636,9 @@ import streamlit as st
 
 # Define the custom message method to create chat bubbles
 def custom_message(content, is_ai=False, allow_html=True):
+    if content is None:
+        st.error("Message content is empty or invalid.")
+        return
     if is_ai:
         bubble_class = "chat-bubble ai-message"
     else:
@@ -649,35 +652,43 @@ def custom_message(content, is_ai=False, allow_html=True):
     """
     st.markdown(styled_message, unsafe_allow_html=allow_html)
 
-# Example of how to use the custom_message function
+# Check if "generated" is in session state
 if "generated" not in st.session_state:
     st.session_state["generated"] = [{"data": "Hello, how can I assist you today?"}, 
                                      {"data": "Sure, let me check that for you."}]
 
-st.markdown(
-    """
-    <style>
-    .chat-bubble {
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 10px;
-        max-width: 60%;
-    }
-    .ai-message {
-        background-color: #f0f0f0;
-        margin-left: auto;
-        margin-right: 0;
-    }
-    .user-message {
-        background-color: #d1f7d6;
-        margin-right: auto;
-        margin-left: 0;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+# Validate session state
+if not isinstance(st.session_state["generated"], list):
+    st.error("`st.session_state['generated']` is not a list.")
+else:
+    st.markdown(
+        """
+        <style>
+        .chat-bubble {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            max-width: 60%;
+        }
+        .ai-message {
+            background-color: #f0f0f0;
+            margin-left: auto;
+            margin-right: 0;
+        }
+        .user-message {
+            background-color: #d1f7d6;
+            margin-right: auto;
+            margin-left: 0;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
-for i, msg in enumerate(st.session_state["generated"]):
-    is_ai = i % 2 == 0  # Example: alternate between AI and user messages
-    custom_message(msg["data"], is_ai=is_ai)
+    # Render messages
+    for i, msg in enumerate(st.session_state["generated"]):
+        if not isinstance(msg, dict) or "data" not in msg:
+            st.error(f"Message at index {i} is invalid: {msg}")
+            continue
+        is_ai = i % 2 == 0  # Example: alternate between AI and user messages
+        custom_message(msg["data"], is_ai=is_ai)
