@@ -215,6 +215,39 @@ def search_google(query):
 
     return "\n".join(combined_results)
 
+def chatbot_response(song_data):
+    # 결과에서 필요한 데이터를 추출
+    songs = song_data.get("song", [])
+    artist = song_data.get("artist", "null")
+    
+    # 대답 생성
+    response = ""
+    
+    if songs:
+        response += "안녕하세요! 다음은 검색 결과에서 찾은 곡 리스트입니다:\n"
+        for i, song in enumerate(songs, start=1):
+            song_name = song.get("name", "곡명 없음")
+            song_id = song.get("id", "song_id 없음")
+            response += f"{i}. 곡명: {song_name}\n   song_id: {song_id}\n"
+    else:
+        response += "안녕하세요! 입력하신 검색어에 대한 곡을 찾지 못했어요. 😢\n"
+
+    if artist == "null":
+        response += "그리고 입력하신 검색어에 해당하는 아티스트 정보는 찾지 못했어요. 😥\n"
+    else:
+        response += f"아티스트 이름: {artist}\n"
+
+    return response
+
+# # 테스트 데이터
+# song_data = {
+#     "song": [
+#         {"name": "가을 아침 - ('아이유 (IU)',)", "id": 87443133},
+#         {"name": "가을 아침 - 아이유(IU) (멜로디 MR) - ('Musicsum (뮤직섬)',)", "id": 88228506},
+#         {"name": "가을 아침 (아이유) (MR) (-1키) - ('뮤직마루',)", "id": 88369708},
+#     ],
+#     "artist": "null"
+# }
 
 # 아티스트 검색 API 호출 함수
 def search_genie(query):
@@ -265,9 +298,11 @@ def search_genie(query):
             result["song"] = song_list
         if artist_list:
             result["artist"] = artist_list
-        
+
         # JSON 문자열로 반환
-        return json.dumps(result, ensure_ascii=False, indent=2)
+        # json.dumps(result, ensure_ascii=False, indent=2)
+        msg = chatbot_response(result)
+        return msg
 
     except requests.exceptions.RequestException as e:
         return json.dumps({"song": "null", "artist": "null"}, ensure_ascii=False)
