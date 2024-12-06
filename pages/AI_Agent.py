@@ -548,7 +548,6 @@ def on_input_change():
 
         # OpenAI API 호출을 통해 AI 응답 생성 (여기서는 간단히 예시)
         # 실제로는 OpenAI API 호출로 대체
-        st.text(user_input)
         ai_response = simulate_ai_response(user_input)
         
         # 생성된 AI 응답 추가
@@ -561,7 +560,7 @@ def simulate_ai_response(user_input):
     if "youtube" in user_input.lower():
         youtube_embed = '<iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" frameborder="0" allow="accelerometer; autoplay; encrypted-media;"></iframe>'
         return youtube_embed
-    return "This is a normal text response."
+    return user_input
 
             
 # # 메시지 입력 처리
