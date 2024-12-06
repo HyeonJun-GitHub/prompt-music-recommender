@@ -563,10 +563,10 @@ with chat_placeholder.container():
             unsafe_allow_html=True
         )
 
-        st.markdown(
-            f'<div class="chat-bubble ai-message">{youtube_embed}</div>',
-            unsafe_allow_html=True
-        )
+        # st.markdown(
+        #     f'<div class="chat-bubble ai-message">{youtube_embed}</div>',
+        #     unsafe_allow_html=True
+        # )
 
         # custom_message(
         #     msg["data"], 
