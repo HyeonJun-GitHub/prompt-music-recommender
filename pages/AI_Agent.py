@@ -632,8 +632,10 @@ with st.container():
     st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
 
 
+import streamlit as st
+
 # Define the custom message method to create chat bubbles
-def custom_message(content, is_ai=False, key=None, allow_html=True):
+def custom_message(content, is_ai=False, allow_html=True):
     if is_ai:
         bubble_class = "chat-bubble ai-message"
     else:
@@ -645,7 +647,7 @@ def custom_message(content, is_ai=False, key=None, allow_html=True):
         {content}
     </div>
     """
-    st.markdown(styled_message, unsafe_allow_html=allow_html, key=key)
+    st.markdown(styled_message, unsafe_allow_html=allow_html)
 
 # Example of how to use the custom_message function
 if "generated" not in st.session_state:
@@ -678,4 +680,4 @@ st.markdown(
 
 for i, msg in enumerate(st.session_state["generated"]):
     is_ai = i % 2 == 0  # Example: alternate between AI and user messages
-    custom_message(msg["data"], is_ai=is_ai, key=f"msg-{i}")
+    custom_message(msg["data"], is_ai=is_ai)
