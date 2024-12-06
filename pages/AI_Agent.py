@@ -614,22 +614,22 @@ st.title("Chat placeholder")
 
 chat_placeholder = st.empty()
 
-# with chat_placeholder.container():    
-#     for i in range(len(st.session_state['generated'])):                
-#         message(st.session_state['past'][i], 
-#                 is_user=True, 
-#                 key=f"{i}_user")
-#         message(
-#             st.session_state['generated'][i]['data'], 
-#             key=f"{i}", 
-#             allow_html=True,
-#             is_table=False
-#         )
+with chat_placeholder.container():    
+    for i in range(len(st.session_state['generated'])):                
+        message(st.session_state['past'][i], 
+                is_user=True, 
+                key=f"{i}_user")
+        message(
+            st.session_state['generated'][i]['data'], 
+            key=f"{i}", 
+            allow_html=True,
+            is_table=False
+        )
     
-#     st.button("Clear message", on_click=on_btn_click_2)
+    st.button("Clear message", on_click=on_btn_click_2)
 
-# with st.container():
-#     st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
+with st.container():
+    st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
 
 
 # Define the custom message method to create chat bubbles
