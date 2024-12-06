@@ -349,14 +349,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 상태 초기화
-if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
-if "past" not in st.session_state:
-    st.session_state.past = []
-if "generated" not in st.session_state:
-    st.session_state.generated = []
-
 # 2. search_google:
 # e.g. search_google: 다비치가 부른 최근 방송
 # Searches for the most recent information about the given query from Google.
@@ -564,15 +556,25 @@ def on_input_change():
 #         st.session_state.messages.append({"role": "user", "content": user_input})
 #         st.session_state.messages.append({"role": "assistant", "content": result})
 
+# 상태 초기화
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
+    
 # 채팅 기록 표시
-# if st.session_state.messages:
-#     for message in st.session_state.messages:
-#         role = message["role"]
-#         content = message["content"]
-#         if role == "assistant":
-#             st.markdown(f"<div style='text-align: left; background-color: #FFD700; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
-#         # else:
-#             # st.markdown(f"<div style='text-align: right; background-color: #D3D3D3; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
+if st.session_state.messages:
+    for message in st.session_state.messages:
+        role = message["role"]
+        content = message["content"]
+        if role == "assistant":
+            st.markdown(f"<div style='text-align: left; background-color: #FFD700; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
+        # else:
+            # st.markdown(f"<div style='text-align: right; background-color: #D3D3D3; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
+
+if "past" not in st.session_state:
+    st.session_state.past = []
+if "generated" not in st.session_state:
+    st.session_state.generated = []
+
 
 # 메시지 초기화
 def on_btn_click():
