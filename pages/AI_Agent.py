@@ -62,8 +62,15 @@ def search_history(query):
 def namu_wiki(query):
     base_url = f"https://namu.wiki/w/{query}"
 
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        )
+    }
+    
     try:
-        response = httpx.get(base_url)
+        response = httpx.get(base_url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         content_div = soup.find('div', {'class': 'wiki-paragraph'})
