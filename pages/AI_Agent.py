@@ -362,7 +362,10 @@ def render_chat():
 
         # AI 응답 메시지 처리
         response = st.session_state["generated"][i]
-        youtube_match = re.search(r"youtube")
+        youtube_match = re.search(
+            r"(https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([\w-]+))", 
+            response
+        )
         
         if youtube_match:
             # YouTube 링크가 있는 경우 iframe 생성
