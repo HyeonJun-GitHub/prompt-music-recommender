@@ -652,7 +652,7 @@ def custom_message(content, is_ai=False, allow_html=True):
     styled_message = f"""
     <div class="{bubble_class}">
         {content}
-    </div>
+    test
     """
     st.markdown(styled_message, unsafe_allow_html=allow_html)
 
