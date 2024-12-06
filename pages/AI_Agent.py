@@ -507,13 +507,15 @@ def query(question, max_turns=2):
             action, action_input = actions[0].groups()
             if action not in known_actions:
                 raise Exception(f"Unknown action: {action}: {action_input}")
-            st.text(" -- running {} {}".format(action, action_input))
+            st.text(f" -- running {action} {action_input}")
             observation = known_actions[action](action_input)
             st.text(f"Observation: {observation}")
             next_prompt = f"Observation: {observation}"
         else:
-            return result
-    return next_prompt
+            # 결과를 반환
+            return result  # 액션이 없는 경우 바로 결과 반환
+    # 반복문이 끝난 후 마지막 상태 반환
+    return next_prompt  # max_turns가 초과된 경우 next_prompt 반환
 
         
 # 메시지 입력 처리
