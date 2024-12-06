@@ -247,7 +247,7 @@ def chatbot_response(song_data):
     response = ""
     
     if songs:
-        response += "안녕하세요! 다음은 검색 결과에서 찾은 곡 리스트입니다:\n"
+        response += "안녕하세요! 다음은 지니(geniemusic)에서 찾은 곡 리스트입니다:\n"
         for i, song in enumerate(songs, start=1):
             song_name = song.get("name", "곡명 없음")
             song_id = song.get("id", "song_id 없음")
