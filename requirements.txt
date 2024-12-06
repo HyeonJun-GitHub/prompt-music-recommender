@@ -5,4 +5,5 @@ numpy
 httpx
 beautifulsoup4
 youtube-search
+cloudscraper
 openai==0.28

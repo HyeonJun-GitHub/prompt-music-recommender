@@ -14,6 +14,7 @@ from urllib.parse import urlparse, parse_qs
 import streamlit as st
 from streamlit_chat import message
 from streamlit.components.v1 import html
+import cloudscraper
 
 # ChatBot 클래스 정의
 class ChatBot:
@@ -70,8 +71,9 @@ def namu_wiki(query):
     cookies = {
         "my_cookie_key": "my_cookie_value"  # 필요에 따라 설정
     }
+    scraper = cloudscraper.create_scraper()  # Cloudscraper 객체 생성
     try:
-        response = httpx.get(base_url, headers=headers, cookies=cookies)
+        response = scraper.get(base_url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         
