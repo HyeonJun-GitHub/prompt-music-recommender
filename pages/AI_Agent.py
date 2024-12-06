@@ -559,21 +559,18 @@ def on_input_change():
 # 상태 초기화
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
-    
-# 채팅 기록 표시
-if st.session_state.messages:
-    for message in st.session_state.messages:
-        role = message["role"]
-        content = message["content"]
-        if role == "assistant":
-            st.markdown(f"<div style='text-align: left; background-color: #FFD700; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
-        # else:
-            # st.markdown(f"<div style='text-align: right; background-color: #D3D3D3; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
-
 if "past" not in st.session_state:
     st.session_state.past = []
 if "generated" not in st.session_state:
     st.session_state.generated = []
+
+# 채팅 기록 표시
+if st.session_state.messages:
+    message = st.session_state.messages[0]
+    role = message["role"]
+    content = message["content"]
+    if role == "assistant":
+        st.markdown(f"<div style='text-align: left; background-color: #FFD700; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
 
 
 # 메시지 초기화
