@@ -632,6 +632,12 @@ with st.container():
     st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
 
 
+
+
+
+
+
+
 import streamlit as st
 
 # Define the custom message method to create chat bubbles
@@ -691,4 +697,16 @@ else:
             st.error(f"Message at index {i} is invalid: {msg}")
             continue
         is_ai = i % 2 == 0  # Example: alternate between AI and user messages
-        custom_message(msg["data"], is_ai=is_ai)
+        custom_message(
+            msg["data"], 
+            is_ai=is_ai
+        )
+        # custom_message(
+        #     st.session_state['past'][i], 
+        #         is_user=True, 
+        #         key=f"{i}_user")
+        # custom_message(
+        #     st.session_state['generated'][i]['data'], 
+        #     key=f"{i}", 
+        #     allow_html=True,
+        # )
