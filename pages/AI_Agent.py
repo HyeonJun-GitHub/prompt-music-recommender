@@ -11,6 +11,10 @@ from datetime import datetime
 import youtube_search
 from youtube_search import YoutubeSearch
 
+import streamlit as st
+from streamlit_chat import message
+from streamlit.components.v1 import html
+
 # ChatBot 클래스 정의
 class ChatBot:
     def __init__(self, system=""):
@@ -575,16 +579,15 @@ st.button("대화 삭제", on_click=on_btn_click)
 st.text_input("메세지:", on_change=on_input_change, key="user_input")
 
 
-import streamlit as st
-from streamlit_chat import message
-from streamlit.components.v1 import html
 
-def on_input_change():
+
+
+def on_input_change_2():
     user_input = st.session_state.user_input
     st.session_state.past.append(user_input)
     st.session_state.generated.append("The messages from Bot\nWith new line")
 
-def on_btn_click():
+def on_btn_click_2():
     del st.session_state.past[:]
     del st.session_state.generated[:]
 
@@ -592,46 +595,6 @@ audio_path = "https://docs.google.com/uc?export=open&id=16QSvoLWNxeqco_Wb2JvzaRe
 img_path = "https://www.groundzeroweb.com/wp-content/uploads/2017/05/Funny-Cat-Memes-11.jpg"
 youtube_embed = '''
 <iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
-'''
-
-markdown = """
-### HTML in markdown is ~quite~ **unsafe**
-<blockquote>
-  However, if you are in a trusted environment (you trust the markdown). You can use allow_html props to enable support for html.
-</blockquote>
-
-* Lists
-* [ ] todo
-* [x] done
-
-Math:
-
-Lift($L$) can be determined by Lift Coefficient ($C_L$) like the following
-equation.
-
-$$
-L = \\frac{1}{2} \\rho v^2 S C_L
-$$
-
-~~~py
-import streamlit as st
-
-st.write("Python code block")
-~~~
-
-~~~js
-console.log("Here is some JavaScript code")
-~~~
-
-"""
-
-table_markdown = '''
-A Table:
-
-| Feature     | Support              |
-| ----------: | :------------------- |
-| CommonMark  | 100%                 |
-| GFM         | 100% w/ `remark-gfm` |
 '''
 
 st.session_state.setdefault(
@@ -643,14 +606,13 @@ st.session_state.setdefault(
      'show me some markdown sample',
      'table in markdown']
 )
+
 st.session_state.setdefault(
     'generated', 
     [{'type': 'normal', 'data': 'Line 1 \n Line 2 \n Line 3'},
      {'type': 'normal', 'data': f'<audio controls src="{audio_path}"></audio>'}, 
      {'type': 'normal', 'data': f'<img width="100%" height="200" src="{img_path}"/>'}, 
-     {'type': 'normal', 'data': f'{youtube_embed}'},
-     {'type': 'normal', 'data': f'{markdown}'},
-     {'type': 'table', 'data': f'{table_markdown}'}]
+     {'type': 'normal', 'data': f'{youtube_embed}'}]
 )
 
 st.title("Chat placeholder")
@@ -667,7 +629,7 @@ with chat_placeholder.container():
             is_table=True if st.session_state['generated'][i]['type']=='table' else False
         )
     
-    st.button("Clear message", on_click=on_btn_click)
+    st.button("Clear message", on_click=on_btn_click_2)
 
 with st.container():
-    st.text_input("User Input:", on_change=on_input_change, key="user_input")
+    st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
