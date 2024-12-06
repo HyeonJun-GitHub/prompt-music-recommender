@@ -160,6 +160,7 @@ def search_youtube_shorts(query):
     if isinstance(results, str):
         results = json.loads(results)
 
+    st.text(results)
     videos = results.get("videos", [])
     result = [
         f"{video['title']}\nhttps://www.youtube.com{video['url_suffix']}"
