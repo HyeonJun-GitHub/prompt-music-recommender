@@ -520,41 +520,24 @@ def query(question, max_turns=1):
         
 # 메시지 입력 처리
 def on_input_change():
-
-    if not openai_api_key.strip():
-        st.warning("OpenAI API key를 입력해주세요.")
-        return
-
     user_input = st.session_state.user_input
-
     if user_input.strip():
-        # 사용자 메시지 저장
         st.session_state.past.append(user_input)
         st.session_state.messages.append({"role": "user", "content": user_input})
 
-        # OpenAI API 호출
         if openai_api_key.strip():
             try:
-                # client = OpenAI(api_key=openai_api_key)
-                # response = client.chat.completions.create(
-                #     model="gpt-3.5-turbo",
-                #     messages=st.session_state.messages
-                # )
-                # msg = response.choices[0].message.content
                 msg = query(user_input)
-
-                # 응답 메시지 저장
-                st.text(f'msg : {msg}')
-                st.session_state.generated.append(msg)
-                st.session_state.messages.append({"role": "assistant", "content": msg})
-
+                if msg:  # 반환값이 유효한 경우
+                    st.session_state.generated.append(msg)
+                    st.session_state.messages.append({"role": "assistant", "content": msg})
+                else:  # 반환값이 None인 경우 디버깅 메시지 추가
+                    st.error("Query 함수의 반환값이 None입니다.")
             except Exception as e:
-                msg = "찾은 내용이 없습니다."
                 st.error(f"OpenAI API 호출 중 오류 발생: {e}")
-
-            # st.session_state.generated.append(msg or "No response available.")
         else:
-            st.warning("Please enter a valid OpenAI API key.")
+            st.warning("유효한 OpenAI API 키를 입력해주세요.")
+
             
 # # 메시지 입력 처리
 # def process_message():
