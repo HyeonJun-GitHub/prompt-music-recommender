@@ -354,10 +354,10 @@ st.markdown(
 # 상태 초기화
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
-if "past" not in st.session_state:
-    st.session_state.past = []
-if "generated" not in st.session_state:
-    st.session_state.generated = []
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
 
 # 메시지 데이터 초기화
 st.session_state.setdefault(
@@ -367,15 +367,19 @@ st.session_state.setdefault(
 st.session_state.setdefault('past', [])
 
 def render_chat():
-    with chat_placeholder.container():    
-        for i in range(len(st.session_state['generated'])):                
-            # 사용자 메시지 렌더링
-            message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
-            
-            # AI 응답 렌더링
-            content = st.session_state['generated'][i]
-            is_table = content['type'] == 'table'
-            message(content['data'], key=f"{i}", allow_html=True, is_table=is_table)
+    with chat_placeholder.container():
+        st.write("Rendering chat messages...")
+        st.write("Past messages:", st.session_state['past'])
+        st.write("Generated messages:", st.session_state['generated'])
+
+        for i in range(min(len(st.session_state['past']), len(st.session_state['generated']))):
+            try:
+                message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
+                content = st.session_state['generated'][i]
+                is_table = content['type'] == 'table'
+                message(content['data'], key=f"{i}", allow_html=True, is_table=is_table)
+            except Exception as e:
+                st.error(f"Error rendering message at index {i}: {e}")
 
 
 # 2. search_google:
@@ -552,14 +556,11 @@ def on_input_change():
         # 채팅 다시 렌더링
         render_chat()
 
-# AI 응답 시뮬레이션 함수
 def simulate_ai_response(user_input):
-    """YouTube 링크가 있는 응답을 생성하는 예시 함수"""
-    youtube_link = "https://www.youtube.com/watch?v=LMQ5Gauy17k"
     if "youtube" in user_input.lower():
-        return f'<iframe width="400" height="215" src="{youtube_link}" frameborder="0" allow="accelerometer; autoplay; encrypted-media;"></iframe>'
-    else:
-        return "응답: 일반 텍스트 메시지입니다."
+        youtube_embed = '<iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" frameborder="0" allow="accelerometer; autoplay; encrypted-media;"></iframe>'
+        return youtube_embed
+    return "This is a normal text response."
 
             
 # # 메시지 입력 처리
