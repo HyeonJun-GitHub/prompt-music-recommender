@@ -349,6 +349,46 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+def render_chat():
+    """Render chat history with YouTube video support."""
+    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+    
+    for i in range(len(st.session_state["past"])):
+        # 사용자 메시지 출력
+        st.markdown(
+            f'<div class="chat-bubble user-message">{st.session_state["past"][i]}</div>',
+            unsafe_allow_html=True
+        )
+
+        # AI 응답 메시지 처리
+        response = st.session_state["generated"][i]
+        youtube_match = re.search(r"https://www\.youtube\.com/watch\?v=([\w-]+)", response)
+        
+        if youtube_match:
+            # YouTube 링크가 있는 경우 iframe 생성
+            youtube_id = youtube_match.group(1)
+            youtube_embed = f"""
+            <iframe width="400" height="215" 
+                    src="https://www.youtube.com/embed/{youtube_id}" 
+                    frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            """
+            st.markdown(
+                f'<div class="chat-bubble ai-message">{response}</div>',
+                unsafe_allow_html=True
+            )
+            st.markdown(youtube_embed, unsafe_allow_html=True)
+        else:
+            # 일반 텍스트 응답
+            st.markdown(
+                f'<div class="chat-bubble ai-message">{response}</div>',
+                unsafe_allow_html=True
+            )
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
 # 상태 초기화
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
@@ -516,7 +556,6 @@ def query(question, max_turns=1):
         
 # 메시지 입력 처리
 def on_input_change():
-
     if not openai_api_key.strip():
         st.warning("OpenAI API key를 입력해주세요.")
         return
@@ -531,25 +570,16 @@ def on_input_change():
         # OpenAI API 호출
         if openai_api_key.strip():
             try:
-                # client = OpenAI(api_key=openai_api_key)
-                # response = client.chat.completions.create(
-                #     model="gpt-3.5-turbo",
-                #     messages=st.session_state.messages
-                # )
-                # msg = response.choices[0].message.content
                 msg = query(user_input)
-
-                # 응답 메시지 저장
-                # st.session_state.generated.append(msg)
-                # st.session_state.messages.append({"role": "assistant", "content": msg})
-
+                st.session_state.generated.append(msg or "No response available.")
+                st.session_state.messages.append({"role": "assistant", "content": msg})
             except Exception as e:
                 msg = "찾은 내용이 없습니다."
                 st.error(f"OpenAI API 호출 중 오류 발생: {e}")
 
-            st.session_state.generated.append(msg or "No response available.")
-        else:
-            st.warning("Please enter a valid OpenAI API key.")
+        # Re-render chat messages
+        render_chat()
+
             
 # # 메시지 입력 처리
 # def process_message():
@@ -595,6 +625,7 @@ def on_btn_click():
 # 채팅 UI
 chat_placeholder = st.empty()
 with chat_placeholder.container():
+    render_chat()
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
     for i in range(len(st.session_state["past"])):
         # 사용자 메시지 출력
