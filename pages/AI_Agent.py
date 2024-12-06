@@ -243,6 +243,10 @@ def search_genie(query):
             }
             for song in data.get('searchResult', {}).get('result', {}).get('songs', {}).get('items', [])
         ]
+
+        song_cnt = len(song_list) if song_list else 0
+        if song_cnt > 3:song_cnt = 3
+        song_list = song_list[0:song_cnt]
         
         # 아티스트 이름과 ID 추출
         artist_list = [
@@ -252,11 +256,15 @@ def search_genie(query):
             }
             for artist in data.get('searchResult', {}).get('result', {}).get('artists', {}).get('items', [])
         ]
+        artist_cnt = len(artist_list) if artist_list else 0
+        if artist_cnt > 3:artist_cnt = 3
+        artist_list = artist_list[0:artist_cnt]
         
-        result = {
-            "song": song_list if song_list else "null",
-            "artist": artist_list if artist_list else "null"
-        }
+        result = {}
+        if song_list:
+            result["song"] = song_list
+        if artist_list:
+            result["artist"] = artist_list
         
         # JSON 문자열로 반환
         return json.dumps(result, ensure_ascii=False, indent=2)
