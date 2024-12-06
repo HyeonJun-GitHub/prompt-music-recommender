@@ -598,7 +598,7 @@ test_data = """이해리 '에피소드' 달달한 사랑 노래였네 #다비치
 https://www.youtube.com/shorts/mjyRM8HN0yw """
 
 youtube_embed = '''
-<iframe width="215" height="400" src="https://www.youtube.com/shorts/mjyRM8HN0yw" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
+<iframe width="400" height="215" src="https://www.youtube.com/embed/mjyRM8HN0yw" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
 '''
 
 st.session_state.setdefault(
