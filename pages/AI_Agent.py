@@ -59,22 +59,15 @@ def namu_wiki(query):
     base_url = f"https://namu.wiki/w/{query}"
 
     try:
-        # 나무위키 페이지 요청
         response = httpx.get(base_url)
-        response.raise_for_status()  # HTTP 오류가 발생하면 예외 발생
-
-        # BeautifulSoup을 사용하여 HTML 파싱
+        response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-
-        # 나무위키에서 요약 정보 추출
-        # 주로 문서의 첫 번째 단락(요약) 정보를 가져옴
         content_div = soup.find('div', {'class': 'wiki-paragraph'})
         
         if not content_div:
             return f"'{query}'에 대한 정보를 찾을 수 없습니다."
 
-        # 첫 번째 단락 텍스트를 반환
-        summary = content_div.get_text(strip=True)  # 수정: .get_text() 사용
+        summary = content_div.get_text(strip=True)
         return summary
 
     except httpx.RequestError as e:
@@ -485,8 +478,6 @@ Answer:
 (https://genie.co.kr/detail/songInfo?xgnm=43212134)
 """.strip()
 
-# chat_bot = ChatBot(system=bot_prompt)
-
 def query(question, max_turns=1):
     i = 0
     bot = ChatBot(bot_prompt)
@@ -499,15 +490,11 @@ def query(question, max_turns=1):
             action, action_input = actions[0].groups()
             if action not in known_actions:
                 raise Exception(f"Unknown action: {action}: {action_input}")
-            # st.text(f" -- running {action} {action_input}")
             observation = known_actions[action](action_input)
-            # st.text(f"Observation: {observation}")
             next_prompt = observation
         else:
-            # 결과를 반환
-            return result  # 액션이 없는 경우 바로 결과 반환
-    # 반복문이 끝난 후 마지막 상태 반환
-    return next_prompt  # max_turns가 초과된 경우 next_prompt 반환
+            return result
+    return next_prompt
 
 # 메시지 입력 처리
 def on_input_change():
@@ -528,32 +515,6 @@ def on_input_change():
                 st.error(f"OpenAI API 호출 중 오류 발생: {e}")
         else:
             st.warning("유효한 OpenAI API 키를 입력해주세요.")
-
-            
-# # 메시지 입력 처리
-# def process_message():
-#     user_input = st.session_state.user_input
-#     if not openai_api_key:
-#         st.warning("OpenAI API Key를 입력하세요.")
-#         return
-    
-#     if user_input.strip():
-#         # 사용자 입력을 ChatBot에 전달
-#         result = chat_bot(user_input)
-
-#         # 액션 처리
-#         actions = [action_re.match(a) for a in result.split('\n') if action_re.match(a)]
-#         if actions:
-#             action, action_input = actions[0].groups()
-#             if action in known_actions:
-#                 observation = known_actions[action](action_input)
-#                 result += f"\nObservation: {observation}"
-#             else:
-#                 result += f"\nUnknown action: {action}"
-
-#         # 메시지 저장
-#         st.session_state.messages.append({"role": "user", "content": user_input})
-#         st.session_state.messages.append({"role": "assistant", "content": result})
 
 # 상태 초기화
 if "messages" not in st.session_state:
