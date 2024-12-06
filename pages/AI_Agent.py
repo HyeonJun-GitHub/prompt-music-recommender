@@ -502,14 +502,13 @@ def query(question, max_turns=1):
             st.text(f" -- running {action} {action_input}")
             observation = known_actions[action](action_input)
             st.text(f"Observation: {observation}")
-            next_prompt = f"Observation: {observation}"
+            next_prompt = observation
         else:
             # 결과를 반환
             return result  # 액션이 없는 경우 바로 결과 반환
     # 반복문이 끝난 후 마지막 상태 반환
     return next_prompt  # max_turns가 초과된 경우 next_prompt 반환
 
-        
 # 메시지 입력 처리
 def on_input_change():
     user_input = st.session_state.user_input
