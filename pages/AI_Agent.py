@@ -614,17 +614,68 @@ st.title("Chat placeholder")
 
 chat_placeholder = st.empty()
 
-with chat_placeholder.container():    
-    for i in range(len(st.session_state['generated'])):                
-        message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
-        message(
-            st.session_state['generated'][i]['data'], 
-            key=f"{i}", 
-            allow_html=True,
-            is_table=True if st.session_state['generated'][i]['type']=='table' else False
-        )
+# with chat_placeholder.container():    
+#     for i in range(len(st.session_state['generated'])):                
+#         message(st.session_state['past'][i], 
+#                 is_user=True, 
+#                 key=f"{i}_user")
+#         message(
+#             st.session_state['generated'][i]['data'], 
+#             key=f"{i}", 
+#             allow_html=True,
+#             is_table=False
+#         )
     
-    st.button("Clear message", on_click=on_btn_click_2)
+#     st.button("Clear message", on_click=on_btn_click_2)
 
-with st.container():
-    st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
+# with st.container():
+#     st.text_input("User Input:", on_change=on_input_change_2, key="user_input")
+
+
+# Define the custom message method to create chat bubbles
+def custom_message(content, is_ai=False, key=None, allow_html=True):
+    if is_ai:
+        bubble_class = "chat-bubble ai-message"
+    else:
+        bubble_class = "chat-bubble user-message"
+    
+    # Wrap the content in a styled div
+    styled_message = f"""
+    <div class="{bubble_class}">
+        {content}
+    </div>
+    """
+    st.markdown(styled_message, unsafe_allow_html=allow_html, key=key)
+
+# Example of how to use the custom_message function
+if "generated" not in st.session_state:
+    st.session_state["generated"] = [{"data": "Hello, how can I assist you today?"}, 
+                                     {"data": "Sure, let me check that for you."}]
+
+st.markdown(
+    """
+    <style>
+    .chat-bubble {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+        max-width: 60%;
+    }
+    .ai-message {
+        background-color: #f0f0f0;
+        margin-left: auto;
+        margin-right: 0;
+    }
+    .user-message {
+        background-color: #d1f7d6;
+        margin-right: auto;
+        margin-left: 0;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+for i, msg in enumerate(st.session_state["generated"]):
+    is_ai = i % 2 == 0  # Example: alternate between AI and user messages
+    custom_message(msg["data"], is_ai=is_ai, key=f"msg-{i}")
