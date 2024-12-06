@@ -652,7 +652,7 @@ def custom_message(content, is_ai=False, allow_html=True):
     styled_message = f"""
     <div class="{bubble_class}">
         {content}
-    test
+    이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드
     """
     st.markdown(styled_message, unsafe_allow_html=allow_html)
 
