@@ -513,6 +513,7 @@ def query(question, max_turns=1):
             next_prompt = f"Observation: {observation}"
         else:
             return result
+
         
 # 메시지 입력 처리
 def on_input_change():
