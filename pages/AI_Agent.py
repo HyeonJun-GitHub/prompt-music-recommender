@@ -540,8 +540,8 @@ def on_input_change():
                 msg = query(user_input)
 
                 # 응답 메시지 저장
-                # st.session_state.generated.append(msg)
-                # st.session_state.messages.append({"role": "assistant", "content": msg})
+                st.session_state.generated.append(msg)
+                st.session_state.messages.append({"role": "assistant", "content": msg})
 
             except Exception as e:
                 msg = "찾은 내용이 없습니다."
