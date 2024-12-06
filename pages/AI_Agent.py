@@ -594,11 +594,9 @@ def on_btn_click_2():
 audio_path = "https://docs.google.com/uc?export=open&id=16QSvoLWNxeqco_Wb2JvzaReSAw5ow6Cl"
 img_path = "https://www.groundzeroweb.com/wp-content/uploads/2017/05/Funny-Cat-Memes-11.jpg"
 
-test_data = """이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드 - 
-https://www.youtube.com/shorts/mjyRM8HN0yw """
-
+test_data = """이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드 - https://www.youtube.com/shorts/mjyRM8HN0yw """
 youtube_embed = '''
-<iframe width="400" height="215" src="https://www.youtube.com/embed/mjyRM8HN0yw" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
+<iframe width="400" height="215" src="https://www.youtube.com/embed/mjyRM8HN0yw" title="이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
 '''
 
 st.session_state.setdefault(
