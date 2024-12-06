@@ -61,7 +61,6 @@ def search_history(query):
 # Action 처리 함수 정의
 def namu_wiki(query):
     base_url = f"https://namu.wiki/w/{query}"
-
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -71,23 +70,54 @@ def namu_wiki(query):
     cookies = {
         "my_cookie_key": "my_cookie_value"  # 필요에 따라 설정
     }
-    
     try:
         response = httpx.get(base_url, headers=headers, cookies=cookies)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        content_div = soup.find('div', {'class': 'wiki-paragraph'})
         
+        # 적합한 태그를 찾아 위키 내용을 가져옴
+        content_div = soup.find('div', {'class': 'wiki-inner-content'})  # 적합한 태그로 수정
         if not content_div:
             return f"'{query}'에 대한 정보를 찾을 수 없습니다."
+        
+        # 위키 내용 추출
+        full_content = content_div.get_text(strip=True)
+        if not full_content:
+            return f"'{query}'에 대한 유의미한 정보를 찾을 수 없습니다."
 
-        summary = content_div.get_text(strip=True)
-        return summary
+        # OpenAI를 사용해 요약 및 질문에 답변 생성
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "당신은 전문적인 질문 분석 AI입니다."},
+                {"role": "user", "content": f"다음 내용을 읽고 '{query}'에 대해 요약 및 분석을 해주세요:\n{full_content}"}
+            ]
+        )
+        answer = response["choices"][0]["message"]["content"]
+        return answer
 
     except httpx.RequestError as e:
         return f"HTTP 요청 중 오류가 발생했습니다: {str(e)}"
     except Exception as e:
         return f"데이터 처리 중 오류가 발생했습니다: {str(e)}"
+
+    
+    # try:
+    #     response = httpx.get(base_url, headers=headers, cookies=cookies)
+    #     response.raise_for_status()
+    #     soup = BeautifulSoup(response.text, 'html.parser')
+    #     content_div = soup.find('div', {'class': 'wiki-paragraph'})
+        
+    #     if not content_div:
+    #         return f"'{query}'에 대한 정보를 찾을 수 없습니다."
+
+    #     summary = content_div.get_text(strip=True)
+    #     return summary
+
+    # except httpx.RequestError as e:
+    #     return f"HTTP 요청 중 오류가 발생했습니다: {str(e)}"
+    # except Exception as e:
+    #     return f"데이터 처리 중 오류가 발생했습니다: {str(e)}"
 
 def extract_date(text):
     date_patterns = [
