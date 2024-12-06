@@ -162,7 +162,7 @@ def search_youtube_shorts(query):
     videos = results.get("videos", [])
     # url = '<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix']}" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>'
     result = [
-        f'{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>\n'
+        f'\n{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>\n'
         for video in videos
         if "title" in video and "url_suffix" in video
     ]
