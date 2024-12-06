@@ -9,6 +9,7 @@ import httpx
 from bs4 import BeautifulSoup
 from datetime import datetime
 import youtube_search
+from streamlit_chat import message
 from youtube_search import YoutubeSearch
 
 # ChatBot 클래스 정의
@@ -349,48 +350,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-def render_chat():
-    """Render chat history with YouTube video support."""
-    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    
-    for i in range(len(st.session_state["past"])):
-        # 사용자 메시지 출력
-        st.markdown(
-            f'<div class="chat-bubble user-message">{st.session_state["past"][i]}</div>',
-            unsafe_allow_html=True
-        )
-
-        # AI 응답 메시지 처리
-        response = st.session_state["generated"][i]
-        youtube_match = re.search(
-            r"(https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([\w-]+))", 
-            response
-        )
-        
-        if youtube_match:
-            # YouTube 링크가 있는 경우 iframe 생성
-            youtube_id = youtube_match.group(1)
-            youtube_embed = f"""
-            <iframe width="400" height="215" 
-                    src="https://www.youtube.com/embed/{youtube_id}" 
-                    frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-            </iframe>
-            """
-            st.markdown(
-                f'<div class="chat-bubble ai-message">{response}</div>',
-                unsafe_allow_html=True
-            )
-            st.markdown(youtube_embed, unsafe_allow_html=True)
-        else:
-            # 일반 텍스트 응답
-            st.markdown(
-                f'<div class="chat-bubble ai-message">{response}</div>',
-                unsafe_allow_html=True
-            )
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
 
 # 상태 초기화
 if "messages" not in st.session_state:
@@ -399,6 +358,25 @@ if "past" not in st.session_state:
     st.session_state.past = []
 if "generated" not in st.session_state:
     st.session_state.generated = []
+
+# 메시지 데이터 초기화
+st.session_state.setdefault(
+    'generated', 
+    [{'type': 'normal', 'data': 'Line 1 \n Line 2 \n Line 3'}]
+)
+st.session_state.setdefault('past', [])
+
+def render_chat():
+    with chat_placeholder.container():    
+        for i in range(len(st.session_state['generated'])):                
+            # 사용자 메시지 렌더링
+            message(st.session_state['past'][i], is_user=True, key=f"{i}_user")
+            
+            # AI 응답 렌더링
+            content = st.session_state['generated'][i]
+            is_table = content['type'] == 'table'
+            message(content['data'], key=f"{i}", allow_html=True, is_table=is_table)
+
 
 # 2. search_google:
 # e.g. search_google: 다비치가 부른 최근 방송
@@ -557,31 +535,31 @@ def query(question, max_turns=1):
         else:
             return result
         
-# 메시지 입력 처리
+# 사용자 입력 처리
 def on_input_change():
-    if not openai_api_key.strip():
-        st.warning("OpenAI API key를 입력해주세요.")
-        return
-
-    user_input = st.session_state.user_input
-
+    user_input = st.session_state['user_input']
     if user_input.strip():
-        # 사용자 메시지 저장
-        st.session_state.past.append(user_input)
-        st.session_state.messages.append({"role": "user", "content": user_input})
+        # 사용자 입력 저장
+        st.session_state['past'].append(user_input)
 
-        # OpenAI API 호출
-        if openai_api_key.strip():
-            try:
-                msg = query(user_input)
-                st.session_state.generated.append(msg or "No response available.")
-                st.session_state.messages.append({"role": "assistant", "content": msg})
-            except Exception as e:
-                msg = "찾은 내용이 없습니다."
-                st.error(f"OpenAI API 호출 중 오류 발생: {e}")
-
-        # Re-render chat messages
+        # OpenAI API 호출을 통해 AI 응답 생성 (여기서는 간단히 예시)
+        # 실제로는 OpenAI API 호출로 대체
+        ai_response = simulate_ai_response(user_input)
+        
+        # 생성된 AI 응답 추가
+        st.session_state['generated'].append({'type': 'normal', 'data': ai_response})
+        
+        # 채팅 다시 렌더링
         render_chat()
+
+# AI 응답 시뮬레이션 함수
+def simulate_ai_response(user_input):
+    """YouTube 링크가 있는 응답을 생성하는 예시 함수"""
+    youtube_link = "https://www.youtube.com/watch?v=LMQ5Gauy17k"
+    if "youtube" in user_input.lower():
+        return f'<iframe width="400" height="215" src="{youtube_link}" frameborder="0" allow="accelerometer; autoplay; encrypted-media;"></iframe>'
+    else:
+        return "응답: 일반 텍스트 메시지입니다."
 
             
 # # 메시지 입력 처리
@@ -619,16 +597,16 @@ if st.session_state.messages:
         # else:
             # st.markdown(f"<div style='text-align: right; background-color: #D3D3D3; padding: 10px; border-radius: 15px;'>{content}</div>", unsafe_allow_html=True)
 
-# 메시지 초기화
+# 메시지 초기화 버튼
 def on_btn_click():
-    st.session_state.past.clear()
-    st.session_state.generated.clear()
-    st.session_state.messages = [{"role": "assistant", "content": "Genie 🤖 : 무엇을 도와드릴까요?"}]
+    st.session_state['generated'] = []
+    st.session_state['past'] = []
+    render_chat()
 
 # 채팅 UI
+st.title("Chat Placeholder")
 chat_placeholder = st.empty()
 with chat_placeholder.container():
-    render_chat()
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
     for i in range(len(st.session_state["past"])):
         # 사용자 메시지 출력
