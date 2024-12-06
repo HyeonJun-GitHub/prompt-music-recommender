@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import youtube_search
 from youtube_search import YoutubeSearch
-
+from urllib.parse import urlparse, parse_qs
 import streamlit as st
 from streamlit_chat import message
 from streamlit.components.v1 import html
@@ -159,15 +159,20 @@ def search_youtube_shorts(query):
     results = YoutubeSearch(query, max_results=5).to_json()
     if isinstance(results, str):
         results = json.loads(results)
-
+# <iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
     st.text(results)
     videos = results.get("videos", [])
     result = [
-        f"{video['title']}\nhttps://www.youtube.com{video['url_suffix']}"
+        f"{video['title']}\nhttps://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'], "v")}"
         for video in videos
         if "title" in video and "url_suffix" in video
     ]
     return '\n'.join(result)
+
+def extract_parameter_value(url, parameter):
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+    return query_params.get(parameter, [None])[0]
 
 def search_google(query):
     sources = ["google"]
