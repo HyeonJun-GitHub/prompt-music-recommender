@@ -61,36 +61,12 @@ def search_history(query):
 
 # Action 처리 함수 정의
 def namu_wiki(query):
-    base_url = f"https://namu.wiki/w/{query}"
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        )
-    }
-    cookies = {
-        "my_cookie_key": "my_cookie_value"  # 필요에 따라 설정
-    }
-    scraper = cloudscraper.create_scraper()  # Cloudscraper 객체 생성
+    url = f"https://ko.wikipedia.org/api/rest_v1/page/summary/{query}"
     try:
-        # response = httpx.get(base_url, headers=headers, cookies=cookies)
-        # response.raise_for_status()
-        # soup = BeautifulSoup(response.text, 'html.parser')
-        url = f"https://ko.wikipedia.org/api/rest_v1/page/summary/{query}"
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
         full_content = data.get("extract", f"'{query}'에 대한 정보를 찾을 수 없습니다.")
-        
-        # # 적합한 태그를 찾아 위키 내용을 가져옴
-        # content_div = soup.find('div', {'class': 'wiki-inner-content'})  # 적합한 태그로 수정
-        # if not content_div:
-        #     return f"'{query}'에 대한 정보를 찾을 수 없습니다."
-        
-        # # 위키 내용 추출
-        # full_content = content_div.get_text(strip=True)
-        # if not full_content:
-        #     return f"'{query}'에 대한 유의미한 정보를 찾을 수 없습니다."
 
         # OpenAI를 사용해 요약 및 질문에 답변 생성
         response = openai.ChatCompletion.create(
