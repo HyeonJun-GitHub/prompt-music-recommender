@@ -68,9 +68,12 @@ def namu_wiki(query):
             "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         )
     }
+    cookies = {
+        "my_cookie_key": "my_cookie_value"  # 필요에 따라 설정
+    }
     
     try:
-        response = httpx.get(base_url, headers=headers)
+        response = httpx.get(base_url, headers=headers, cookies=cookies)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         content_div = soup.find('div', {'class': 'wiki-paragraph'})
