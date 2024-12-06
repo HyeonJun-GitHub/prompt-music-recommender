@@ -478,7 +478,7 @@ PAUSE
 Observation: 
 search_api: 성시경은 대한민국의 발라드 가수로, "거리에서"는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다.
 Google: 다비치가 최근 '유희열의 스케치북'에서 '그대는 나의 봄이다'를 공연했습니다 (2024-12-01).
-Naver: 다비치가 '음악중심'에서 '시간을 멈춰라'를 불렀습니다 (2024-12-02).
+search_youtube_shorts: 유튜브에서 찾은 리스트는 다음과 같습니다. [Duet song festival] 듀엣가요제-Sung Sikyung's mini concert! 20170317 - https://www.youtube.com/watch?v=oaIbr8mz9rk&pp=ygUQ7ISx7Iuc6rK9IOuTgOyXow%3D%3D \n[성시경 노래] 26. 나였으면 (With.나윤권) l Sung Si Kyung Music - https://www.youtube.com/watch?v=1vkKlQr2R4U&pp=ygUQ7ISx7Iuc6rK9IOuTgOyXow%3D%3D  \n성시경 그대네요 (duet with 아이유) (가사 첨부) - https://www.youtube.com/watch?v=e2-CY2VQyFc&pp=ygUQ7ISx7Iuc6rK9IOuTgOyXow%3D%3D  \n[성시경 노래] 60. 우리 참 좋았는데 (With.박정현) l Sung Si Kyung Music - https://www.youtube.com/watch?v=09Il5dbnAUY&pp=ygUQ7ISx7Iuc6rK9IOuTgOyXow%3D%3D  \n[성시경 노래] 21~30 모아듣기 l Sung Si Kyung Music l 희재, 너의 모든 순간, 우린 제법 잘 어울려요, 나였으면, 내게 오는길 - https://www.youtube.com/watch?v=cyrrGfZbXFA&pp=ygUQ7ISx7Iuc6rK9IOuTgOyXow%3D%3D \n
 
 Action: 
 save_to_history: { "query": "성시경 - 거리에서", "response": "성시경은 대한민국의 발라드 가수로, '거리에서'는 이별의 슬픔을 다룬 그의 대표곡 중 하나입니다." }
