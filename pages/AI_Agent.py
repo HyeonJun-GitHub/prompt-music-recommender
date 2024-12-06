@@ -162,7 +162,7 @@ def search_youtube_shorts(query):
 
     videos = results.get("videos", [])
     result = [
-        f"{video['title']} - https://www.youtube.com{video['url_suffix']}"
+        f"{video['title']}\nhttps://www.youtube.com{video['url_suffix']}"
         for video in videos
         if "title" in video and "url_suffix" in video
     ]
@@ -591,43 +591,43 @@ st.text_input("메세지:", on_change=on_input_change, key="user_input")
 
 
 
-test_data = """이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드 - https://www.youtube.com/shorts/mjyRM8HN0yw """
-youtube_embed = '''
-<iframe width="400" height="215" src="https://www.youtube.com/embed/mjyRM8HN0yw" title="이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
-'''
+# test_data = """이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드 - https://www.youtube.com/shorts/mjyRM8HN0yw """
+# youtube_embed = '''
+# <iframe width="400" height="215" src="https://www.youtube.com/embed/mjyRM8HN0yw" title="이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
+# '''
 
-st.session_state.setdefault(
-    'past', ['and video of it']
-)
+# st.session_state.setdefault(
+#     'past', ['and video of it']
+# )
 
-st.session_state.setdefault(
-    'generated', 
-    [{'type': 'normal', 'data': f'{youtube_embed}'}]
-)
+# st.session_state.setdefault(
+#     'generated', 
+#     [{'type': 'normal', 'data': f'{youtube_embed}'}]
+# )
 
 
-# Define the custom message method to create chat bubbles
-def custom_message(content, is_ai=False, allow_html=True):
-    if content is None:
-        st.error("Message content is empty or invalid.")
-        return
-    if is_ai:
-        bubble_class = "chat-bubble ai-message"
-    else:
-        bubble_class = "chat-bubble user-message"
+# # Define the custom message method to create chat bubbles
+# def custom_message(content, is_ai=False, allow_html=True):
+#     if content is None:
+#         st.error("Message content is empty or invalid.")
+#         return
+#     if is_ai:
+#         bubble_class = "chat-bubble ai-message"
+#     else:
+#         bubble_class = "chat-bubble user-message"
     
-    # Wrap the content in a styled div
-    styled_message = f"""
-    <div class="{bubble_class}">
-        {content}
-    이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드
-    """
-    st.markdown(styled_message, unsafe_allow_html=allow_html)
+#     # Wrap the content in a styled div
+#     styled_message = f"""
+#     <div class="{bubble_class}">
+#         {content}
+#     이해리 '에피소드' 달달한 사랑 노래였네 #다비치 #이해리 #이무진 #에피소드 #singing_the_에피소드 #싱잉더에피소드
+#     """
+#     st.markdown(styled_message, unsafe_allow_html=allow_html)
 
-# Check if "generated" is in session state
-if "generated" not in st.session_state:
-    st.session_state["generated"] = [{"data": "Hello, how can I assist you today?"}, 
-                                     {"data": "Sure, let me check that for you."}]
+# # Check if "generated" is in session state
+# if "generated" not in st.session_state:
+#     st.session_state["generated"] = [{"data": "Hello, how can I assist you today?"}, 
+#                                      {"data": "Sure, let me check that for you."}]
 
 # # Validate session state
 # if not isinstance(st.session_state["generated"], list):
