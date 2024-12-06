@@ -540,6 +540,7 @@ def on_input_change():
                 msg = query(user_input)
 
                 # 응답 메시지 저장
+                st.text(f'msg : {msg}')
                 st.session_state.generated.append(msg)
                 st.session_state.messages.append({"role": "assistant", "content": msg})
 
@@ -547,7 +548,7 @@ def on_input_change():
                 msg = "찾은 내용이 없습니다."
                 st.error(f"OpenAI API 호출 중 오류 발생: {e}")
 
-            st.session_state.generated.append(msg or "No response available.")
+            # st.session_state.generated.append(msg or "No response available.")
         else:
             st.warning("Please enter a valid OpenAI API key.")
             
