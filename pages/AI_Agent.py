@@ -156,7 +156,7 @@ def web_search(query, source="google"):
         return f"웹 검색 중 알 수 없는 오류 발생: {e}"
 
 def search_youtube_shorts(query):
-    results = YoutubeSearch(query, max_results=5).to_json()
+    results = YoutubeSearch(query, max_results=3).to_json()
     if isinstance(results, str):
         results = json.loads(results)
 
