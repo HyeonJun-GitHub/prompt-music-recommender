@@ -159,11 +159,10 @@ def search_youtube_shorts(query):
     results = YoutubeSearch(query, max_results=5).to_json()
     if isinstance(results, str):
         results = json.loads(results)
-# <iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>
     videos = results.get("videos", [])
     # url = '<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix']}" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>'
     result = [
-        f'{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>'
+        f'{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>\n'
         for video in videos
         if "title" in video and "url_suffix" in video
     ]
