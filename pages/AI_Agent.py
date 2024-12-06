@@ -598,21 +598,12 @@ youtube_embed = '''
 '''
 
 st.session_state.setdefault(
-    'past', 
-    ['plan text with line break',
-     'play the song "Dancing Vegetables"', 
-     'show me image of cat', 
-     'and video of it',
-     'show me some markdown sample',
-     'table in markdown']
+    'past', ['and video of it']
 )
 
 st.session_state.setdefault(
     'generated', 
-    [{'type': 'normal', 'data': 'Line 1 \n Line 2 \n Line 3'},
-     {'type': 'normal', 'data': f'<audio controls src="{audio_path}"></audio>'}, 
-     {'type': 'normal', 'data': f'<img width="100%" height="200" src="{img_path}"/>'}, 
-     {'type': 'normal', 'data': f'{youtube_embed}'}]
+    [{'type': 'normal', 'data': f'{youtube_embed}'}]
 )
 
 st.title("Chat placeholder")
