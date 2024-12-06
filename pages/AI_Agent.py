@@ -557,6 +557,7 @@ def on_input_change():
         render_chat()
 
 def simulate_ai_response(user_input):
+    st.text(user_input)
     if "youtube" in user_input.lower():
         youtube_embed = '<iframe width="400" height="215" src="https://www.youtube.com/embed/LMQ5Gauy17k" frameborder="0" allow="accelerometer; autoplay; encrypted-media;"></iframe>'
         return youtube_embed
