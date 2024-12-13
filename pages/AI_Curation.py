@@ -118,7 +118,7 @@ st.markdown(text_area_style, unsafe_allow_html=True)  # 텍스트 입력창 스�
 
 # -------------------------------------------------------------
 
-st.image(title_00_img, caption='', use_column_width=True)
+st.image(title_00_img, caption='', use_container_width=True)
 # 레이아웃 시작
 st.write("---")
 st.title("검색 설정")
@@ -282,7 +282,7 @@ def display_image(base64_str):
     img = Image.open(BytesIO(img_data))
     cols = st.columns([1, 2, 1])  # 좌우 여백의 비율을 조정 (1:2:1)
     with cols[1]:  # 중간 열에 이미지를 배치
-        st.image(img, caption="", use_column_width=True)
+        st.image(img, caption="", use_container_width=True)
         st.markdown("""<div style="text-align: center;">데이터 일관성</div>""",unsafe_allow_html=True)
         st.write("---")
 
@@ -352,7 +352,7 @@ def search_api(query, mode="songs"):
 
 # -------------------------------------------------------------
 
-st.image(title_01_img, caption='', use_column_width=True)
+st.image(title_01_img, caption='', use_container_width=True)
 # Prompt 입력과 버튼 (st.expander 사용)
 with st.expander("프롬프트 입력", expanded=True):
     prompt = st.text_area("무슨 노래가 듣고 싶어요?")
@@ -365,7 +365,7 @@ with st.expander("프롬프트 입력", expanded=True):
         with st.spinner('AI가 플레이리스트를 만드는 중입니다...'):
             search(prompt)
 
-st.image(title_02_img, caption='', use_column_width=True)
+st.image(title_02_img, caption='', use_container_width=True)
 
 st.markdown("""
     <style>
@@ -410,7 +410,7 @@ with st.expander("유사 곡 검색"):
             search_by_song_id(selected_song_id)
 
 
-st.image(title_03_img, caption='', use_column_width=True)
+st.image(title_03_img, caption='', use_container_width=True)
 
 # 유사 아티스트 검색
 with st.expander("유사 아티스트 검색"):
