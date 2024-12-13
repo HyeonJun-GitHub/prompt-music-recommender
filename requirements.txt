@@ -3,6 +3,7 @@ streamlit-chat
 pandas
 numpy
 httpx
+utilize
 beautifulsoup4
 youtube-search
 cloudscraper
