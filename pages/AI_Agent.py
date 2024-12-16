@@ -446,9 +446,9 @@ Observation will be the result of running those actions.
 Available Actions:
 1. namu_wiki:
 e.g. namu_wiki: 성시경 - 거리에서
-Find detailed information about songs and artists by exploring reliable sources.
-If you're looking for the latest updates about songs or artists, ensure to search across credible platforms.
-Provide results based on the most recent and accurate information available.
+Analyze queries related to songs and artists to provide detailed and accurate information.
+When a user requests information about a specific artist or song (e.g., "Tell me about the singer Sung Si-Kyung"), explore reliable sources to retrieve relevant details.
+Focus on providing the most recent and verified information to ensure accuracy in your response.
 
 2. search_youtube_shorts:
 e.g. search_youtube_shorts: 다비치가 부른 최근 방송
