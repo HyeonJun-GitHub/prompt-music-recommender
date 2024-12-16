@@ -61,6 +61,30 @@ def search_history(query):
 
 # Action 처리 함수 정의
 def namu_wiki(query):
+    """
+Purpose:
+Provide detailed and accurate information about songs, artists, or related topics based on user queries.
+Prompt:
+Analyze the user query to identify the key subject (e.g., a specific artist, song, or related information).
+Search reliable sources to gather relevant and accurate details about the subject.
+Structure the response with the following format:
+Name/Title: (if applicable)
+Key Information: Brief introduction or overview.
+Notable Works or Achievements: Highlight important works, contributions, or recognitions.
+Additional Details: Context, history, or other relevant facts.
+Ensure the response is concise, up-to-date, and easy to understand.
+Example:
+
+User Query: "Tell me about the singer Sung Si-Kyung."
+Agent Response Template:
+Name: Sung Si-Kyung
+Key Information: Sung Si-Kyung is a South Korean ballad singer known for his smooth vocals and emotional performances. He debuted in 2001 and is often referred to as the "Prince of Ballads."
+Notable Works:
+"Two People"
+"On the Street"
+"The Road to Me"
+Additional Details: In addition to his music career, he has appeared on various TV shows, such as 2 Days & 1 Night, and has also hosted radio programs.
+    """
     url = f"https://ko.wikipedia.org/api/rest_v1/page/summary/{query}"
     try:
         response = requests.get(url)
