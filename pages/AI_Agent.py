@@ -697,7 +697,10 @@ with chat_placeholder.container():
         #     is_ai=is_ai
         # )
         st.write("")
-    engine.say(st.session_state["generated"][cnt-1])
+    tts_text = st.session_state["generated"][cnt-1]
+    st.text(tts_text)
+    engine.say(tts_text)
+    engine.runAndWait()
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(

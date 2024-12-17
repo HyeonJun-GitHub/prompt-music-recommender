@@ -7,5 +7,5 @@ utilize
 beautifulsoup4
 youtube-search
 cloudscraper
-pyttsx3
+gTTS
 openai==0.28
