@@ -206,8 +206,6 @@ def search_youtube_shorts(query):
     results = YoutubeSearch(query, max_results=3).to_json()
     if isinstance(results, str):
         results = json.loads(results)
-    st.text(results)
-    # st.text("---")
     videos = results.get("videos", [])
     result = [
         f'\n{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>\n'
