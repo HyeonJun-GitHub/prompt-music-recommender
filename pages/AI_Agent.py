@@ -206,10 +206,8 @@ def search_youtube_shorts(query):
     results = YoutubeSearch(query, max_results=3).to_json()
     if isinstance(results, str):
         results = json.loads(results)
-
-    # st.text(results)
+    st.text(results)
     # st.text("---")
-
     videos = results.get("videos", [])
     result = [
         f'\n{video['title']}\n<iframe width="400" height="215" src="https://www.youtube.com/embed/{extract_parameter_value(video['url_suffix'],"v")}" title="YouTube" frameborder="0" allow="accelerometer; encrypted-media;"></iframe>\n'
@@ -694,10 +692,21 @@ with chat_placeholder.container():
         #     is_ai=is_ai
         # )
         st.write("")
-    # if cnt > 0:
-    #     tts_text = st.session_state["generated"][cnt-1]
-    #     st.text(tts_text)
     st.markdown('</div>', unsafe_allow_html=True)
+    
+    if cnt > 0:
+        tts_text = st.session_state["generated"][cnt-1]
+
+def text_speech(text):
+    tts = gTTS(text=text, lang='en')
+    speech_bytes = io.BytesIO()
+    tts.write_to_fp(speech_bytes)
+    speech_bytes.seek(0)
+
+    # Convert speech to base64 encoding
+    speech_base64 = base64.b64encode(speech_bytes.read()).decode('utf-8')
+    return speech_base64
+
 
 st.markdown(
     """
