@@ -675,7 +675,8 @@ def on_btn_click():
 chat_placeholder = st.empty()
 with chat_placeholder.container():
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    for i in range(len(st.session_state["past"])):
+    cnt = len(st.session_state["past"])
+    for i in range(cnt):
         # 사용자 메시지 출력
         st.markdown(
             f'<div class="chat-bubble user-message">{st.session_state["past"][i]}</div>',
@@ -696,7 +697,7 @@ with chat_placeholder.container():
         #     is_ai=is_ai
         # )
         st.write("")
-    engine.say(st.session_state["generated"][len(st.session_state["past"])-1])
+    engine.say(st.session_state["generated"][cnt-1])
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(
