@@ -15,6 +15,7 @@ import streamlit as st
 from streamlit_chat import message
 from streamlit.components.v1 import html
 import cloudscraper
+import pyttsx3 as p
 
 # ChatBot 클래스 정의
 class ChatBot:
@@ -607,6 +608,8 @@ Answer:
 (https://genie.co.kr/detail/songInfo?xgnm=43212134)
 """.strip()
 
+engine = p.init()
+
 def query(question, max_turns=1):
     i = 0
     bot = ChatBot(bot_prompt)
@@ -683,7 +686,6 @@ with chat_placeholder.container():
             f'<div class="chat-bubble ai-message">{st.session_state["generated"][i]}</div>',
             unsafe_allow_html=True
         )
-
         # st.markdown(
         #     f'<div class="chat-bubble ai-message">{youtube_embed}</div>',
         #     unsafe_allow_html=True
@@ -694,6 +696,7 @@ with chat_placeholder.container():
         #     is_ai=is_ai
         # )
         st.write("")
+    engine.say(st.session_state["generated"][len(st.session_state["past"])-1])
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(
